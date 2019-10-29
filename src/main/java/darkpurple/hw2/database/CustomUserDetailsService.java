@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package darkpurple.hw2.service;
+package darkpurple.hw2.database;
 
 /**
  *
  * @author edmundliang
  */
-import darkpurple.hw2.entity.Role;
-import darkpurple.hw2.entity.User;
-import darkpurple.hw2.repository.RoleRepository;
-import darkpurple.hw2.repository.UserRepository;
+import darkpurple.hw2.database.entity.Role;
+import darkpurple.hw2.database.entity.User;
+import darkpurple.hw2.database.RoleRepository;
+import darkpurple.hw2.database.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;

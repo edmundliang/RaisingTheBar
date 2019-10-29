@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package darkpurple.hw2.repository;
+package darkpurple.hw2.database;
 
 /**
  *
  * @author edmundliang
  */
-import darkpurple.hw2.entity.Role;
+import darkpurple.hw2.database.entity.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface RoleRepository extends MongoRepository<Role, String> {

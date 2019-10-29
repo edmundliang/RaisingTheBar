@@ -1,6 +1,6 @@
 package darkpurple.hw2.config;
 
-import darkpurple.hw2.service.CustomUserDetailsService;
+import darkpurple.hw2.database.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

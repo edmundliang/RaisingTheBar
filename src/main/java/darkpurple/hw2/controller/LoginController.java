@@ -1,7 +1,7 @@
 package darkpurple.hw2.controller;
 
-import darkpurple.hw2.entity.User;
-import darkpurple.hw2.service.CustomUserDetailsService;
+import darkpurple.hw2.database.entity.User;
+import darkpurple.hw2.database.CustomUserDetailsService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
