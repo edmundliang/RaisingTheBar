@@ -13,6 +13,7 @@ import darkpurple.hw2.database.entity.Role;
 import darkpurple.hw2.database.entity.User;
 import darkpurple.hw2.database.RoleRepository;
 import darkpurple.hw2.database.UserRepository;
+import darkpurple.hw2.database.ForgotPasswordTokenRepository;
 import darkpurple.hw2.database.entity.PasswordResetToken;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     
     public PasswordResetToken findToken(String token) {
-        return tokenRepository.findByToken(token);
+        return tokenRepository.findByTokenid(token);
     }
     
     public void saveToken(PasswordResetToken token) {

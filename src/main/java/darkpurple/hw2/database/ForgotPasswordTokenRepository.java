@@ -7,14 +7,15 @@ package darkpurple.hw2.database;
 
 import darkpurple.hw2.database.entity.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author edmundliang
  */
-public interface ForgotPasswordTokenRepository extends JpaRepository<PasswordResetToken, String> {
+public interface ForgotPasswordTokenRepository extends MongoRepository<PasswordResetToken, String> {
 
-    PasswordResetToken findByToken(String token);
+    PasswordResetToken findByTokenid(String tokenid);
 
 }

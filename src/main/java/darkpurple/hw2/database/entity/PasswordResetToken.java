@@ -28,7 +28,7 @@ public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "token_id")
-    private long tokenid;
+    private String tokenid;
 
     @Column(name = "confirmation_token")
     private String confirmationToken;
@@ -73,11 +73,11 @@ public class PasswordResetToken {
         this.user = user;
     }
 
-    public long getTokenid() {
+    public String getTokenid() {
         return tokenid;
     }
 
-    public void setTokenid(long tokenid) {
+    public void setTokenid(String tokenid) {
         this.tokenid = tokenid;
     }
 }
