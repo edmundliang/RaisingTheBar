@@ -59,32 +59,32 @@ public class ForgotPasswordController {
             PasswordResetToken token = new PasswordResetToken(user);
             userService.saveToken(token);
             
-            String appUrl = request.getScheme() + "://" + request.getServerName();
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
             // create the email
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject("Complete Password Reset!");
-            mailMessage.setFrom("grailedmund@yahoo.com");
             mailMessage.setText("To reset your password, click the link below:\n" + appUrl
-					+ "/confirm-reset?token=" + token.getConfirmationToken());
+					+ "/reset-password?token=" + token.getForgotPasswordToken());
 
             emailSenderService.sendEmail(mailMessage);
 
             modelAndView.addObject("message", "Request to reset password received. Check your inbox for the reset link.");
-            modelAndView.setViewName("successForgotPassword");
+            modelAndView.setViewName("successResetPassword");
         }
 
         return modelAndView;
 
     }
 
-    @RequestMapping(value = "/confirm-reset", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView validateResetToken(ModelAndView modelAndView, @RequestParam("token") String confirmationToken) {
+    @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
+    public ModelAndView validateResetToken(ModelAndView modelAndView, @RequestParam("token") String passwordResetToken) {
 
-        PasswordResetToken token = userService.findToken(confirmationToken);
+        PasswordResetToken token = userService.findToken(passwordResetToken);
 
         if (token != null) {
+            System.out.println("not null 1");
             User user = userService.findUserByEmail(token.getUser().getEmail());
             user.setEnabled(true);
             userService.saveUser(user);
@@ -92,7 +92,8 @@ public class ForgotPasswordController {
             modelAndView.addObject("emailId", user.getEmail());
             modelAndView.setViewName("resetPassword");
         } else {
-            modelAndView.addObject("message", "The link is invalid or broken!");
+            System.out.println("null 1");
+            modelAndView.addObject("errorMessage", "The link is invalid or broken!");
             modelAndView.setViewName("error");
         }
 
@@ -101,19 +102,20 @@ public class ForgotPasswordController {
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
     public ModelAndView resetUserPassword(ModelAndView modelAndView, User user) {
-        // ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+   
 
         if (user.getEmail() != null) {
+            System.out.println("not null");
             // use email to find user
             User tokenUser = userService.findUserByEmail(user.getEmail());
             tokenUser.setEnabled(true);
             tokenUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            // System.out.println(tokenUser.getPassword());
-            userService.saveUser(tokenUser);
+            userService.saveUserPasswordUpdate(tokenUser);
             modelAndView.addObject("message", "Password successfully reset. You can now log in with the new credentials.");
             modelAndView.setViewName("successResetPassword");
         } else {
-            modelAndView.addObject("message", "The link is invalid or broken!");
+            System.out.println("null");
+            modelAndView.addObject("errorMessage", "The link is invalid or broken!");
             modelAndView.setViewName("error");
         }
 

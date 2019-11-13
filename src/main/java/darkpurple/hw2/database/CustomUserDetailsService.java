@@ -59,8 +59,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         userRepository.save(user);
     }
     
+    public void saveUserPasswordUpdate(User user) {
+        userRepository.save(user);
+    }
+    
     public PasswordResetToken findToken(String token) {
-        return tokenRepository.findByTokenid(token);
+        return tokenRepository.findByForgotPasswordToken(token);
     }
     
     public void saveToken(PasswordResetToken token) {

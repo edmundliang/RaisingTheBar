@@ -16,6 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 public interface ForgotPasswordTokenRepository extends MongoRepository<PasswordResetToken, String> {
 
-    PasswordResetToken findByTokenid(String tokenid);
+    PasswordResetToken findByForgotPasswordToken(String forgotPasswordToken);
 
 }

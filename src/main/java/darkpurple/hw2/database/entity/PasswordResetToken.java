@@ -17,12 +17,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author edmundliang
  */
-@Entity
+@Document(collection = "token")
 public class PasswordResetToken {
 
     @Id
@@ -30,8 +31,8 @@ public class PasswordResetToken {
     @Column(name = "token_id")
     private String tokenid;
 
-    @Column(name = "confirmation_token")
-    private String confirmationToken;
+    @Column(name = "forgotPassword_token")
+    private String forgotPasswordToken;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -46,15 +47,15 @@ public class PasswordResetToken {
     public PasswordResetToken(User user) {
         this.user = user;
         createdDate = new Date();
-        confirmationToken = UUID.randomUUID().toString();
+        forgotPasswordToken = UUID.randomUUID().toString();
     }
 
-    public String getConfirmationToken() {
-        return confirmationToken;
+    public String getForgotPasswordToken() {
+        return forgotPasswordToken;
     }
 
-    public void setConfirmationToken(String confirmationToken) {
-        this.confirmationToken = confirmationToken;
+    public void setForgotPasswordToken(String forgotPasswordToken) {
+        this.forgotPasswordToken = forgotPasswordToken;
     }
 
     public Date getCreatedDate() {
