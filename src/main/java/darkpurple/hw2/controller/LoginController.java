@@ -73,7 +73,7 @@ public class LoginController {
 	modelAndView.addObject("currentUser", user);
 	modelAndView.addObject("email", "Welcome " + user.getEmail());
 	modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-	modelAndView.setViewName("player");
+	modelAndView.setViewName("landing");
 	return modelAndView;
     }
     

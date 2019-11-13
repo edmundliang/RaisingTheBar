@@ -13,7 +13,7 @@ import darkpurple.hw2.database.entity.Role;
 import darkpurple.hw2.database.entity.User;
 import darkpurple.hw2.database.RoleRepository;
 import darkpurple.hw2.database.UserRepository;
-
+import darkpurple.hw2.database.entity.PasswordResetToken;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -40,6 +40,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private ForgotPasswordTokenRepository tokenRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     
@@ -54,6 +56,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
+    }
+    
+    public PasswordResetToken findToken(String token) {
+        return tokenRepository.findByToken(token);
+    }
+    
+    public void saveToken(PasswordResetToken token) {
+        tokenRepository.save(token);
     }
     
     public User getLoggedUser() {
