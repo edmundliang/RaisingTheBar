@@ -23,7 +23,7 @@ public class PageConfig implements WebMvcConfigurer {
         registry.addViewController("/signup").setViewName("signup");
         registry.addViewController("/forgot-password").setViewName("forgotPassword");
         registry.addViewController("/reset-password").setViewName("forgotPassword");
-        registry.addViewController("/player").setViewName("landing");
+//        registry.addViewController("/player").setViewName("landing");
         registry.addViewController("/recipes").setViewName("recipes");
         registry.addViewController("/simulation").setViewName("simulation");
         registry.addViewController("/workshop").setViewName("workshop");

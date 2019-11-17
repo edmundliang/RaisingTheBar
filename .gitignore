@@ -9,11 +9,12 @@ buildNumber.properties
 .mvn/timing.properties
 .idea
 !/.mvn/wrapper/maven-wrapper.jar
-client/node
-client/java
-client/package-lock.json
-client/README.md
-client/yarn.lock
+src/main/client/node/*
+src/main/client/node_modules/*
+src/main/client/package-lock.json
+src/main/client/yarn.lock
+*.vscode/
+*.settings/
 
 /node_modules
 /.pnp
