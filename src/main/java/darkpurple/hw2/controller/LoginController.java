@@ -22,28 +22,22 @@ public class LoginController {
     @Autowired
     protected CustomUserDetailsService userService;
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        
-        //CHECK IF USER IS ALREADY LOGGED IN IF SO REDIRECT TO PLAYER PAGE
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        ModelAndView modelAndView = new ModelAndView();
-        
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return new ModelAndView("redirect:/player");
-        } else {
-            modelAndView.setViewName("login");
-        }
-        return modelAndView;
-    }
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView signup() {
-        ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("signup");
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/login", method = RequestMethod.GET)
+//    public String login() {
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();        
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            return "redirect:/home";
+//        }
+//        return "forward:/home";
+//    }
+//    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+//    public ModelAndView signup() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        User user = new User();
+//        modelAndView.addObject("user", user);
+//        modelAndView.setViewName("signup");
+//        return modelAndView;
+//    }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 	ModelAndView modelAndView = new ModelAndView();
@@ -65,19 +59,19 @@ public class LoginController {
 	return modelAndView;
     }
 
-    @RequestMapping(value = "/player", method = RequestMethod.GET)
-    public ModelAndView dashboard() {
-	ModelAndView modelAndView = new ModelAndView();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	User user = userService.findUserByEmail(auth.getName());
-	modelAndView.addObject("currentUser", user);
-	modelAndView.addObject("email", "Welcome " + user.getEmail());
-	modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-	modelAndView.setViewName("landing");
-	return modelAndView;
-    }
+//    @RequestMapping(value = "/player", method = RequestMethod.GET)
+//    public ModelAndView dashboard() {
+//	ModelAndView modelAndView = new ModelAndView();
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	User user = userService.findUserByEmail(auth.getName());
+//	modelAndView.addObject("currentUser", user);
+//	modelAndView.addObject("email", "Welcome " + user.getEmail());
+//	modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
+//	modelAndView.setViewName("landing");
+//	return modelAndView;
+//    }
     
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    @RequestMapping(value="/logout", method = RequestMethod.POST)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){   
@@ -86,17 +80,17 @@ public class LoginController {
         return "redirect:/login?logout=true";
     }
 
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return new ModelAndView("redirect:/player");
-        }
-        else {
-            modelAndView.setViewName("home");
-        }
-        return modelAndView;
-    }
+//    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+//    public ModelAndView home() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            return new ModelAndView("redirect:/player");
+//        }
+//        else {
+//            modelAndView.setViewName("home");
+//        }
+//        return modelAndView;
+//    }
 }

@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package darkpurple.hw2.database;
 
-/**
- *
- * @author edmundliang
- */
 import darkpurple.hw2.database.entity.Role;
 import darkpurple.hw2.database.entity.User;
-import darkpurple.hw2.database.RoleRepository;
-import darkpurple.hw2.database.UserRepository;
-import darkpurple.hw2.database.ForgotPasswordTokenRepository;
+import darkpurple.hw2.database.repositories.RoleRepository;
+import darkpurple.hw2.database.repositories.UserRepository;
+import darkpurple.hw2.database.repositories.ForgotPasswordTokenRepository;
 import darkpurple.hw2.database.entity.PasswordResetToken;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +22,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -45,8 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    
-
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -58,19 +45,19 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
     }
-    
+
     public void saveUserPasswordUpdate(User user) {
         userRepository.save(user);
     }
-    
+
     public PasswordResetToken findToken(String token) {
         return tokenRepository.findByForgotPasswordToken(token);
     }
-    
+
     public void saveToken(PasswordResetToken token) {
         tokenRepository.save(token);
     }
-    
+
     public User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findByEmail(authentication.getName());
