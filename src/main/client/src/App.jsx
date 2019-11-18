@@ -15,12 +15,14 @@ class App extends Component {
       <React.Fragment>
           <Router>
             <Switch>
-              <Route exact path="/" component={Login} />
-              <Route path="/home" component={Home} />
+              <Route path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
               <Route path="/simulation" component={Simulation} />
               <Route path="/creator" component={Creator} />
               <Route path="/workshop" component={Workshop} />
               <Route path="/recipe" component={Recipe} />
+              <Route path="/forgot-password" component={Home} />
+              <Route path="/reset-password" component={Home} />
               <Route component={NoMatch} />
             </Switch>
           </Router>
