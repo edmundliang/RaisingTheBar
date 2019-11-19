@@ -6,12 +6,10 @@
 
 .App__Aside {
     width: 50%;
-    background-color: #66DAC7;
 }
 
 .App__Form {
     width: 50%;
-    background-color: #2E4158;
     padding: 25px 40px;
     overflow: auto;
 }
@@ -43,6 +41,7 @@
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 }
+
 .PageSwitcher__Item:last-child {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -86,6 +85,7 @@
     font-size: .9em;
     color: white;
 }
+
 .FormField__Input {
     width: 85%;
     background-color: transparent;
