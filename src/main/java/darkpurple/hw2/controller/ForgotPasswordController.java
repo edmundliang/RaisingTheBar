@@ -7,8 +7,8 @@ package darkpurple.hw2.controller;
 
 import darkpurple.hw2.database.CustomUserDetailsService;
 import darkpurple.hw2.database.EmailSenderService;
-import darkpurple.hw2.database.entity.PasswordResetToken;
 import darkpurple.hw2.database.entity.User;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -54,10 +54,9 @@ public class ForgotPasswordController {
             modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
             modelAndView.setViewName("error");
         } else {
-
-            // Generate random 36-character string token for reset password 
-            PasswordResetToken token = new PasswordResetToken(user);
-            userService.saveToken(token);
+            
+            user.setResetToken(UUID.randomUUID().toString());
+            userService.saveUserUpdate(user);
             
             String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
@@ -66,7 +65,7 @@ public class ForgotPasswordController {
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject("Complete Password Reset!");
             mailMessage.setText("To reset your password, click the link below:\n" + appUrl
-					+ "/reset-password?token=" + token.getForgotPasswordToken());
+					+ "/reset-password?token=" + user.getResetToken());
 
             emailSenderService.sendEmail(mailMessage);
 
@@ -80,23 +79,18 @@ public class ForgotPasswordController {
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
     public ModelAndView validateResetToken(ModelAndView modelAndView, @RequestParam("token") String passwordResetToken) {
-
-        PasswordResetToken token = userService.findToken(passwordResetToken);
-
-        if (token != null) {
-            System.out.println("not null 1");
-            User user = userService.findUserByEmail(token.getUser().getEmail());
+        
+        User user = userService.findUserByResetToken(passwordResetToken);
+        if (user!=null) {
             user.setEnabled(true);
             userService.saveUser(user);
             modelAndView.addObject("user", user);
             modelAndView.addObject("emailId", user.getEmail());
             modelAndView.setViewName("resetPassword");
         } else {
-            System.out.println("null 1");
             modelAndView.addObject("errorMessage", "The link is invalid or broken!");
             modelAndView.setViewName("error");
         }
-
         return modelAndView;
     }
 
@@ -105,16 +99,14 @@ public class ForgotPasswordController {
    
 
         if (user.getEmail() != null) {
-            System.out.println("not null");
-            // use email to find user
             User tokenUser = userService.findUserByEmail(user.getEmail());
             tokenUser.setEnabled(true);
-            tokenUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userService.saveUserPasswordUpdate(tokenUser);
+            tokenUser.setPassword(bCryptPasswordEncoder.encode(tokenUser.getPassword()));
+            tokenUser.setResetToken(null);
+            userService.saveUserUpdate(tokenUser);
             modelAndView.addObject("message", "Password successfully reset. You can now log in with the new credentials.");
             modelAndView.setViewName("successResetPassword");
         } else {
-            System.out.println("null");
             modelAndView.addObject("errorMessage", "The link is invalid or broken!");
             modelAndView.setViewName("error");
         }
