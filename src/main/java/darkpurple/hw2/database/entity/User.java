@@ -9,7 +9,6 @@ package darkpurple.hw2.database.entity;
  *
  * @author edmundliang
  */
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import java.util.Set;
 import org.springframework.data.mongodb.core.index.IndexDirection;
@@ -28,6 +27,7 @@ public class User {
     private boolean enabled;
     @DBRef
     private Set<Role> roles;
+    private String resetToken;
 
     public String getId() {
         return id;
@@ -47,6 +47,10 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+    
+    public String getResetToken() {
+        return resetToken;
     }
 
     public void setId(String id) {
@@ -69,6 +73,12 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+    
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    
     
     
 

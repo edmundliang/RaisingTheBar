@@ -54,6 +54,7 @@ public class LoginController {
 			    "There is already a user registered with the username provided");
 	}
 	if (bindingResult.hasErrors()) {
+            System.out.println("null");
 	    modelAndView.setViewName("signup");
 	} else {
 	    userService.saveUser(user);
