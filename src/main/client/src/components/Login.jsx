@@ -14,17 +14,17 @@ export default class Login extends Component {
             <div className="App__Aside theme-secondary-color"></div>
             <div className="App__Form theme-primary-color">
               <div className="PageSwitcher">
-                <NavLink to="/signin" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
-                <NavLink exact to="/signup" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+                <NavLink to="/sign-in" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+                <NavLink exact to="/sign-up" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
               </div>
 
               <div className="FormTitle">
-                <NavLink to="/signin" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+                <NavLink to="/sign-in" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/sign-up" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
               </div>
 
-              <Route exact path="/signup" component={SignUpForm}>
+              <Route exact path="/sign-up" component={SignUpForm}>
               </Route>
-              <Route exact path="/signin" component={SignInForm}>
+              <Route exact path="/sign-in" component={SignInForm}>
               </Route>
             </div>
           </div>

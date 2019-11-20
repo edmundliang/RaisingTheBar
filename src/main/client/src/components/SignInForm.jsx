@@ -26,15 +26,11 @@ export default class SignInForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // create a new XMLHttpRequest
         var xhr = new XMLHttpRequest()
-        // get a callback when the server responds
-        xhr.addEventListener('load', this.formResults)
-        // open the request with the verb and the url
-        xhr.open('POST', '/login')
-        // send the request
+        xhr.addEventListener("load", this.formResults)
+        xhr.open("POST", 'localhost:8080/login')
         xhr.send(this.state)
-        console.log("Submitted form");
+        console.log(this.state);
     }
 
     formResults(e) {
@@ -58,7 +54,7 @@ export default class SignInForm extends Component {
                     </div>
 
                     <div className="FormField">
-                        <button className="FormField__Button mr-20">Sign In</button> <Link to="/" className="FormField__Link">Create an account</Link>
+                        <button className="FormField__Button mr-20">Sign In</button> <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
                     </div>
                 </form>
             </div>
