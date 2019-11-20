@@ -23,6 +23,16 @@ public class Simulation {
     private Date date;
     
     private Recipe[] recipes;
+    private String creator;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+    
 
     public int getId() {
         return id;

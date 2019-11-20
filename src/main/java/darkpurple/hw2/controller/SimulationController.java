@@ -5,10 +5,15 @@
  */
 package darkpurple.hw2.controller;
 
+import org.springframework.stereotype.Controller;
+
 /**
  *
  * @author anilramsoomye
  */
+
+@Controller
 public class SimulationController {
+    
     
 }
