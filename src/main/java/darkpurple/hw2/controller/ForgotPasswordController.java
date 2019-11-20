@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package darkpurple.hw2.controller;
 
 import darkpurple.hw2.database.CustomUserDetailsService;
@@ -19,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- *
- * @author edmundliang
- */
 @Controller
 public class ForgotPasswordController {
 
@@ -37,10 +28,8 @@ public class ForgotPasswordController {
 
     // Display forgotPassword page
     @RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
-    public ModelAndView displayResetPassword(ModelAndView modelAndView, User user) {
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("forgotPassword");
-        return modelAndView;
+    public String displayResetPassword() {
+        return "forward:index.html";
     }
 
     // Process form submission from forgotPassword page

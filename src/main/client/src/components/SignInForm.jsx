@@ -28,7 +28,7 @@ export default class SignInForm extends Component {
         e.preventDefault();
         var xhr = new XMLHttpRequest()
         xhr.addEventListener("load", this.formResults)
-        xhr.open("POST", 'localhost:8080/login')
+        xhr.open("POST", '/login')
         xhr.send(this.state)
         console.log(this.state);
     }
@@ -36,7 +36,6 @@ export default class SignInForm extends Component {
     formResults(e) {
         console.log("Recieved a result from teh submission ");
         console.log(e.srcElement);
-        // console.log(this.state);
     }
 
     render() {
@@ -54,7 +53,7 @@ export default class SignInForm extends Component {
                     </div>
 
                     <div className="FormField">
-                        <button className="FormField__Button mr-20">Sign In</button> <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
+                        <button className="FormField__Button mr-20">Login</button> <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
                     </div>
                 </form>
             </div>

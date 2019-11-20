@@ -38,27 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/css/**", "/js/**", "/bootstrap/**").permitAll()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/signup").permitAll()
-//                .antMatchers("/player/**").hasAuthority("ADMIN").anyRequest()
-//                .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
-//                .loginPage("/login").failureUrl("/login?error=true")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout=true").and().exceptionHandling();
-
         http
                 .authorizeRequests()
-                .antMatchers("/*",  "/home", "/simulation", "/workshop", "/recipe", "/login", "/sign-up", "/sign-in","/forgot-password", "/reset-password", "/static/**").permitAll()
+                .antMatchers("/*",  "/home", "/simulation", "/workshop", "/recipe", "/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
-                .loginPage("/sign-in").failureUrl("/sign-in?error=true")
+                .loginPage("/login").failureUrl("/login?error=true")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()
