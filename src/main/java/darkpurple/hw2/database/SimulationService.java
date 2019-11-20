@@ -22,10 +22,12 @@ public class SimulationService {
     private SimulationRepository simulationRepository;
     
     
-    public Simulation createNewSimulation(String player) {
+    public Simulation createNewSimulation(String user) {
         Simulation simulation = new Simulation();
      
+        
         simulation.setDate(new Date());
+        simulation.setCreator(user);
         simulationRepository.save(simulation);
 
         return simulation;
