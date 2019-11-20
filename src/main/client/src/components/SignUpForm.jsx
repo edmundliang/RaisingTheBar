@@ -28,16 +28,23 @@ export default class SignUpForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData();
+    formData.append("email", this.state["email"]);
+    formData.append("password", this.state["password"]);
     xhr.addEventListener("load", this.formResults)
     xhr.open("POST", '/signup')
-    xhr.send(this.state)
-    console.log(this.state);
   }
 
   formResults(e) {
-    console.log("Recieved a result from the submission");
-    console.log(e.srcElement);
+    if (e.target.status == 202) {
+
+      //login was sucessful
+    } else if (e.target.status == 401) {
+      //The credentials werent recognized by the server
+    } else {
+      //Sometthing strange went wrong
+    }
   }
 
   render() {
@@ -45,16 +52,12 @@ export default class SignUpForm extends Component {
       <div className="FormCenter">
         <form onSubmit={this.handleSubmit} className="FormFields">
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">Full Name</label>
-            <input type="text" id="name" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.handleChange} />
+            <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
+            <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="password">Password</label>
             <input type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} />
-          </div>
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
-            <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />
           </div>
 
           {/* <div className="FormField">
