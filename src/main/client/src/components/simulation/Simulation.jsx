@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 import {Container, Jumbotron} from "react-bootstrap";
 
 export default class Simulation extends Component {

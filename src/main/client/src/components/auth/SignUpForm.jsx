@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default class SignUpForm extends Component {
   constructor() {
@@ -50,6 +50,10 @@ export default class SignUpForm extends Component {
   render() {
     return (
       <div className="FormCenter">
+
+        <div className="FormTitle">
+          <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+        </div>
         <form onSubmit={this.handleSubmit} className="FormFields">
           <div className="FormField">
             <label className="FormField__Label" htmlFor="email">E-Mail Address</label>

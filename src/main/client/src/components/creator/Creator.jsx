@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 import {Button, Container, Jumbotron} from "react-bootstrap";
 import {Link} from "react-router-dom";
 

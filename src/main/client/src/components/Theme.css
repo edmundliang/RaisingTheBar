@@ -1,9 +1,16 @@
 .theme-primary-color {
     background-color: #2E4158;
-    color: rgb(245, 1, 1);
+}
+
+.theme-primary-text-color {
+    color: white;
 }
 
 .theme-secondary-color {
     background-color: #66DAC7;
-    color: rgb(245, 1, 1);
+}
+
+.center {
+    text-align: center;
+    position: relative;
 }
