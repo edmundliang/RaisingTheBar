@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
-import LoginForm from './LoginForm';
+import LoginForm from './Login';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 

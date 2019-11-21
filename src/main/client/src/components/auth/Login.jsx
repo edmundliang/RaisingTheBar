@@ -36,10 +36,10 @@ export default class LoginForm extends Component {
     }
 
     formResults(e) {
-        if (e.target.status == 202) {
+        if (e.target.status === 202) {
 
             //login was sucessful
-        } else if (e.target.status == 401) {
+        } else if (e.target.status === 401) {
             //The credentials werent recognized by the server
         } else {
             //Sometthing strange went wrong

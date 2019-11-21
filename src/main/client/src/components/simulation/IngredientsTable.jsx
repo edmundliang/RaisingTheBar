@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
-export default class SignUpForm extends Component {
+export default class IngredientsTable extends Component {
   constructor() {
     super();
 
@@ -37,10 +37,10 @@ export default class SignUpForm extends Component {
   }
 
   formResults(e) {
-    if (e.target.status === 202) {
+    if (e.target.status == 202) {
 
       //login was sucessful
-    } else if (e.target.status === 401) {
+    } else if (e.target.status == 401) {
       //The credentials werent recognized by the server
     } else {
       //Sometthing strange went wrong

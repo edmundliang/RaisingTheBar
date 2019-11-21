@@ -5,8 +5,8 @@ import Home from './components/home/Home';
 import Auth from './components/auth/Auth';
 import Simulation from './components/simulation/Simulation';
 import Creator from './components/creator/Creator';
-import Workshop from './components/Workshop';
-import Recipe from './components/Recipe';
+import Workshop from './components/workshop/Workshop';
+import Recipe from './components/recipe/Recipe';
 import NoMatch from './components/NoMatch';
 
 class App extends Component {

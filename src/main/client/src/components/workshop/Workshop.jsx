@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-
-import NavigationBar from "./NavigationBar";
 import {Container, Jumbotron} from "react-bootstrap";
+import NavigationBar from "./../navbar/NavigationBar";
 
 export default class Workshop extends Component {
   render() {

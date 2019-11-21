@@ -1,13 +1,28 @@
+/*This file is supposed to contain global styling so we 
+can change the color of parts of our website easily 
+without having to naviage a dozen different files. 
+I have put in some palceholder colors right now but
+we can change the colors to suit our needs easily */
+
 .theme-primary-color {
     background-color: #2E4158;
 }
 
 .theme-primary-text-color {
-    color: white;
+    color: rgb(248, 248, 248)!important;
 }
 
 .theme-secondary-color {
-    background-color: #66DAC7;
+    background-color: rgb(102, 152, 218);
+}
+
+body {
+    background-color: rgb(102, 152, 218);
+}
+
+nav.navbar {
+    background-color: #2E4158 !important;
+    color: white!important;
 }
 
 .center {
