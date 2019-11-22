@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import '../Theme.scss';
 
-export default class SignInForm extends Component {
+export default class LoginForm extends Component {
     constructor() {
         super();
 
@@ -26,23 +27,34 @@ export default class SignInForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var xhr = new XMLHttpRequest()
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData();
+        formData.append("email", this.state["email"]);
+        formData.append("password", this.state["password"]);
         xhr.addEventListener("load", this.formResults)
-        xhr.open("POST", 'localhost:8080/login')
-        xhr.send(this.state)
-        console.log(this.state);
+        xhr.open("POST", '/login')
     }
 
     formResults(e) {
-        console.log("Recieved a result from teh submission ");
-        console.log(e.srcElement);
-        // console.log(this.state);
+        if (e.target.status === 202) {
+
+            //login was sucessful
+        } else if (e.target.status === 401) {
+            //The credentials werent recognized by the server
+        } else {
+            //Sometthing strange went wrong
+        }
     }
 
     render() {
         return (
             <div className="FormCenter">
-                <form onSubmit={this.handleSubmit} className="FormFields">
+
+                <div className="FormTitle">
+                    <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+                </div>
+                
+                <form onSubmit={this.handleSubmit} className="FormFields center">
                     <div className="FormField">
                         <label className="FormField__Label" htmlFor="email">E-Mail Address</label>
                         <input type="email" id="email" className="FormField__Input" placeholder="Enter your email" name="email" value={this.state.email} onChange={this.handleChange} />
@@ -54,7 +66,10 @@ export default class SignInForm extends Component {
                     </div>
 
                     <div className="FormField">
-                        <button className="FormField__Button mr-20">Sign In</button> <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
+                        <button className="FormField__Button mr-20">Login</button>
+                    </div>
+                    <div className="FormField">
+                        <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
                     </div>
                 </form>
             </div>

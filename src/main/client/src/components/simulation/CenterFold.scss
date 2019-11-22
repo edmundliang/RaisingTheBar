@@ -1,0 +1,19 @@
+@import "../Theme.scss";
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+#glass-display {
+    min-height: 40%;
+}
+
+#option-display {
+    min-height: 30%;
+}
+
+#selected-display {
+    min-height: 30%;
+}

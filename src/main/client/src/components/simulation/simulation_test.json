@@ -1,0 +1,29 @@
+{
+    "name": "Test Sim",
+    "creator": "Mrs.Test Sim",
+    "tasks": [{
+        "title": "Create 3 shirly temples"
+    }],
+    "recipies": {},
+    "ingredients": [{
+            "name": "Rum",
+            "category": "Alcohol"
+        },
+        {
+            "name": "Vodka",
+            "category": "Alcohol"
+        },
+        {
+            "name": "Absinth",
+            "category": "Alcohol"
+        },
+        {
+            "name": "Ice",
+            "category": "Fridge"
+        },
+        {
+            "name": "Lemon Wedge",
+            "category": "Fridge"
+        }
+    ]
+}

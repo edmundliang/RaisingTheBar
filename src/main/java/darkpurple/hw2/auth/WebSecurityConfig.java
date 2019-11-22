@@ -4,6 +4,7 @@ import darkpurple.hw2.database.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,12 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
-
-    @Bean
-    public UserDetailsService mongoUserDetails() {
-        return new CustomUserDetailsService();
-    }
+    CustomAuthenticationSuccessFailureHandler customizeAuthenticationSuccessHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,30 +36,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        http
 //                .authorizeRequests()
-//                .antMatchers("/css/**", "/js/**", "/bootstrap/**").permitAll()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/signup").permitAll()
-//                .antMatchers("/player/**").hasAuthority("ADMIN").anyRequest()
-//                .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
-//                .loginPage("/login").failureUrl("/login?error=true")
+//                .antMatchers("/*", "/home", "/simulation", "/workshop", "/recipe", "/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
+//                .antMatchers("/creator/**").hasAuthority("USER")
+//                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+//                .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)
+//                .loginPage("/login")
 //                .usernameParameter("email")
 //                .passwordParameter("password")
 //                .and().logout()
 //                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout=true").and().exceptionHandling();
+//                .logoutSuccessUrl("/").and().exceptionHandling();
 
         http
                 .authorizeRequests()
-                .antMatchers("/*",  "/home", "/simulation", "/workshop", "/recipe", "/login", "/sign-up", "/sign-in","/forgot-password", "/reset-password", "/static/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
-                .loginPage("/sign-in").failureUrl("/sign-in?error=true")
+                .antMatchers("/*", "/home", "/simulation", "/workshop", "/recipe", "/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
+                .antMatchers("/creator/**").hasAuthority("USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated().and().csrf().disable()
+                .formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)
+                .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
+                .loginProcessingUrl("/login")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").and().exceptionHandling();
+
     }
 
     @Override
@@ -73,4 +71,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
+//    @Bean("authenticationManager")
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+
+    @Bean
+    public UserDetailsService mongoUserDetails() {
+        return new CustomUserDetailsService();
+    }
 }

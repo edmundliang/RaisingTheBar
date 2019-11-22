@@ -1,0 +1,10 @@
+@import "../Theme.scss";
+@import 'react-tabs/style/react-tabs.scss';
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.selected {
+    background-color: yellow
+}

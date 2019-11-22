@@ -1,0 +1,13 @@
+@import "../Theme.scss";
+.navbar {
+    background-color: $primary-background-color;
+}
+
+.nav-item a {
+    color: $primary-text-color!important;
+}
+
+.logo {
+    width: 35px;
+    height: 32px;
+}

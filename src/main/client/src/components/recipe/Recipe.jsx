@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
+import {Container, Jumbotron} from "react-bootstrap";
+import NavigationBar from "./../navbar/NavigationBar";
 
-import NavigationBar from "./NavigationBar";
-import {Button, Container, Jumbotron} from "react-bootstrap";
-import {Link} from "react-router-dom";
-
-export default class Creator extends Component {
+export default class Recipe extends Component {
   render() {
     return (
       <React.Fragment>
         <NavigationBar />
         <Container>
           <Jumbotron>
-            <h2>Creator Page</h2>
+            <h2>Recipe Page</h2>
           </Jumbotron>
         </Container>
       </React.Fragment>
