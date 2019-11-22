@@ -1,57 +1,54 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
-
+import { Tabs, Tab } from 'react-bootstrap';
 import './IngredientsTable.scss';
 
 export default class IngredientsTable extends Component {
 	constructor(props) {
 		super(props);
 
-		this.selected = null;
-		this.categoryList = [];
-		this.ingredientsList = new Map();
+		this.state = {
+			categoryList: [],
+			selected: null,
+			ingredientsList: new Map()
+		};
 		for (var x of props.ingredients) {
-			if (this.ingredientsList.get(x["category"]) == null) {
-				this.ingredientsList.set(x["category"], []);
+			if (this.state.ingredientsList.get(x["category"]) == null) {
+				this.state.ingredientsList.set(x["category"], []);
 			}
-			this.ingredientsList.get(x["category"]).push(x);
+			this.state.ingredientsList.get(x["category"]).push(x);
 		}
-		this.ingredientsList.forEach((value, key, map) => { this.categoryList.push(key) })
+		this.state.ingredientsList.forEach((value, key, map) => { this.state.categoryList.push(key) })
 	}
 	onListElementClick(item, event) {
-		if(item !== this.selected) {
+		if (item !== this.state.selected) {
 			var callback = this.props.onSelectedChangeCallback;
 			callback(item)
-			this.selected = item;
+			this.setState({ selected: item })
 		}
 	}
 	render() {
 		return (
-			<Tabs>
-				<TabList>
-					{
-						this.categoryList.map((item) => (<Tab key={item}>{item}</Tab>))
-					}
-				</TabList>
-				{
-					this.categoryList.map((item) => {
-						return <TabPanel key={item}>{(() => {
 
-							var output = [];
-							var elements = this.ingredientsList.get(item)
-							for (var x of elements) {
-								let boundFunctionCall = this.onListElementClick.bind(this, x);
-								output.push(
-									<div className="list_element" key={x["name"]} onClick={boundFunctionCall}>
-										<span>{x["name"]}</span>
-									</div>
-								);
-							}
-							return output;
-						}).call()
-						}</TabPanel>
-					})
-				}
+			<Tabs defaultActiveKey={this.state.categoryList[0]} id="uncontrolled-tab-example">
+				{
+					this.state.categoryList.map((item) => (
+						<Tab key={item} eventKey={item} title={item}>
+							<div className="flex-container">
+								{(() => {
+									var output = [];
+									var elements = this.state.ingredientsList.get(item)
+									for (var x of elements) {
+										let boundFunctionCall = this.onListElementClick.bind(this, x);
+										output.push(
+											<div className={this.state.selected == x ? "list_element selected" : "list_element"}  key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
+										);
+									}
+									return output;
+								}).call()
+								}
+							</div>
+						</Tab>
+					))}
 			</Tabs>
 		);
 	}

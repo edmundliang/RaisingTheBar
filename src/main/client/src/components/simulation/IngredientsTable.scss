@@ -1,16 +1,10 @@
 @import "../Theme.scss";
 @import 'react-tabs/style/react-tabs.scss';
-#leftPanel,
-.react-tabs {
-    border-color: $primary-background-color;
-    border-width: 1px;
-    border-style: solid;
-    &__tab-list {
-        border-bottom: 1px solid $primary-background-color;
-    }
-    &__tab {
-        &--selected {
-            background: $tertiary-background-color;
-        }
-    }
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.selected {
+    background-color: yellow
 }

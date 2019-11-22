@@ -6,24 +6,24 @@
     }],
     "recipies": {},
     "ingredients": [{
-            "name": "Test 1",
-            "category": "Cat 1"
+            "name": "Rum",
+            "category": "Alcohol"
         },
         {
-            "name": "Test 2",
-            "category": "Cat 1"
+            "name": "Vodka",
+            "category": "Alcohol"
         },
         {
-            "name": "Test 3",
-            "category": "Cat 1"
+            "name": "Absinth",
+            "category": "Alcohol"
         },
         {
-            "name": "Test 4",
-            "category": "Cat 2"
+            "name": "Ice",
+            "category": "Fridge"
         },
         {
-            "name": "Test 5",
-            "category": "Cat 2"
+            "name": "Lemon Wedge",
+            "category": "Fridge"
         }
     ]
 }
