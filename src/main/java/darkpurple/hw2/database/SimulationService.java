@@ -22,15 +22,17 @@ public class SimulationService {
     private SimulationRepository simulationRepository;
     
     
-    public Simulation createNewSimulation(String user) {
-        Simulation simulation = new Simulation();
-     
-        
-        simulation.setDate(new Date());
-        simulation.setCreator(user);
-        simulationRepository.save(simulation);
-
-        return simulation;
+    public Simulation findSimulationById(int id) {
+        return simulationRepository.findById(id);
     }
+    
+    public void saveSimulation(Simulation simulation) {
+        simulationRepository.save(simulation);
+    }
+    
+    public void deleteSimulation(Simulation simulation) {
+        simulationRepository.delete(simulation);
+    }
+    
     
 }

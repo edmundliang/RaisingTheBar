@@ -28,7 +28,7 @@ public class Recipe {
     
     private Date date;
     
-    private String creator;
+    private User creator;
     
 
     public int getId() {
@@ -71,6 +71,21 @@ public class Recipe {
         this.steps = steps;
     }
     
+    public Date getDateCreated() {
+        return date;
+    }
+    
+    public void setDateCreated(Date date) {
+        this.date = date;
+    }
+    
+    public User getCreator() {
+        return creator;
+    }
+    
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
     
     
     

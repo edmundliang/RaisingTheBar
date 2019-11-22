@@ -21,7 +21,7 @@ public class Simulation {
     
     private String name;
     private Date date;
-    
+    private User creator;
     private Recipe[] recipes;
 
     public int getId() {
@@ -46,6 +46,14 @@ public class Simulation {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+    
+    public User getCreator() {
+        return creator;
+    }
+    
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
     
 
