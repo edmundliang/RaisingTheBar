@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import NavigationBar from "../navbar/NavigationBar";
 import { Container, Row, Col } from "react-bootstrap";
 import IngredientsTable from "./IngredientsTable";
-import Table from "./Table";
-import SelectedItem from "./SelectedItem";
+import CenterFold from "./CenterFold";
+import Results from "./Results";
 
-import '../Theme.scss';
+import './Simulation.scss';
 
 import simulationTestJson from './simulation_test.json';
 
@@ -19,25 +19,33 @@ export default class SimulationContainer extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
+        <div id="wrapper" className="center">
 
-        <Container>
+          <div id="sidebar-left">
+            <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+          </div>
+          <div id="main">
+            <CenterFold />
+          </div>
+          <div id="sidebar-right">
+            <Results tasks={simulationTestJson.tasks} />
+          </div>
+        </div>
+
+
+        {/* <Container fluid={true}>
           <Row>
             <Col>
               <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
             </Col>
             <Col>
-              <Row>
-                <SelectedItem />
-              </Row>
-              <Row>
-                <Table />
-              </Row>
+              <CenterFold />
             </Col>
             <Col>
-              <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <Results tasks={simulationTestJson.tasks} />
             </Col>
           </Row>
-        </Container>
+        </Container> */}
 
       </React.Fragment>
     )

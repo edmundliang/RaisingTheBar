@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 
-// import 'react-tabs/style/react-tabs.css';
-import './Simulation.scss';
+import './IngredientsTable.scss';
 
 export default class IngredientsTable extends Component {
 	constructor(props) {

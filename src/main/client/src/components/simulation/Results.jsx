@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Simulation.scss';
 
-export default class Table extends Component {
+export default class Results extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -10,7 +10,7 @@ export default class Table extends Component {
 	}
 	render() {
 		return (
-			<div>Table</div>
+			<div>Results</div>
 		);
 	}
 }
