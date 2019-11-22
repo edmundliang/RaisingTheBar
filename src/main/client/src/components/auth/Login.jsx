@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import '../Theme.css';
+import '../Theme.scss';
 
 export default class LoginForm extends Component {
     constructor() {

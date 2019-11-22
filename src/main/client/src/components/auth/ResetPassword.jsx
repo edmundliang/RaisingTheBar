@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import '../Theme.css';
+import '../Theme.scss';
 
 export default class ForgotPassword extends Component {
 	constructor() {

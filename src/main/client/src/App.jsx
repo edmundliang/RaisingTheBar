@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home/Home';
-import Auth from './components/auth/Auth';
-import Simulation from './components/simulation/Simulation';
+import AuthContainer from './components/auth/AuthContainer';
+import SimulationContainer from './components/simulation/SimulationContainer';
 import Creator from './components/creator/Creator';
 import Workshop from './components/workshop/Workshop';
 import Recipe from './components/recipe/Recipe';
@@ -16,11 +15,11 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/login" component={Auth} />
-              <Route path="/signup" component={Auth} />
-              <Route path="/forgot-password" component={Auth} />
-              <Route path="/reset-password" component={Auth} />
-              <Route path="/simulation" component={Simulation} />
+              <Route path="/login" component={AuthContainer} />
+              <Route path="/signup" component={AuthContainer} />
+              <Route path="/forgot-password" component={AuthContainer} />
+              <Route path="/reset-password" component={AuthContainer} />
+              <Route path="/simulation" component={SimulationContainer} />
               <Route path="/creator" component={Creator} />
               <Route path="/workshop" component={Workshop} />
               <Route path="/recipe" component={Recipe} />

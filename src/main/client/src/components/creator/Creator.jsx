@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
 import NavigationBar from "./../navbar/NavigationBar";
-import {Button, Container, Jumbotron} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Container, Jumbotron} from "react-bootstrap";
 
 export default class Creator extends Component {
   render() {

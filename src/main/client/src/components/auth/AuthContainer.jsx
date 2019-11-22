@@ -5,10 +5,9 @@ import LoginForm from './Login';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 
-import './Auth.css';
-import '../Theme.css';
+import './AuthContainer.scss';
 
-export default class Login extends Component {
+export default class AuthContainer extends Component {
   render() {
     return (
       <Router>
