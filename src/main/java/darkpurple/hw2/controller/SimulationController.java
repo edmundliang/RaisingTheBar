@@ -8,9 +8,9 @@ package darkpurple.hw2.controller;
 
 import darkpurple.hw2.database.SimulationService;
 import darkpurple.hw2.database.entity.Simulation;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,22 +31,36 @@ public class SimulationController {
     
     
     @RequestMapping(value = "/simulation", method = RequestMethod.GET)
-    public Simulation getSimulation(@RequestBody String simID) {
-        return simulationService.findSimulationById(simID);
+    public Simulation getSimulation(@RequestBody String simulationId) {
+        return simulationService.findSimulationById(simulationId);
         
     }
     
     
     @RequestMapping(value = "/simulation/add", method = RequestMethod.POST)
     public Simulation createNewSimulation(@RequestBody String name, String creatorId, boolean test, String duration, String[] recipes ) {
-        Simulation sim = simulationService.addSimulation(name, creatorId, test, duration, recipes);
-        return sim;
+   
+        Simulation simulation = new Simulation();
+        simulation.setCreator(creatorId);
+        simulation.setName(name);
+        simulation.setDate(new Date());
+        simulation.setRecipes(recipes);
+        if (test) {
+            simulation.setType(Simulation.simulationType.TEST);
+            simulation.setDuration(Float.parseFloat(duration));
+        }
+        else {
+            simulation.setType(Simulation.simulationType.PRACTICE);
+            simulation.setDuration(0);
+        }
+        simulationService.saveSimulation(simulation);
+        return simulation;
     }
     
     
     @RequestMapping(value = "/simulation/delete", method = RequestMethod.POST)
-    public void deleteSim(@RequestBody String simId) {
-        Simulation toBeDeleted = simulationService.findSimulationById(simId);
+    public void deleteSim(@RequestBody String simulationId) {
+        Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
         simulationService.deleteSimulation(toBeDeleted);
     }
     

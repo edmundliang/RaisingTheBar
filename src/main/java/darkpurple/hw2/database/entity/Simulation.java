@@ -24,23 +24,22 @@ public class Simulation {
     private String[] recipes;
     private String creator;
     
-    public enum simType {
+    public enum simulationType {
         PRACTICE,
         TEST
     }
     
-    private simType type;
+    private simulationType type;
     
     private float duration;
 
-    public simType getType() {
+    public simulationType getType() {
         return type;
     }
 
-    public void setType(simType type) {
+    public void setType(simulationType type) {
         this.type = type;
     }
-    
     
 
     public String getCreator() {

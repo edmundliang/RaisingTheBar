@@ -6,9 +6,7 @@
 package darkpurple.hw2.database;
 
 import darkpurple.hw2.database.entity.Simulation;
-import darkpurple.hw2.database.entity.Simulation.simType;
 import darkpurple.hw2.database.repositories.SimulationRepository;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,24 +28,6 @@ public class SimulationService {
     
     public void saveSimulation(Simulation simulation) {
         simulationRepository.save(simulation);
-    }
-    
-    public Simulation addSimulation(String name, String creatorId, boolean test, String duration, String[] recipes) {
-        Simulation sim = new Simulation();
-        sim.setCreator(creatorId);
-        sim.setName(name);
-        sim.setDate(new Date());
-        sim.setRecipes(recipes);
-        if (test) {
-            sim.setType(simType.TEST);
-            sim.setDuration(Float.parseFloat(duration));
-        }
-        else {
-            sim.setType(simType.PRACTICE);
-            sim.setDuration(0);
-        }
-        simulationRepository.save(sim);
-        return sim;
     }
     
     public void deleteSimulation(Simulation simulation) {
