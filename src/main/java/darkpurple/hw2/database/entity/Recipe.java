@@ -43,6 +43,10 @@ public class Recipe {
     
     private String creator;
     
+    private String[] ingredients;
+    
+    private int[] volumes;
+    
     
 
     public int getId() {
@@ -100,6 +104,30 @@ public class Recipe {
     
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String[] getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String[] ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public int[] getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(int[] volumes) {
+        this.volumes = volumes;
     }
     
     

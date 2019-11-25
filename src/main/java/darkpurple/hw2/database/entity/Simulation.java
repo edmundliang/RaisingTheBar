@@ -17,12 +17,31 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Simulation {
     
     @Id
-    private int id;
+    private String id;
     
     private String name;
     private Date date;
     private String[] recipes;
     private String creator;
+    
+    public enum simType {
+        PRACTICE,
+        TEST
+    }
+    
+    private simType type;
+    
+    private float duration;
+
+    public simType getType() {
+        return type;
+    }
+
+    public void setType(simType type) {
+        this.type = type;
+    }
+    
+    
 
     public String getCreator() {
         return creator;
@@ -33,11 +52,11 @@ public class Simulation {
     }
     
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,6 +84,14 @@ public class Simulation {
 
     public void setRecipes(String[] recipes) {
         this.recipes = recipes;
+    }
+
+    public float getDuration() {
+        return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
     }
     
     

@@ -16,6 +16,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface SimulationRepository extends MongoRepository<Simulation, String> {
 
-    Simulation findById(int id);
+    Simulation findByid(String Id);
     
 }
