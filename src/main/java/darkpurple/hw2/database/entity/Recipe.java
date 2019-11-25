@@ -17,27 +17,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Recipe {
     
     @Id
-    private int id;
+    private String id;
     
     private String name;
-    private String[] instructions;
    
-    private Glass glass;
-    
-    private enum Glass {
-        SHOT,
-        WINE,
-        CHAMPAGNE,
-        MARTINI,
-        HIGHBALL,
-        ROCKS,
-        HURRICANE,
-        PINT,
-        POCO_GRANDE,
-        BUCKET
-    }
-    
-    private String[][] steps;
+    private String glass;
+   
     
     private Date date;
     
@@ -45,15 +30,15 @@ public class Recipe {
     
     private String[] ingredients;
     
-    private int[] volumes;
+    private float[] volumes;
     
     
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,37 +50,12 @@ public class Recipe {
         this.name = name;
     }
 
-    public String[] getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String[] instructions) {
-        this.instructions = instructions;
-    }
-
-    public Glass getGlass() {
+    public String getGlass() {
         return glass;
     }
 
-    public void setGlass(Glass glass) {
+    public void setGlass(String glass) {
         this.glass = glass;
-    }
-
-    
-    public String[][] getSteps() {
-        return steps;
-    }
-
-    public void setSteps(String[][] steps) {
-        this.steps = steps;
-    }
-    
-    public Date getDateCreated() {
-        return date;
-    }
-    
-    public void setDateCreated(Date date) {
-        this.date = date;
     }
     
     public String getCreator() {
@@ -122,11 +82,11 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public int[] getVolumes() {
+    public float[] getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(int[] volumes) {
+    public void setVolumes(float[] volumes) {
         this.volumes = volumes;
     }
     

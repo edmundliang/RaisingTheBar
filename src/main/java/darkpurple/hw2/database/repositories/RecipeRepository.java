@@ -15,6 +15,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface RecipeRepository extends MongoRepository<Recipe, String> {
 
-    Recipe findById(int id);
+    Recipe findByid(String id);
     
 }

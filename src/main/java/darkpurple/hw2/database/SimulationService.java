@@ -46,6 +46,7 @@ public class SimulationService {
             sim.setType(simType.PRACTICE);
             sim.setDuration(0);
         }
+        simulationRepository.save(sim);
         return sim;
     }
     
@@ -53,7 +54,7 @@ public class SimulationService {
         simulationRepository.delete(simulation);
     }
     
-     public List<Simulation> getAllGames() {
+     public List<Simulation> getAllSimulations() {
         return simulationRepository.findAll();
     }
     

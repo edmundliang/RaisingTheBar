@@ -54,7 +54,7 @@ public class SimulationController {
     
     @RequestMapping(value = "/simulation/list", method = RequestMethod.GET)
     public List<Simulation> allSimulations() {
-        return simulationService.getAllGames();
+        return simulationService.getAllSimulations();
     }
 
 }
