@@ -22,13 +22,27 @@ public class Recipe {
     private String name;
     private String[] instructions;
    
-    private String glass;
+    private Glass glass;
+    
+    private enum Glass {
+        SHOT,
+        WINE,
+        CHAMPAGNE,
+        MARTINI,
+        HIGHBALL,
+        ROCKS,
+        HURRICANE,
+        PINT,
+        POCO_GRANDE,
+        BUCKET
+    }
     
     private String[][] steps;
     
     private Date date;
     
-    private User creator;
+    private String creator;
+    
     
 
     public int getId() {
@@ -55,14 +69,15 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public String getGlass() {
+    public Glass getGlass() {
         return glass;
     }
 
-    public void setGlass(String glass) {
+    public void setGlass(Glass glass) {
         this.glass = glass;
     }
 
+    
     public String[][] getSteps() {
         return steps;
     }
@@ -79,11 +94,11 @@ public class Recipe {
         this.date = date;
     }
     
-    public User getCreator() {
+    public String getCreator() {
         return creator;
     }
     
-    public void setCreator(User creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
     

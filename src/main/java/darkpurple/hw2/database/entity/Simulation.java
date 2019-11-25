@@ -21,8 +21,7 @@ public class Simulation {
     
     private String name;
     private Date date;
-    private User creator;
-    private Recipe[] recipes;
+    private String[] recipes;
     private String creator;
 
     public String getCreator() {
@@ -58,20 +57,13 @@ public class Simulation {
         this.date = date;
     }
     
-    public User getCreator() {
-        return creator;
-    }
-    
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
     
 
-    public Recipe[] getRecipes() {
+    public String[] getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(Recipe[] recipes) {
+    public void setRecipes(String[] recipes) {
         this.recipes = recipes;
     }
     
