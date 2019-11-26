@@ -25,8 +25,8 @@ public class IngredientController {
     private IngredientService ingredientService;
     
     
-    @RequestMapping(value = "/simulation/get", method = RequestMethod.GET)
-    public Ingredients getSimulation(@RequestBody String Id) {
+    @RequestMapping(value = "/ingredients/get", method = RequestMethod.GET)
+    public Ingredients getIngredient(@RequestBody String Id) {
         return ingredientService.findIngredientById(Id);
         
     }
