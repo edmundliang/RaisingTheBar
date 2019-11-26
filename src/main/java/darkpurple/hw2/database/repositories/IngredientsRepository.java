@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *
  * @author anilramsoomye
  */
-public interface IngredientRepository extends MongoRepository<Ingredients, String> {
+public interface IngredientsRepository extends MongoRepository<Ingredients, String> {
     
     Ingredients findByid(String ingId);
 }

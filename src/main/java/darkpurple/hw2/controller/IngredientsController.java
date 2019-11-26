@@ -7,7 +7,7 @@ package darkpurple.hw2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import darkpurple.hw2.database.IngredientService;
+import darkpurple.hw2.database.IngredientsService;
 import darkpurple.hw2.database.entity.Ingredients;
 import darkpurple.hw2.database.entity.Recipe;
 import java.util.HashMap;
@@ -24,22 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @author anilramsoomye
  */
 @RestController
-public class IngredientController {
-    
+public class IngredientsController {
+
     @Autowired
-    private IngredientService ingredientService;
-    
-    
+    private IngredientsService ingredientService;
+
     @RequestMapping(value = "/ingredients/get", method = RequestMethod.GET)
     public Ingredients getIngredient(@RequestBody String Id) {
         return ingredientService.findIngredientById(Id);
-        
+
     }
-    
+
     @RequestMapping(value = "/ingredients/list", method = RequestMethod.GET)
     public String allIngredients() {
-        
-          ObjectMapper mapper = new ObjectMapper();
+
+        ObjectMapper mapper = new ObjectMapper();
         try {
             Map outputMap = new HashMap();
             List<Ingredients> recipeList = ingredientService.getAllIngredients();
@@ -51,5 +50,4 @@ public class IngredientController {
             return "Error";
         }
     }
-    
 }

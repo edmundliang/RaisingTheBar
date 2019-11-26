@@ -6,20 +6,20 @@
 package darkpurple.hw2.database;
 
 import darkpurple.hw2.database.entity.Ingredients;
-import darkpurple.hw2.database.repositories.IngredientRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import darkpurple.hw2.database.repositories.IngredientsRepository;
 
 /**
  *
  * @author anilramsoomye
  */
 @Service
-public class IngredientService {
+public class IngredientsService {
     
     @Autowired
-    private IngredientRepository ingredientRepository;
+    private IngredientsRepository ingredientRepository;
     
     public Ingredients findIngredientById(String id) {
         return ingredientRepository.findByid(id);
