@@ -6,11 +6,16 @@ import './CenterFold.scss';
 export default class CenterFold extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { amount: 1 };
+		this.state = {
+			amount: 1,
+			action_stack: [],
+			redo_action_stack: []
+		};
 		this.undo = this.undo.bind(this);
 		this.redo = this.redo.bind(this);
 		this.cancel = this.cancel.bind(this);
 		this.shake = this.shake.bind(this);
+		this.addToGlass = this.addToGlass.bind(this);
 		this.submit = this.submit.bind(this);
 		this.changeAmount = this.changeAmount.bind(this);
 		this.increaseAmount = this.changeAmount.bind(this, 1);
@@ -21,36 +26,70 @@ export default class CenterFold extends Component {
 		this.decreaseAmountQuarter = this.changeAmount.bind(this, -1 / 4);
 	}
 	undo() {
-
+		if (this.state.action_stack.length > 0) {
+			let removed = this.state.action_stack.pop()
+			this.state.redo_action_stack.push(removed)
+			this.setState({ action_stack: this.state.action_stack })
+		}
 	}
 	redo() {
-
+		if (this.state.redo_action_stack.length > 0) {
+			let removed = this.state.redo_action_stack.pop()
+			this.state.action_stack.push(removed)
+			this.setState({ action_stack: this.state.action_stack })
+		}
 	}
 	cancel() {
-
+		if (this.state.action_stack.length > 0) {
+			this.state.action_stack.push(["shake", 1])
+			this.setState({ action_stack: this.state.action_stack })
+		}
 	}
 	shake() {
-
+		if (this.state.action_stack.length > 0) {
+			this.state.action_stack.push(["shake", 1])
+			this.setState({ action_stack: this.state.action_stack })
+		}
+	}
+	addToGlass() {
+		if (this.props.selected != null) {
+			this.state.action_stack.push([this.props.selected, this.state.amount])
+			this.setState({ action_stack: this.state.action_stack, redo_action_stack: [] });
+		}
 	}
 	submit() {
-
+		console.log(this.state.action_stack)
 	}
 	changeAmount(delta, event) {
 		this.setState({ amount: this.state.amount + delta });
 	}
 	render() {
+		// console.log(this.props)
+		let selected = this.props.selected;
+		let action_stack = this.state.action_stack;
+		// console.log(action_stack)
 		return (
 			<div className="flex-container">
-				<div id="glass-display">Show the glasses here</div>
+				<div id="glass-display">
+					<ul>
+						{
+							action_stack.length == 0 ? "Glass Is Empty" : action_stack.map((item) => (
+								<li className="flex-container">
+									{item[0] != "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
+								</li>
+							))
+						}
+					</ul>
+				</div>
 				<div id="option-display">
 					<Button onClick={this.undo} bsstyle="primary">Undo</Button>
 					<Button onClick={this.redo} bsstyle="primary">Redo</Button>
 					<Button onClick={this.cancel} bsstyle="primary">Cancel</Button>
 					<Button onClick={this.shake} bsstyle="primary">Shake</Button>
-					<Button onClick={this.submit} bsstyle="primary">Submit</Button>
+					<Button onClick={this.submit} bsstyle="primary">Submit For Evaluation</Button>
 				</div>
 				<div id="selected-display">
-					<div>Currently selected glass</div>
+					<div>Your current selection is: {selected != null ? selected["name"] : "None"}</div>
 
 					<span>{this.state.amount} Oz</span>
 					<br />
@@ -63,7 +102,7 @@ export default class CenterFold extends Component {
 					<Button onClick={this.decreaseAmountQuarter} bsstyle="primary">-1/4 Oz</Button>
 					<Button onClick={this.increaseAmountQuarter} bsstyle="primary">+1/4 Oz</Button>
 					<br />
-					<Button onClick={this.submit} bsstyle="primary">Pour</Button>
+					<Button onClick={this.addToGlass} bsstyle="primary">Pour</Button>
 				</div>
 			</div>
 			// <div>

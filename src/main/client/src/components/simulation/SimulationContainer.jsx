@@ -19,7 +19,7 @@ export default class SimulationContainer extends Component {
   }
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
-    console.log(selectedIngredient);
+    // console.log(selectedIngredient);
   }
 
   render() {
@@ -38,22 +38,6 @@ export default class SimulationContainer extends Component {
             <Results tasks={simulationTestJson.tasks} />
           </div>
         </div>
-
-
-        {/* <Container fluid={true}>
-          <Row>
-            <Col>
-              <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
-            </Col>
-            <Col>
-              <CenterFold />
-            </Col>
-            <Col>
-              <Results tasks={simulationTestJson.tasks} />
-            </Col>
-          </Row>
-        </Container> */}
-
       </React.Fragment>
     )
   }

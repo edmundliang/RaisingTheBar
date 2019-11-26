@@ -26,6 +26,12 @@ public class RecipeController {
     private RecipeService recipeService;
    
 
+   
+    @RequestMapping(value = "/recipe/get", method = RequestMethod.GET)
+    public Recipe getRecipe(@RequestBody String recipeId) {
+        return recipeService.findRecipeById(recipeId);
+        
+    }
     
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
     public Recipe addRecipe(@RequestBody String creator, String name, String glass, String[] ingredients, float[] volumes) {
