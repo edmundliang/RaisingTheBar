@@ -62,7 +62,7 @@ export default class SimulationContainer extends Component {
     xhr.open('POST', '/recipe/add', true);
     xhr.onload = function () {
       // do something to response
-      // console.log(this.responseText);
+      console.log(this.responseText);
     };
     xhr.send(data);
   }
