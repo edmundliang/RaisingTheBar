@@ -49,8 +49,8 @@ export default class SimulationContainer extends Component {
       }
 
     }
-    console.log(ingredients);
-    console.log(volumes);
+    // console.log(ingredients);
+    // console.log(volumes);
 
     var data = new FormData();
     data.append('name', "test");
@@ -62,7 +62,7 @@ export default class SimulationContainer extends Component {
     xhr.open('POST', '/recipe/add', true);
     xhr.onload = function () {
       // do something to response
-      console.log(this.responseText);
+      // console.log(this.responseText);
     };
     xhr.send(data);
   }
