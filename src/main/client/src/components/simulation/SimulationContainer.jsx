@@ -53,7 +53,7 @@ export default class SimulationContainer extends Component {
     // console.log(volumes);
 
     var data = new FormData();
-    data.append('name', "test");
+    data.append('name', name);
     data.append('glass', 'Shot Glass');
     data.append('ingredients', ingredients);
     data.append('volumes', volumes);
