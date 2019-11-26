@@ -61,6 +61,7 @@ public class RecipeController {
     
     @RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
     public List<Recipe> findAllRecipes() {
+   
         return recipeService.getAllRecipes();
     }
     

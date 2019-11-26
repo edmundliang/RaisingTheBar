@@ -27,9 +27,38 @@ export default class SimulationContainer extends Component {
   }
   onSubmitCallback(name) {
     //Name is the name of hte recipe that the user wants to submit
-    //Where you should add your 
-    console.log(this.state.action_stack);
-  }
+    //Where you should add your
+    var ingredients = new Array();
+    var volumes = new Array();
+    for (var value of this.state.action_stack ) {
+        ingredients.push(value[0]);
+        volumes.push(value[1]);
+    }
+    for (var i = 0; i < ingredients.length - 1; i++) {
+        if (ingredients[i] === ingredients[i+1]) {
+            volumes[i] = volumes[i] + volumes[i+1];
+            ingredients.splice(i+1,1);
+            volumes.splice(i+1,1);
+        }
+        
+    }
+    console.log(ingredients);
+    console.log(volumes);
+    
+    var data = new FormData();
+    data.append('name', name);
+    data.append('glass', 'Shot Glass');
+    data.append('ingredients', ingredients);
+    data.append('volumes', volumes);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'recipe/add', true);
+    xhr.onload = function () {
+        // do something to response
+        console.log(this.responseText);
+    };
+    xhr.send(data);
+      }
   render() {
     return (
       <React.Fragment>

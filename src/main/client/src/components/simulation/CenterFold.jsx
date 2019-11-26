@@ -63,15 +63,15 @@ export default class CenterFold extends Component {
 		// console.log(this.props)
 		let selected = this.props.selected;
 		let action_stack = this.state.action_stack;
-		// console.log(action_stack)
+		console.log(this.state.action_stack);
 		return (
 			<div className="flex-container">
 				<div id="glass-display">
 					<ul>
 						{
-							action_stack.length == 0 ? "Glass Is Empty" : action_stack.map((item) => (
+							action_stack.length === 0 ? "Glass Is Empty" : action_stack.map((item) => (
 								<li className="flex-container">
-									{item[0] != "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
+									{item[0] !== "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
 								</li>
 							))
 						}

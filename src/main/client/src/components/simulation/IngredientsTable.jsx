@@ -40,7 +40,7 @@ export default class IngredientsTable extends Component {
 									for (var x of elements) {
 										let boundFunctionCall = this.onListElementClick.bind(this, x);
 										output.push(
-											<div className={this.state.selected == x ? "list_element selected" : "list_element"}  key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
+											<div className={this.state.selected === x ? "list_element selected" : "list_element"}  key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
 										);
 									}
 									return output;
