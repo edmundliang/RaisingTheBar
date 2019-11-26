@@ -63,6 +63,4 @@ public class RecipeController {
     public List<Recipe> findAllRecipes() {
         return recipeService.getAllRecipes();
     }
-    
-    
 }

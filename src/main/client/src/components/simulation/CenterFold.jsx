@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Label, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './CenterFold.scss';
 
 export default class CenterFold extends Component {
@@ -63,7 +62,7 @@ export default class CenterFold extends Component {
 		// console.log(this.props)
 		let selected = this.props.selected;
 		let action_stack = this.state.action_stack;
-		// console.log(action_stack)
+		console.log(action_stack)
 		return (
 			<div className="flex-container">
 				<div id="glass-display">
