@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,16 +35,17 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody String name, String glass, String[] ingredients, String[] volumes) {
+    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("glass")String glass, @RequestParam("ingredients")String ingredients, @RequestParam("volumes")String volumes) {
         Recipe recipe = new Recipe();
         User user = userService.getLoggedUser();
         recipe.setCreator(user.getId());
         recipe.setDate(new Date());
         recipe.setGlass(glass);
-        recipe.setIngredients(ingredients);
-        float[] volumes2 = new float[volumes.length];
-        for (int i = 0; i< volumes.length;i++) {
-            volumes2[i] = Float.parseFloat(volumes[i]);
+        recipe.setIngredients(ingredients.split(","));
+        String[] volumesTemp = volumes.split(",");
+        float[] volumes2 = new float[volumesTemp.length];
+        for (int i = 0; i< volumesTemp.length;i++) {
+            volumes2[i] = Float.parseFloat(volumesTemp[i]);
         }
         recipe.setVolumes(volumes2);
         recipe.setName(name);

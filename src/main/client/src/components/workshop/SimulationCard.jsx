@@ -17,7 +17,7 @@ export default class SimulationCard extends Component {
           <p className="card-text text-secondary">{description}</p>
           <div className="card-bottom container-fluid d-flex justify-content-around">
             <p className="card-text text-secondary font-italic">{type}</p>
-            <a href="#" className="btn btn-outline-success">Link</a>
+            <a href={link} className="btn btn-outline-success">Link</a>
           </div>
         </div>
       </div>

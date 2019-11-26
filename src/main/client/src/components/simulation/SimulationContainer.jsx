@@ -7,18 +7,23 @@ import RightPanel from "./RightPanel";
 
 import './Simulation.scss';
 
-import simulationTestJson from './simulation_test.json';
-
 export default class SimulationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: null,
-      action_stack: []
+      action_stack: [],
+      ingredientsJson: null
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
     this.onSubmitCallback = this.onSubmitCallback.bind(this);
-
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", function (e) {
+      this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
+      // console.log(JSON.parse(e.target.response)["ingredients"])
+    }.bind(this))
+    xhr.open("GET", '/ingredients/list');
+    xhr.send();
   }
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
@@ -27,7 +32,7 @@ export default class SimulationContainer extends Component {
 
   }
   onSubmitCallback(name) {
-    
+
     //Name is the name of hte recipe that the user wants to submit
     //Where you should add your
     var ingredients = new Array();
@@ -44,8 +49,8 @@ export default class SimulationContainer extends Component {
       }
 
     }
-    console.log(ingredients);
-    console.log(volumes);
+    // console.log(ingredients);
+    // console.log(volumes);
 
     var data = new FormData();
     data.append('name', "test");
@@ -57,7 +62,7 @@ export default class SimulationContainer extends Component {
     xhr.open('POST', '/recipe/add', true);
     xhr.onload = function () {
       // do something to response
-      console.log(this.responseText);
+      // console.log(this.responseText);
     };
     xhr.send(data);
   }
@@ -70,7 +75,7 @@ export default class SimulationContainer extends Component {
           <div id="wrapper" className="center">
 
             <div id="sidebar-left">
-              <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <IngredientsTable ingredients={this.state.ingredientsJson} onSelectedChangeCallback={this.onSelectedChangeCallback} />
             </div>
             <div id="main">
               <CenterFold selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />

@@ -6,7 +6,7 @@ export default class RightPanel extends Component {
 	constructor() {
 		super();
 		this.state = {
-			name: ''
+			name: ""
 		};
 		this.submit = this.submit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
