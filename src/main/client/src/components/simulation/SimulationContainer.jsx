@@ -31,7 +31,7 @@ export default class SimulationContainer extends Component {
     var ingredients = new Array();
     var volumes = new Array();
     for (var value of this.state.action_stack ) {
-        ingredients.push(value[0]);
+        ingredients.push(value[0]["name"]);
         volumes.push(value[1]);
     }
     for (var i = 0; i < ingredients.length - 1; i++) {
@@ -46,7 +46,7 @@ export default class SimulationContainer extends Component {
     console.log(volumes);
     
     var data = new FormData();
-    data.append('name', name);
+    data.append('name', "test");
     data.append('glass', 'Shot Glass');
     data.append('ingredients', ingredients);
     data.append('volumes', volumes);
