@@ -9,8 +9,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import darkpurple.hw2.database.IngredientsService;
 import darkpurple.hw2.database.entity.Ingredients;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +36,18 @@ public class IngredientsController {
         
     }
     
-    @RequestMapping(value = "/ingredients/list", method = RequestMethod.GET)
-    public List<Ingredients> allIngredients() {
-        return ingredientService.getAllIngredients();
+    @RequestMapping(value = "/ingredients/list", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllIngredients() {
+        ObjectMapper mapper = new ObjectMapper();
+         try {
+            Map outputMap = new HashMap();
+            List<Ingredients> ingredientList = ingredientService.getAllIngredients();
+            outputMap.put("ingredients", ingredientList);
+            return mapper.writeValueAsString(ingredientList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "Error";
+        }
        
     }
     
