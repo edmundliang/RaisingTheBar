@@ -32,15 +32,18 @@ export default class LoginForm extends Component {
         formData.append("email", this.state["email"]);
         formData.append("password", this.state["password"]);
         xhr.addEventListener("load", this.formResults)
-        xhr.open("POST", '/login')
+        xhr.open("POST", '/login');
+        xhr.send(formData);
     }
 
     formResults(e) {
         if (e.target.status === 202) {
 
+            console.log("Login Succeded")
             //login was sucessful
         } else if (e.target.status === 401) {
             //The credentials werent recognized by the server
+            console.log("Login Failed")
         } else {
             //Sometthing strange went wrong
         }
