@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Label, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './CenterFold.scss';
 
 export default class CenterFold extends Component {
