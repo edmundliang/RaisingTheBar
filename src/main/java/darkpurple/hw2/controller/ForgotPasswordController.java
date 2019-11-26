@@ -84,8 +84,7 @@ public class ForgotPasswordController {
     }
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
-    public ModelAndView resetUserPassword(ModelAndView modelAndView, User user) {
-   
+    public ModelAndView resetUserPassword(ModelAndView modelAndView, User user) {  
 
         if (user.getEmail() != null) {
             User tokenUser = userService.findUserByEmail(user.getEmail());

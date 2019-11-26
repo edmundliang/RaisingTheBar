@@ -16,13 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Ingredients {
     
     @Id
-    private int id;
+    private String id;
     
     private String name;
     
     private String type;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -34,6 +34,19 @@ public class Ingredients {
         return type;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    
     
     
     
