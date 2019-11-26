@@ -34,16 +34,19 @@ export default class SimulationContainer extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
-        <div id="wrapper" className="center">
+        <div>
 
-          <div id="sidebar-left">
-            <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
-          </div>
-          <div id="main">
-            <CenterFold selected={this.state.selected} parent ={this} action_stack = {this.state.action_stack} />
-          </div>
-          <div id="sidebar-right">
-            <RightPanel onSubmitCallback={this.onSubmitCallback} />
+          <div id="wrapper" className="center">
+
+            <div id="sidebar-left">
+              <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+            </div>
+            <div id="main">
+              <CenterFold selected={this.state.selected} parent ={this} action_stack = {this.state.action_stack} />
+            </div>
+            <div id="sidebar-right">
+              <RightPanel onSubmitCallback={this.onSubmitCallback} />
+            </div>
           </div>
         </div>
       </React.Fragment>
