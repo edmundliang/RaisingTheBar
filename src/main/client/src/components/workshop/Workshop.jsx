@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import NavigationBar from "./../navbar/NavigationBar";
 import SimulationCard from "./SimulationCard";
-import { Container, Row, Col } from 'reactstrap';
 
 export default class Workshop extends Component {
   constructor(props) {

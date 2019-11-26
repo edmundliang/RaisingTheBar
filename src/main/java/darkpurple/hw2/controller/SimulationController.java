@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package darkpurple.hw2.controller;
 
-
+import darkpurple.hw2.database.CustomUserDetailsService;
 import darkpurple.hw2.database.SimulationService;
 import darkpurple.hw2.database.entity.Simulation;
 import darkpurple.hw2.database.entity.SimulationGrade;
+import darkpurple.hw2.database.entity.User;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author anilramsoomye
- */
-
-@Controller
+@RestController
 public class SimulationController {
     
     
     @Autowired
     private SimulationService simulationService;
+    
+    @Autowired
+    private CustomUserDetailsService userService;
     
     
     @RequestMapping(value = "/simulation/get", method = RequestMethod.GET)
@@ -38,10 +33,11 @@ public class SimulationController {
     }
     
     @RequestMapping(value = "/simulation/complete", method = RequestMethod.GET)
-    public SimulationGrade submitSimulationGrade(@RequestBody String simulationId, String userId, int grade) {
+    public SimulationGrade submitSimulationGrade(@RequestBody String simulationId, int grade) {
         SimulationGrade simGrade = new SimulationGrade();
         simGrade.setDateCompleted(new Date());
-        simGrade.setUserId(userId);
+        User user = userService.getLoggedUser();
+        simGrade.setUserId(user.getId());
         simGrade.setSimulationId(simulationId);
         simGrade.setGrade(grade);
         

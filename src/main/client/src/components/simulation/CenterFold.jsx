@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Label, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './CenterFold.scss';
 
 export default class CenterFold extends Component {
@@ -8,7 +7,7 @@ export default class CenterFold extends Component {
 		super(props);
 		this.state = {
 			amount: 1,
-			action_stack: [],
+			action_stack: this.props.action_stack,
 			redo_action_stack: []
 		};
 		this.undo = this.undo.bind(this);
@@ -16,7 +15,6 @@ export default class CenterFold extends Component {
 		this.cancel = this.cancel.bind(this);
 		this.shake = this.shake.bind(this);
 		this.addToGlass = this.addToGlass.bind(this);
-		this.submit = this.submit.bind(this);
 		this.changeAmount = this.changeAmount.bind(this);
 		this.increaseAmount = this.changeAmount.bind(this, 1);
 		this.decreaseAmount = this.changeAmount.bind(this, -1);
@@ -57,9 +55,6 @@ export default class CenterFold extends Component {
 			this.setState({ action_stack: this.state.action_stack, redo_action_stack: [] });
 		}
 	}
-	submit() {
-		console.log(this.state.action_stack)
-	}
 	changeAmount(delta, event) {
 		this.setState({ amount: this.state.amount + delta });
 	}
@@ -67,15 +62,15 @@ export default class CenterFold extends Component {
 		// console.log(this.props)
 		let selected = this.props.selected;
 		let action_stack = this.state.action_stack;
-		// console.log(action_stack)
+		console.log(this.state.action_stack);
 		return (
 			<div className="flex-container">
 				<div id="glass-display">
 					<ul>
 						{
-							action_stack.length == 0 ? "Glass Is Empty" : action_stack.map((item) => (
+							action_stack.length === 0 ? "Glass Is Empty" : action_stack.map((item) => (
 								<li className="flex-container">
-									{item[0] != "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
+									{item[0] !== "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
 								</li>
 							))
 						}
@@ -86,7 +81,6 @@ export default class CenterFold extends Component {
 					<Button onClick={this.redo} bsstyle="primary">Redo</Button>
 					<Button onClick={this.cancel} bsstyle="primary">Cancel</Button>
 					<Button onClick={this.shake} bsstyle="primary">Shake</Button>
-					<Button onClick={this.submit} bsstyle="primary">Submit For Evaluation</Button>
 				</div>
 				<div id="selected-display">
 					<div>Your current selection is: {selected != null ? selected["name"] : "None"}</div>

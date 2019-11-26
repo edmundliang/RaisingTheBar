@@ -32,18 +32,20 @@ export default class SignUpForm extends Component {
     var formData = new FormData();
     formData.append("email", this.state["email"]);
     formData.append("password", this.state["password"]);
-    xhr.addEventListener("load", this.formResults)
-    xhr.open("POST", '/signup')
+    xhr.addEventListener("load", this.formResults);
+    xhr.open("POST", '/signup');
+    xhr.send(formData);
   }
 
   formResults(e) {
     if (e.target.status === 202) {
-
-      //login was sucessful
+        console.log("Login Succeded")
+        //login was sucessful
     } else if (e.target.status === 401) {
-      //The credentials werent recognized by the server
+        //The credentials werent recognized by the server
+        console.log("Login Failed")
     } else {
-      //Sometthing strange went wrong
+        //Sometthing strange went wrong
     }
   }
 

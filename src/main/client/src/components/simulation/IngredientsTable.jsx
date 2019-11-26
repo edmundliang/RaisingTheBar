@@ -29,7 +29,7 @@ export default class IngredientsTable extends Component {
 	render() {
 		return (
 
-			<Tabs defaultActiveKey={this.state.categoryList[0]} id="uncontrolled-tab-example">
+			<Tabs defaultActiveKey={this.state.categoryList[0]}>
 				{
 					this.state.categoryList.map((item) => (
 						<Tab key={item} eventKey={item} title={item}>
@@ -40,7 +40,7 @@ export default class IngredientsTable extends Component {
 									for (var x of elements) {
 										let boundFunctionCall = this.onListElementClick.bind(this, x);
 										output.push(
-											<div className={this.state.selected == x ? "list_element selected" : "list_element"}  key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
+											<div className={this.state.selected === x ? "list_element selected" : "list_element"}  key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
 										);
 									}
 									return output;
