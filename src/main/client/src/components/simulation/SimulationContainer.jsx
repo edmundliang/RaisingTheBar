@@ -52,7 +52,7 @@ export default class SimulationContainer extends Component {
     data.append('volumes', volumes);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'recipe/add', true);
+    xhr.open('POST', '/recipe/add', true);
     xhr.onload = function () {
         // do something to response
         console.log(this.responseText);
