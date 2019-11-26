@@ -5,12 +5,14 @@ import darkpurple.hw2.database.repositories.RecipeRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import darkpurple.hw2.database.repositories.IngredientsRepository;
 
 @Service
 public class RecipeService {
     
     @Autowired
     private RecipeRepository recipeRepository;
+    
     
     public Recipe findRecipeById(String id) {
         return recipeRepository.findByid(id);

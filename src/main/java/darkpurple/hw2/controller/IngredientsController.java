@@ -5,7 +5,9 @@
  */
 package darkpurple.hw2.controller;
 
-import darkpurple.hw2.database.IngredientService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import darkpurple.hw2.database.IngredientsService;
 import darkpurple.hw2.database.entity.Ingredients;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author anilramsoomye
  */
 @RestController
-public class IngredientController {
+public class IngredientsController {
     
     @Autowired
-    private IngredientService ingredientService;
+    private IngredientsService ingredientService;
     
     
-    @RequestMapping(value = "/simulation/get", method = RequestMethod.GET)
-    public Ingredients getSimulation(@RequestBody String Id) {
+    @RequestMapping(value = "/ingredients/get", method = RequestMethod.GET)
+    public Ingredients getIngredient(@RequestBody String Id) {
         return ingredientService.findIngredientById(Id);
         
     }
@@ -34,6 +36,7 @@ public class IngredientController {
     @RequestMapping(value = "/ingredients/list", method = RequestMethod.GET)
     public List<Ingredients> allIngredients() {
         return ingredientService.getAllIngredients();
+       
     }
     
 }
