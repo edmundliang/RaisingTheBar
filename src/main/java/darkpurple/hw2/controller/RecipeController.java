@@ -34,14 +34,18 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody String name, String glass, String[] ingredients, float[] volumes) {
+    public Recipe addRecipe(@RequestBody String name, String glass, String[] ingredients, String[] volumes) {
         Recipe recipe = new Recipe();
         User user = userService.getLoggedUser();
         recipe.setCreator(user.getId());
         recipe.setDate(new Date());
         recipe.setGlass(glass);
         recipe.setIngredients(ingredients);
-        recipe.setVolumes(volumes);
+        float[] volumes2 = new float[volumes.length];
+        for (int i = 0; i< volumes.length;i++) {
+            volumes2[i] = Float.parseFloat(volumes[i]);
+        }
+        recipe.setVolumes(volumes2);
         recipe.setName(name);
         recipeService.saveRecipe(recipe);
 
