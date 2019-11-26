@@ -5,8 +5,10 @@
  */
 package darkpurple.hw2.controller;
 
+import darkpurple.hw2.database.CustomUserDetailsService;
 import darkpurple.hw2.database.RecipeService;
 import darkpurple.hw2.database.entity.Recipe;
+import darkpurple.hw2.database.entity.User;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class RecipeController {
     
     @Autowired
     private RecipeService recipeService;
+    
+    @Autowired
+    private CustomUserDetailsService userService;
    
 
    
@@ -34,9 +39,10 @@ public class RecipeController {
     }
     
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody String creator, String name, String glass, String[] ingredients, float[] volumes) {
+    public Recipe addRecipe(@RequestBody String name, String glass, String[] ingredients, float[] volumes) {
         Recipe recipe = new Recipe();
-        recipe.setCreator(creator);
+        User user = userService.getLoggedUser();
+        recipe.setCreator(user.getId());
         recipe.setDate(new Date());
         recipe.setGlass(glass);
         recipe.setIngredients(ingredients);
