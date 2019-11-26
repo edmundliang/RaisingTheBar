@@ -23,6 +23,17 @@ public class Simulation {
     private Date date;
     private String[] recipes;
     private String creator;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
     
     public enum simulationType {
         PRACTICE,
