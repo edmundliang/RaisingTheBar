@@ -3,7 +3,7 @@ import NavigationBar from "../navbar/NavigationBar";
 // import { Container, Row, Col } from "react-bootstrap";
 import IngredientsTable from "./IngredientsTable";
 import CenterFold from "./CenterFold";
-import Results from "./Results";
+import RightPanel from "./RightPanel";
 
 import './Simulation.scss';
 
@@ -13,15 +13,23 @@ export default class SimulationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: null
+      selected: null,
+      action_stack: []
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
+    this.onSubmitCallback = this.onSubmitCallback.bind(this);
   }
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
-    // console.log(selectedIngredient);
   }
+  onCupContentsChange(action_stack) {
 
+  }
+  onSubmitCallback(name) {
+    //Name is the name of hte recipe that the user wants to submit
+    //Where you should add your 
+    console.log(this.state.action_stack);
+  }
   render() {
     return (
       <React.Fragment>
@@ -32,10 +40,10 @@ export default class SimulationContainer extends Component {
             <IngredientsTable ingredients={simulationTestJson.ingredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
           </div>
           <div id="main">
-            <CenterFold selected={this.state.selected} />
+            <CenterFold selected={this.state.selected} parent ={this} action_stack = {this.state.action_stack} />
           </div>
           <div id="sidebar-right">
-            <Results tasks={simulationTestJson.tasks} />
+            <RightPanel onSubmitCallback={this.onSubmitCallback} />
           </div>
         </div>
       </React.Fragment>

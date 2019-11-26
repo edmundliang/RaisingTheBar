@@ -8,7 +8,7 @@ export default class CenterFold extends Component {
 		super(props);
 		this.state = {
 			amount: 1,
-			action_stack: [],
+			action_stack: this.props.action_stack,
 			redo_action_stack: []
 		};
 		this.undo = this.undo.bind(this);
@@ -16,7 +16,6 @@ export default class CenterFold extends Component {
 		this.cancel = this.cancel.bind(this);
 		this.shake = this.shake.bind(this);
 		this.addToGlass = this.addToGlass.bind(this);
-		this.submit = this.submit.bind(this);
 		this.changeAmount = this.changeAmount.bind(this);
 		this.increaseAmount = this.changeAmount.bind(this, 1);
 		this.decreaseAmount = this.changeAmount.bind(this, -1);
@@ -57,9 +56,6 @@ export default class CenterFold extends Component {
 			this.setState({ action_stack: this.state.action_stack, redo_action_stack: [] });
 		}
 	}
-	submit() {
-		console.log(this.state.action_stack)
-	}
 	changeAmount(delta, event) {
 		this.setState({ amount: this.state.amount + delta });
 	}
@@ -86,7 +82,6 @@ export default class CenterFold extends Component {
 					<Button onClick={this.redo} bsstyle="primary">Redo</Button>
 					<Button onClick={this.cancel} bsstyle="primary">Cancel</Button>
 					<Button onClick={this.shake} bsstyle="primary">Shake</Button>
-					<Button onClick={this.submit} bsstyle="primary">Submit For Evaluation</Button>
 				</div>
 				<div id="selected-display">
 					<div>Your current selection is: {selected != null ? selected["name"] : "None"}</div>
