@@ -25,30 +25,30 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class IngredientsController {
-    
+
     @Autowired
     private IngredientsService ingredientService;
-    
-    
+
     @RequestMapping(value = "/ingredients/get", method = RequestMethod.GET)
     public Ingredients getIngredient(@RequestBody String Id) {
         return ingredientService.findIngredientById(Id);
-        
+
     }
-    
-    @RequestMapping(value = "/ingredients/list", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllIngredients() {
+
+    @RequestMapping(value = "/ingredients/list", method = RequestMethod.GET)
+    public String allIngredients() {
+
         ObjectMapper mapper = new ObjectMapper();
-         try {
+        try {
             Map outputMap = new HashMap();
-            List<Ingredients> ingredientList = ingredientService.getAllIngredients();
-            outputMap.put("ingredients", ingredientList);
-            return mapper.writeValueAsString(ingredientList);
+            List<Ingredients> recipeList = ingredientService.getAllIngredients();
+            outputMap.put("ingredients", recipeList);
+            String output = mapper.writeValueAsString(outputMap);
+            return output;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return "Error";
         }
        
     }
-    
 }
