@@ -29,7 +29,7 @@ export default class IngredientsTable extends Component {
 	render() {
 		return (
 
-			<Tabs defaultActiveKey={this.state.categoryList[0]} id="uncontrolled-tab-example">
+			<Tabs defaultActiveKey={this.state.categoryList[0]}>
 				{
 					this.state.categoryList.map((item) => (
 						<Tab key={item} eventKey={item} title={item}>
