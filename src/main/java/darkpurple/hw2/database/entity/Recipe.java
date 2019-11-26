@@ -23,7 +23,6 @@ public class Recipe {
    
     private String glass;
    
-    
     private Date date;
     
     private String creator;
