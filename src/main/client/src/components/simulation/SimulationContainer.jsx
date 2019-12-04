@@ -6,6 +6,7 @@ import CenterFold from "./CenterFold";
 import RightPanel from "./RightPanel";
 
 import './Simulation.scss';
+import ingredientsJsonFile from "../../assets/ingredients.json"
 
 export default class SimulationContainer extends Component {
   constructor(props) {
@@ -13,17 +14,17 @@ export default class SimulationContainer extends Component {
     this.state = {
       selected: null,
       action_stack: [],
-      ingredientsJson: null
+      ingredientsJson: ingredientsJsonFile.ingredients
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
     this.onSubmitCallback = this.onSubmitCallback.bind(this);
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("load", function (e) {
-      this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
-      // console.log(JSON.parse(e.target.response)["ingredients"])
-    }.bind(this))
-    xhr.open("GET", '/ingredients/list');
-    xhr.send();
+    // var xhr = new XMLHttpRequest();
+    // xhr.addEventListener("load", function (e) {
+    //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
+    //   // console.log(JSON.parse(e.target.response)["ingredients"])
+    // }.bind(this))
+    // xhr.open("GET", '/ingredients/list');
+    // xhr.send();
   }
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
