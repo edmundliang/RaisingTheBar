@@ -44,7 +44,7 @@ export default class IngredientsTable extends Component {
 										let boundFunctionCall = this.onListElementClick.bind(this, x);
 										output.push(
 											<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
-                                                                                            <img src={"images/" + x["name"] + ".png"}/>
+                                                                                            <img src={"images/ingredients" + x["name"] + ".png"}/>
                                                                                             
                                                                                             <p>{x["name"]}</p>
                                                                                         </div>
