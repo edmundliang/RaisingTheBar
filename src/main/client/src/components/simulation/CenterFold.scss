@@ -1,9 +1,12 @@
 @import "../Theme.scss";
+body{    
+  height: 100%;
+  margin: 0
+}
 .flex-container {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 100%;
 }
 
 #glass-display {

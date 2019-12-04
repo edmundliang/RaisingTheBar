@@ -31,32 +31,33 @@ export default class IngredientsTable extends Component {
 			ingredientsList.forEach((value, key, map) => { categoryList.push(key) })
 		}
 		return (
+			<div className="ingredients-container">
+				<Tabs defaultActiveKey={categoryList[0]}>
+					{
+						categoryList.map((item) => (
+							<Tab key={item} eventKey={item} title={item}>
+								<div className="inner-table">
+									{(() => {
+										var output = [];
+										var elements = ingredientsList.get(item)
+										for (var x of elements) {
+											let boundFunctionCall = this.onListElementClick.bind(this, x);
+											output.push(
+												<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+													<img src={"images/ingredients/" + x["name"] + ".png"} />
 
-			<Tabs defaultActiveKey={categoryList[0]}>
-				{
-					categoryList.map((item) => (
-						<Tab key={item} eventKey={item} title={item}>
-							<div className="ingredients-container">
-								{(() => {
-									var output = [];
-									var elements = ingredientsList.get(item)
-									for (var x of elements) {
-										let boundFunctionCall = this.onListElementClick.bind(this, x);
-										output.push(
-											<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
-                                                                                            <img src={"images/" + x["name"] + ".png"}/>
-                                                                                            
-                                                                                            <p>{x["name"]}</p>
-                                                                                        </div>
-										);
+													<p>{x["name"]}</p>
+												</div>
+											);
+										}
+										return output;
+									}).call()
 									}
-									return output;
-								}).call()
-								}
-							</div>
-						</Tab>
-					))}
-			</Tabs>
+								</div>
+							</Tab>
+						))}
+				</Tabs>
+			</div>
 		);
 	}
 }

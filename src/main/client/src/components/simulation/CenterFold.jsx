@@ -65,7 +65,7 @@ export default class CenterFold extends Component {
 		console.log(this.state.action_stack);
 		return (
 			<div className="flex-container">
-				<div id="glass-display">
+				{/* <div id="glass-display">
 					<ul>
 						{
 							action_stack.length === 0 ? "Glass Is Empty" : action_stack.map((item) => (
@@ -75,7 +75,7 @@ export default class CenterFold extends Component {
 							))
 						}
 					</ul>
-				</div>
+				</div> */}
 				<div id="option-display">
 					<Button onClick={this.undo} bsstyle="primary">Undo</Button>
 					<Button onClick={this.redo} bsstyle="primary">Redo</Button>
