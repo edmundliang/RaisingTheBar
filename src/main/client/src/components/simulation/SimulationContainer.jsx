@@ -33,7 +33,7 @@ export default class SimulationContainer extends Component {
   }
   onSubmitCallback(name) {
 
-    //Name is the name of hte recipe that the user wants to submit
+    //Name is the name of the recipe that the user wants to submit
     //Where you should add your
     var ingredients = new Array();
     var volumes = new Array();

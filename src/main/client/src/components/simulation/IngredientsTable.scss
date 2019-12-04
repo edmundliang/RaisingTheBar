@@ -4,6 +4,24 @@
     flex-direction: column;
 }
 
+.ingredients-container {
+    display:flex;
+    flex-wrap:wrap;
+    position:relative;
+    font-size:0.5em;
+    font-weight:bold;
+}
+
+.list_element {
+    width:33.3%;
+    padding-top:3%;
+    display: inline-block; 
+}
+
+img {
+    width:50%
+}
+
 .selected {
     background-color: yellow
 }

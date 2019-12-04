@@ -36,14 +36,18 @@ export default class IngredientsTable extends Component {
 				{
 					categoryList.map((item) => (
 						<Tab key={item} eventKey={item} title={item}>
-							<div className="flex-container">
+							<div className="ingredients-container">
 								{(() => {
 									var output = [];
 									var elements = ingredientsList.get(item)
 									for (var x of elements) {
 										let boundFunctionCall = this.onListElementClick.bind(this, x);
 										output.push(
-											<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>{x["name"]}</div>
+											<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+                                                                                            <img src={"images/" + x["name"] + ".png"}/>
+                                                                                            
+                                                                                            <p>{x["name"]}</p>
+                                                                                        </div>
 										);
 									}
 									return output;
