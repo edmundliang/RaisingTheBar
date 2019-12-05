@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import NavigationBar from "../navbar/NavigationBar";
 // import { Container, Row, Col } from "react-bootstrap";
-import IngredientsTable from "../bartop/IngredientsTable";
-import Controls from "../bartop/Controls";
-import QuickBar from "../bartop/QuickBar";
-import ActionBar from "../bartop/ActionBar";
+import IngredientsTable from "./IngredientsTable";
+import Controls from "./Controls";
+import QuickBar from "./QuickBar";
+import ActionBar from "./ActionBar";
 import SimulationRightPanel from "./SimulationRightPanel";
 
-import './SimulationContainer.scss';
+import './BartopContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
 
 export default class SimulationContainer extends Component {

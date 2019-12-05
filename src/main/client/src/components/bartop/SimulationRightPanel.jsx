@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Button } from 'react-bootstrap';
-import './SimulationContainer.scss';
 
 export default class SimulationRightPanel extends Component {
 	constructor() {

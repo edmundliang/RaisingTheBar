@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home/Home';
 import AuthContainer from './components/auth/AuthContainer';
-import SimulationContainer from './components/simulation/SimulationContainer';
+import BartopContainer from './components/bartop/BartopContainer';
 import CreatorContainer from './components/creator/CreatorContainer';
 import Workshop from './components/workshop/Workshop';
-import RecipeContainer from './components/recipe/RecipeContainer';
 import NoMatch from './components/NoMatch';
 
 class App extends Component {
@@ -19,10 +18,10 @@ class App extends Component {
               <Route path="/signup" component={AuthContainer} />
               <Route path="/forgot-password" component={AuthContainer} />
               <Route path="/reset-password" component={AuthContainer} />
-              <Route path="/simulation" component={SimulationContainer} />
+              <Route path="/simulation" component={BartopContainer} />
               <Route path="/creator" component={CreatorContainer} />
               <Route path="/workshop" component={Workshop} />
-              <Route path="/recipe" component={RecipeContainer} />
+              <Route path="/recipe" component={BartopContainer} />
               <Route component={NoMatch} />
             </Switch>
           </Router>

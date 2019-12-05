@@ -9,18 +9,10 @@ export default class QuickBar extends Component {
 
 	render() {
 		return (
-			<div className="flex-container">
-				<ul>
-					<li>
-						Spot 1
-					</li>
-					<li>
-						Spot 2
-					</li>
-					<li>
-						Spot 3
-					</li>
-				</ul>
+			<div id="quick-bar">
+				<img draggable src="/images/actions/empty_spot.png" alt="empty spot" />
+				<img draggable src="/images/actions/empty_spot.png" alt="empty spot" />
+				<img draggable src="/images/actions/empty_spot.png" alt="empty spot" />
 			</div>
 		);
 	}
