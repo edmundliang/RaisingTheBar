@@ -5,7 +5,7 @@ import IngredientsTable from "../bartop/IngredientsTable";
 import Controls from "../bartop/Controls";
 import QuickBar from "../bartop/QuickBar";
 import ActionBar from "../bartop/ActionBar";
-import SimulationRightPanel from "./RecipeRightPanel";
+import RecipeRightPanel from "./RecipeRightPanel";
 
 import './RecipeContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
@@ -107,7 +107,7 @@ export default class RecipeContainer extends Component {
               </div>
             </div>
             <div id="sidebar-right">
-              <SimulationRightPanel onSubmitCallback={this.onSubmitCallback} />
+              <RecipeRightPanel onSubmitCallback={this.onSubmitCallback} />
             </div>
           </div>
         </div>
