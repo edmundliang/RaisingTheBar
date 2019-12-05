@@ -1,20 +1,39 @@
 import React, { Component } from 'react'
 import NavigationBar from "../navbar/NavigationBar";
 // import { Container, Row, Col } from "react-bootstrap";
-import IngredientsTable from "./IngredientsTable";
-import CenterFold from "./CenterFold";
-import RightPanel from "./RightPanel";
+import IngredientsTable from "../bartop/IngredientsTable";
+import Controls from "../bartop/Controls";
+import QuickBar from "../bartop/QuickBar";
+import ActionBar from "../bartop/ActionBar";
+import SimulationRightPanel from "./SimulationRightPanel";
 
-import './Simulation.scss';
+import './SimulationContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
 
 export default class SimulationContainer extends Component {
   constructor(props) {
     super(props);
+    var otherIngredients = [];
+    var glasses = [];
+    var alcohol = [];
+    for (var x of ingredientsJsonFile.ingredients) {
+      if(x["category"] == null) {
+        x["category"] = "other";
+        otherIngredients.push(x);
+      }else if(x["category"] == "glasses"){
+        glasses.push(x)
+      }else if(x["category"] == "liquors" || x["category"] == "wine"){
+        alcohol.push(x)
+      }else {        
+        otherIngredients.push(x);
+      }
+    }
     this.state = {
       selected: null,
       action_stack: [],
-      ingredientsJson: ingredientsJsonFile.ingredients
+      otherIngredients: otherIngredients,
+      glasses: glasses,
+      alcohol : alcohol
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
     this.onSubmitCallback = this.onSubmitCallback.bind(this);
@@ -76,13 +95,19 @@ export default class SimulationContainer extends Component {
           <div id="wrapper" className="center">
 
             <div id="sidebar-left">
-              <IngredientsTable ingredients={this.state.ingredientsJson} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} />
             </div>
             <div id="main">
-              <CenterFold selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
+              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
+              <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
+              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
+              <div id = "alcoholPanel">
+              <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              </div>
             </div>
             <div id="sidebar-right">
-              <RightPanel onSubmitCallback={this.onSubmitCallback} />
+              <SimulationRightPanel onSubmitCallback={this.onSubmitCallback} />
             </div>
           </div>
         </div>

@@ -1,21 +1,19 @@
 @import "../Theme.scss";
-
 .ingredients-container {
-    display    : grid;
-    flex-wrap  : wrap;
-    position   : relative;
-    font-size  : 16px;
+    display: grid;
+    flex-wrap: wrap;
+    position: relative;
+    font-size: 16px;
     font-weight: bold;
 }
 
 // .inner-table {
 //     overflow-y: hidden;
 // }
-
 .list_element {
-    width      : 33.3%;
+    width: 33.3%;
     padding-top: 3%;
-    display    : inline-block;
+    display: inline-block;
 }
 
 img {
