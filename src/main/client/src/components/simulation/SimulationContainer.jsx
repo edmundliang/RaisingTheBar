@@ -7,8 +7,13 @@ import QuickBar from "../bartop/QuickBar";
 import ActionBar from "../bartop/ActionBar";
 import SimulationRightPanel from "./SimulationRightPanel";
 
+<<<<<<< HEAD
+import './Simulation.scss';
+import ingredientsJsonFile from "../resources/json/ingredients.json"
+=======
 import './SimulationContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
+>>>>>>> 9b6a6c09c5a9546f249bb1f63213434090524aea
 
 export default class SimulationContainer extends Component {
   constructor(props) {
