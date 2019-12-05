@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Button } from 'react-bootstrap';
-import './Simulation.scss';
+import './SimulationContainer.scss';
 
-export default class RightPanel extends Component {
+export default class SimulationRightPanel extends Component {
 	constructor() {
 		super();
 		this.state = {

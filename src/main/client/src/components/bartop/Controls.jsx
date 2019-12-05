@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import './CenterFold.scss';
+import './Controls.scss';
 
-export default class CenterFold extends Component {
+export default class Controls extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -65,63 +65,16 @@ export default class CenterFold extends Component {
 		console.log(this.state.action_stack);
 		return (
 			<div className="flex-container">
-				{/* <div id="glass-display">
-					<ul>
-						{
-							action_stack.length === 0 ? "Glass Is Empty" : action_stack.map((item) => (
-								<li className="flex-container">
-									{item[0] !== "shake" ? item[0]["name"] + " " + item[1] + " Oz" : "Shake"}
-								</li>
-							))
-						}
-					</ul>
-				</div> */}
+			
 				<div id="option-display">
 					<Button onClick={this.undo} bsstyle="primary">Undo</Button>
 					<Button onClick={this.redo} bsstyle="primary">Redo</Button>
-					<Button onClick={this.cancel} bsstyle="primary">Cancel</Button>
-					<Button onClick={this.shake} bsstyle="primary">Shake</Button>
 				</div>
 				<div id="selected-display">
 					<div>Your current selection is: {selected != null ? selected["name"] : "None"}</div>
-
 					<span>{this.state.amount} Oz</span>
-					<br />
-					<Button onClick={this.decreaseAmount} bsstyle="primary">-1 Oz</Button>
-					<Button onClick={this.increaseAmount} bsstyle="primary">+1 Oz</Button>
-					<br />
-					<Button onClick={this.decreaseAmountHalf} bsstyle="primary">-1/2 Oz</Button>
-					<Button onClick={this.increaseAmountHalf} bsstyle="primary">+1/2 Oz</Button>
-					<br />
-					<Button onClick={this.decreaseAmountQuarter} bsstyle="primary">-1/4 Oz</Button>
-					<Button onClick={this.increaseAmountQuarter} bsstyle="primary">+1/4 Oz</Button>
-					<br />
-					<Button onClick={this.addToGlass} bsstyle="primary">Pour</Button>
 				</div>
 			</div>
-			// <div>
-			// 	<ul>
-			// 		<li>
-			// 			<div>Show the glasses here</div>
-			// 		</li>
-			// 		<li>
-			// 			<div>Show undo/redo share and submit here </div>
-			// 		</li>
-			// 		<li>
-			// 			<div>
-			// 				<Button onClick={this.decreaseAmount} bsstyle="primary">Less</Button>
-			// 				<Button onClick={this.increaseAmount} bsstyle="primary">More</Button>
-			// 				<select value={this.state.scale} onChange={this.handleScaleChange}>
-			// 					<option value="1">1 Oz</option>
-			// 					<option value=".5">1/2 Oz</option>
-			// 					<option value=".25">1/4 Oz</option>
-			// 				</select>
-			// 				<Button onClick={this.handleSubmit} bsstyle="primary">Pour</Button>
-			// 				<input type="text" value={this.state.amount} onChange={this.handleAmountChange} />
-			// 			</div>
-			// 		</li>
-			// 	</ul>
-			// </div>
 		);
 	}
 }
