@@ -6,7 +6,7 @@ import CenterFold from "./CenterFold";
 import RightPanel from "./RightPanel";
 
 import './Simulation.scss';
-import ingredientsJsonFile from "../../assets/ingredients.json"
+import ingredientsJsonFile from "../resources/json/ingredients.json"
 
 export default class SimulationContainer extends Component {
   constructor(props) {

@@ -59,7 +59,7 @@ public class RecipeController {
         recipeService.deleteRecipe(recipeId);
     }
 
-    @RequestMapping(value = "/recipe/list", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/recipe/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllRecipes() {
         
         ObjectMapper mapper = new ObjectMapper();
