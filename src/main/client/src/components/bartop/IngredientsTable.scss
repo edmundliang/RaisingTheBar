@@ -6,14 +6,19 @@
     font-weight: bold;
 }
 
-.inner-table {
-    height:270px;
+.vert-table {
+    height: 270px;
     overflow-y: auto;
-
 }
+
+.hori-table {
+    height: 270px;
+    overflow-y: auto;
+}
+
 .list_element {
     width: 25%;
-    padding-top:2%;
+    padding-top: 2%;
     display: inline-block;
 }
 

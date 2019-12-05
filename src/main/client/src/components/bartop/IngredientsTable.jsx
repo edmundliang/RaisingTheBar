@@ -5,16 +5,11 @@ import './IngredientsTable.scss';
 export default class IngredientsTabs extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			selected: null
-		};
 	}
 	onIngredientClick(item, event) {
-		if (item !== this.state.selected) {
+		if (item !== this.props.selected) {
 			var callback = this.props.onSelectedChangeCallback;
 			callback(item)
-			this.setState({ selected: item })
 		}
 	}
 	render() {
@@ -37,16 +32,15 @@ export default class IngredientsTabs extends Component {
 						{
 							categoryList.map((item) => (
 								<Tab key={item} eventKey={item} title={item}>
-									<div className="inner-table">
+									<div className={this.props.scrolling === "vert" ? "vert-table " : "hori-table"}>
 										{(() => {
 											var output = [];
 											var elements = ingredientsList.get(item)
 											for (var x of elements) {
 												let boundFunctionCall = this.onIngredientClick.bind(this, x);
 												output.push(
-													<div className={this.state.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+													<div draggable="true" className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
 														<img src={"images/ingredients/" + x["name"] + ".png"} />
-
 														<p>{x["name"]}</p>
 													</div>
 												);

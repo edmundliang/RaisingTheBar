@@ -48,7 +48,7 @@ export default class SimulationContainer extends Component {
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
   }
-  onCupContentsChange(action_stack) {
+  onDragStart() {
 
   }
   onSubmitCallback(name) {
@@ -95,15 +95,15 @@ export default class SimulationContainer extends Component {
           <div id="wrapper" className="center">
 
             <div id="sidebar-left">
-              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} />
-              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert"/>
+              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback}selected={this.state.selected} scrolling="vert"/>
             </div>
             <div id="main">
               <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
               <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
               <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
               <div id = "alcoholPanel">
-              <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} />
+              <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="hori"/>
               </div>
             </div>
             <div id="sidebar-right">
