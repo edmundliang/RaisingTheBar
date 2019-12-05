@@ -3,21 +3,22 @@
     display: grid;
     flex-wrap: wrap;
     position: relative;
-    font-size: 1vw;
     font-weight: bold;
 }
 
-// .inner-table {
-//     overflow-y: hidden;
-// }
+.inner-table {
+    height:270px;
+    overflow-y: auto;
+
+}
 .list_element {
     width: 25%;
-    padding-top: 3%;
+    padding-top:2%;
     display: inline-block;
 }
 
 img {
-    width: 50%
+    width: 40%
 }
 
 .selected {

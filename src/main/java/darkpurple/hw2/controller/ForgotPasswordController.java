@@ -1,6 +1,8 @@
 package darkpurple.hw2.controller;
 
 import darkpurple.hw2.database.CustomUserDetailsService;
+import darkpurple.hw2.database.CustomUserDetailsService;
+import darkpurple.hw2.database.EmailSenderService;
 import darkpurple.hw2.database.EmailSenderService;
 import darkpurple.hw2.database.entity.User;
 import java.util.UUID;
