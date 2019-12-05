@@ -3,7 +3,7 @@
     display: grid;
     flex-wrap: wrap;
     position: relative;
-    font-size: 16px;
+    font-size: 1vw;
     font-weight: bold;
 }
 
@@ -11,7 +11,7 @@
 //     overflow-y: hidden;
 // }
 .list_element {
-    width: 33.3%;
+    width: 25%;
     padding-top: 3%;
     display: inline-block;
 }

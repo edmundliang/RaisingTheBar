@@ -5,7 +5,7 @@ import AuthContainer from './components/auth/AuthContainer';
 import SimulationContainer from './components/simulation/SimulationContainer';
 import CreatorContainer from './components/creator/CreatorContainer';
 import Workshop from './components/workshop/Workshop';
-import Recipe from './components/recipe/Recipe';
+import RecipeContainer from './components/recipe/RecipeContainer';
 import NoMatch from './components/NoMatch';
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
               <Route path="/simulation" component={SimulationContainer} />
               <Route path="/creator" component={CreatorContainer} />
               <Route path="/workshop" component={Workshop} />
-              <Route path="/recipe" component={Recipe} />
+              <Route path="/recipe" component={RecipeContainer} />
               <Route component={NoMatch} />
             </Switch>
           </Router>
