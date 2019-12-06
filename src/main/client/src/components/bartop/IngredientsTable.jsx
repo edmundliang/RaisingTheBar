@@ -31,7 +31,7 @@ export default class IngredientsTabs extends Component {
 		}
 		return (
 			<div>
-				<div className="ingredients-container">
+				<div className={this.props.container === "liquor" ? "liquors-container" : "ingredients-container"}>
 					<Tabs defaultActiveKey={categoryList[0]}>
 						{
 							categoryList.map((item) => (

@@ -6,14 +6,20 @@
     font-weight: bold;
 }
 
+.liquors-container {
+    font-weight: bold;
+    white-space:nowrap;
+}
+
 .vert-table {
     height: 270px;
     overflow-y: auto;
 }
 
 .hori-table {
-    height: 270px;
-    overflow-y: auto;
+    height: 150px;
+    overflow:auto;
+
 }
 
 .list_element {
