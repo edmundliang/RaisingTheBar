@@ -17,26 +17,47 @@ export default class SimulationContainer extends Component {
     var glasses = [];
     var alcohol = [];
     for (var x of ingredientsJsonFile.ingredients) {
-      if(x["category"] == null) {
+      if (x["category"] === null) {
         x["category"] = "other";
         otherIngredients.push(x);
-      }else if(x["category"] == "glasses"){
+      } else if (x["category"] === "glasses") {
         glasses.push(x)
-      }else if(x["category"] == "liquors" || x["category"] == "wine"){
+      } else if (x["category"] === "liquors" || x["category"] === "wine") {
         alcohol.push(x)
-      }else {        
+      } else {
         otherIngredients.push(x);
       }
     }
     this.state = {
       selected: null,
-      action_stack: [],
       otherIngredients: otherIngredients,
       glasses: glasses,
-      alcohol : alcohol
+      alcohol: alcohol,
+      quickBar: [{
+        ingredient: null
+      },
+      {
+        ingredient: null
+      },
+      {
+        ingredient: null
+      }],
+      actionBar: [{
+        ingredient: null
+      },
+      {
+        ingredient: null
+      },
+      {
+        ingredient: null
+      }],
+      dragged: null
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
-    this.onSubmitCallback = this.onSubmitCallback.bind(this);
+    this.onDragStartCallback = this.onDragStartCallback.bind(this);
+    this.onDragEndActionBarCallback = this.onDragEndActionBarCallback.bind(this);
+    this.onDragEndQuickBarCallback = this.onDragEndQuickBarCallback.bind(this);
+    this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     // var xhr = new XMLHttpRequest();
     // xhr.addEventListener("load", function (e) {
     //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
@@ -48,15 +69,26 @@ export default class SimulationContainer extends Component {
   onSelectedChangeCallback(selectedIngredient) {
     this.setState({ selected: selectedIngredient });
   }
-  onDragStart() {
-
+  onDragStartCallback(dragged) {
+    this.setState({ dragged: dragged });
   }
-  onSubmitCallback(name) {
+  onDragEndActionBarCallback(index) {
+    var actionBar = this.state.actionBar
+    actionBar[index].ingredient = this.state.dragged;
+    this.setState({ actionBar: actionBar, dragged: null });
+  }
+  onDragEndQuickBarCallback(index) {
+    var quickBar = this.state.quickBar;
+    quickBar[index].ingredient = this.state.dragged;
+    this.setState({ quickBar: quickBar, dragged: null });
+    // console.log(this.state.quickBar)
+  }
+  submitRecipeCallback(name) {
 
     //Name is the name of the recipe that the user wants to submit
     //Where you should add your
-    var ingredients = new Array();
-    var volumes = new Array();
+    var ingredients = [];
+    var volumes = [];
     for (var value of this.state.action_stack) {
       ingredients.push(value[0]["name"]);
       volumes.push(value[1]);
@@ -95,19 +127,19 @@ export default class SimulationContainer extends Component {
           <div id="wrapper" className="center">
 
             <div id="sidebar-left">
-              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert"/>
-              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback}selected={this.state.selected} scrolling="vert"/>
+              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
+              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
             </div>
             <div id="main">
-              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
-              <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
-              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} />
-              <div id = "alcoholPanel">
-              <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="hori"/>
+              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar}/>
+              {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
+              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar}/>
+              <div id="alcoholPanel">
+                <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="hori" onDragStartCallback={this.onDragStartCallback} />
               </div>
             </div>
             <div id="sidebar-right">
-              <SimulationRightPanel onSubmitCallback={this.onSubmitCallback} />
+              <SimulationRightPanel onSubmitCallback={this.submitRecipeCallback} />
             </div>
           </div>
         </div>

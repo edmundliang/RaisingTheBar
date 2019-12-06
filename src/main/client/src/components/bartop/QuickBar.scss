@@ -8,7 +8,21 @@ li {
     display: inline;
 }
 
+#quick-bar {
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
 #quick-bar img {
     width: 33.3%;
     border-style: solid;
+}
+
+.top-img {
+    z-index: 1;
+}
+
+.bottom-img {
+    z-index: 3;
 }
