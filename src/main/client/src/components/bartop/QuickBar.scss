@@ -24,25 +24,11 @@ li {
 
 .top-img {
     z-index: 1;
-    float: left;
+  
 }
 
 .bottom-img {
     z-index: 3;
-    float: left;
-}
-
-.imageWrapper bottom-img {
-    display: block;
-}
-
-.imageWrapper .text {
-    position: absolute;
-    top: 20px;
-    right: 200px;
-    visibility:hidden;
     
 }
-.imageWrapper:hover .text {
-    visibility: visible;
-}
+
