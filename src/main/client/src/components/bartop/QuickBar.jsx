@@ -21,7 +21,7 @@ export default class QuickBar extends Component {
 								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[0].ingredient.name + ".png"} alt="empty spot" />)
 							} else {
 
-								return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
+								return (<div className="imageWrapper"> <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" /><p class="text">Temporary</p> </div>)
 							}
 						}).call()
 					}
