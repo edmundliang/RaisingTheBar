@@ -35,15 +35,15 @@ export default class SimulationContainer extends Component {
       alcohol: alcohol,
       quickBar: [{
         ingredient: null,
-        actionStack:null
+        actionStack: null
       },
       {
         ingredient: null,
-        actionStack:null
+        actionStack: null
       },
       {
         ingredient: null,
-        actionStack:null
+        actionStack: null
       }],
       actionBar: [{
         ingredient: null
@@ -81,12 +81,18 @@ export default class SimulationContainer extends Component {
     this.setState({ actionBar: actionBar, dragged: null });
   }
   onDragEndQuickBarCallback(index) {
-    if(this.state.dragged != null && this.state.dragged.category === "glasses") {
+    if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
-      quickBar[index].ingredient = this.state.dragged;
-      quickBar[index].actionStack = [];
-      this.setState({ quickBar: quickBar, dragged: null });
-    }else {
+      console.log(quickBar[index])
+      if (this.state.dragged.category === "glasses") {
+        quickBar[index].ingredient = this.state.dragged;
+        quickBar[index].actionStack = [];
+        this.setState({ quickBar: quickBar, dragged: null });
+      } else if (quickBar[index].ingredient != null && quickBar[index].ingredient.category === "glasses") {
+        quickBar[index].actionStack.push(this.state.dragged);
+        this.setState({ quickBar: quickBar, dragged: null });
+      }
+    } else {
       this.setState({ dragged: null });
     }
     // console.log(this.state.quickBar)
@@ -139,11 +145,11 @@ export default class SimulationContainer extends Component {
               <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
             </div>
             <div id="main">
-              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar}/>
+              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
-              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar}/>
+              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
               <div id="alcoholPanel">
-                <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} container = "liquor" scrolling="hori" onDragStartCallback={this.onDragStartCallback}/>
+                <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} container="liquor" scrolling="hori" onDragStartCallback={this.onDragStartCallback} />
               </div>
             </div>
             <div id="sidebar-right">
