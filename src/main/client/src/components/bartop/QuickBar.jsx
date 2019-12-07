@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { Tooltip } from 'react-bootstrap';
 import "./QuickBar.scss";
 
 export default class QuickBar extends Component {
@@ -14,9 +15,21 @@ export default class QuickBar extends Component {
 	}
 	getImage(index) {
 		if (this.props.inventory[index].ingredient != null) {
-			return <img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].ingredient.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].ingredient.name} />
+			return <div id="tooltip">
+				<img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].ingredient.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].ingredient.name} />
+				<span class="tooltiptext" >
+					{this.props.inventory[index].actionStack.map((item)=>{
+					return  (<p key={item.name}>{item.name}</p>);
+					})}
+				</span>
+			</div>
+
 		} else {
-			return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
+			return <div id="tooltip">
+				<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
+				<span class="tooltiptext">There's nothing in this space!</span>
+			</div>
+
 		}
 	}
 	render() {
