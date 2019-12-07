@@ -11,8 +11,8 @@ export default class IngredientsTabs extends Component {
 			var callback = this.props.onSelectedChangeCallback;
 			callback(item)
 		}
-	} 
-	handleDragStart(item, e) {		
+	}
+	handleDragStart(item, e) {
 		var callback = this.props.onDragStartCallback;
 		callback(item);
 	}
@@ -44,7 +44,7 @@ export default class IngredientsTabs extends Component {
 												let boundFunctionCall = this.onIngredientClick.bind(this, x);
 												output.push(
 													<div draggable onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
-														<img draggable="false" src={"images/ingredients/" + x["name"] + ".png"} />
+														<img draggable="false" src={"/images/" + (x["category"] == "glasses" ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
 														<p>{x["name"]}</p>
 													</div>
 												);

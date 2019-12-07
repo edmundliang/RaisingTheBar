@@ -5,49 +5,36 @@ import "./QuickBar.scss";
 export default class QuickBar extends Component {
 	constructor(props) {
 		super(props);
+		this.getImage = this.getImage.bind(this);
 	}
 	handleDrop(index, event) {
 		var callback = this.props.onDragEndQuickBarCallback;
 		callback(index);
 		event.preventDefault()
 	}
+	getImage(index) {
+		if (this.props.inventory[index].ingredient != null) {
+			return <img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].ingredient.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].ingredient.name} />
+		} else {
+			return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
+		}
+	}
 	render() {
 		return (
 			<div id="quick-bar">
 				<div onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
-						(() => {
-							if (this.props.inventory[0].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[0].ingredient.name + ".png"} alt="empty spot" />)
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
-							}
-						}).call()
+						this.getImage(0)
 					}
 				</div>
 				<div onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
-						(() => {
-							if (this.props.inventory[1].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[1].ingredient.name + ".png"} alt="empty spot" />)
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
-							}
-						}).call()
+						this.getImage(1)
 					}
 				</div>
 				<div onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
-						(() => {
-							if (this.props.inventory[2].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[2].ingredient.name + ".png"} alt="empty spot" />)
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />)
-							}
-						}).call()
+						this.getImage(2)
 					}
 				</div>
 			</div>

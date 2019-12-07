@@ -5,7 +5,10 @@ import IngredientsTable from "./IngredientsTable";
 import Controls from "./Controls";
 import QuickBar from "./QuickBar";
 import ActionBar from "./ActionBar";
-import SimulationRightPanel from "./SimulationRightPanel";
+import RecipeRightPanel from "./RecipeRightPanel.jsx";
+import SimulationRightPanel from "./SimulationRightPanel.jsx";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import NoMatch from '../NoMatch';
 
 import './BartopContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
@@ -33,6 +36,8 @@ export default class SimulationContainer extends Component {
       otherIngredients: otherIngredients,
       glasses: glasses,
       alcohol: alcohol,
+      dragged: null,
+      submissionSlot: null,
       quickBar: [{
         ingredient: null,
         actionStack: null
@@ -53,8 +58,8 @@ export default class SimulationContainer extends Component {
       },
       {
         ingredient: null
-      }],
-      dragged: null
+      }]
+
     };
     this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -80,10 +85,14 @@ export default class SimulationContainer extends Component {
     actionBar[index].ingredient = this.state.dragged;
     this.setState({ actionBar: actionBar, dragged: null });
   }
+  onDragEndSubmissionSlotCallback(index) {
+    var submissionSlot = this.state.submissionSlot
+    submissionSlot[index].ingredient = this.state.dragged;
+    this.setState({ submissionSlot: submissionSlot, dragged: null });
+  }
   onDragEndQuickBarCallback(index) {
     if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
-      console.log(quickBar[index])
       if (this.state.dragged.category === "glasses") {
         quickBar[index].ingredient = this.state.dragged;
         quickBar[index].actionStack = [];
@@ -137,9 +146,7 @@ export default class SimulationContainer extends Component {
       <React.Fragment>
         <NavigationBar />
         <div>
-
           <div id="wrapper" className="center">
-
             <div id="sidebar-left">
               <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
               <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
@@ -153,7 +160,7 @@ export default class SimulationContainer extends Component {
               </div>
             </div>
             <div id="sidebar-right">
-              <SimulationRightPanel onSubmitCallback={this.submitRecipeCallback} />
+          
             </div>
           </div>
         </div>
