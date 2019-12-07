@@ -34,13 +34,16 @@ export default class SimulationContainer extends Component {
       glasses: glasses,
       alcohol: alcohol,
       quickBar: [{
-        ingredient: null
+        ingredient: null,
+        actionStack:null
       },
       {
-        ingredient: null
+        ingredient: null,
+        actionStack:null
       },
       {
-        ingredient: null
+        ingredient: null,
+        actionStack:null
       }],
       actionBar: [{
         ingredient: null
@@ -78,9 +81,14 @@ export default class SimulationContainer extends Component {
     this.setState({ actionBar: actionBar, dragged: null });
   }
   onDragEndQuickBarCallback(index) {
-    var quickBar = this.state.quickBar;
-    quickBar[index].ingredient = this.state.dragged;
-    this.setState({ quickBar: quickBar, dragged: null });
+    if(this.state.dragged != null && this.state.dragged.category === "glasses") {
+      var quickBar = this.state.quickBar;
+      quickBar[index].ingredient = this.state.dragged;
+      quickBar[index].actionStack = [];
+      this.setState({ quickBar: quickBar, dragged: null });
+    }else {
+      this.setState({ dragged: null });
+    }
     // console.log(this.state.quickBar)
   }
   submitRecipeCallback(name) {
