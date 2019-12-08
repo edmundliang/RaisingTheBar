@@ -4,7 +4,31 @@ ul {
     padding: 0;
 }
 
+li {
+    display: inline;
+}
+
 #quick-bar {
-    overflow: hidden;
+    position: relative;
+    left: 0;
+    top: 0;
+    :hover {
+        color: #ed1212;
+    }
+}
+
+#quick-bar img {
+    width: 33.3%;
+    border-style: solid;
+}
+
+.top-img {
+    z-index: 1;
+   
+}
+
+.bottom-img {
+    z-index: 3;
+   
 }
 

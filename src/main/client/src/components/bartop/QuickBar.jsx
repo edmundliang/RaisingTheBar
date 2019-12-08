@@ -17,7 +17,7 @@ export default class QuickBar extends Component {
 		if (this.props.inventory[index].ingredient != null) {
 			return <div id="tooltip">
 				<img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].ingredient.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].ingredient.name} />
-				<span class="tooltiptext" >
+				<span className="tooltiptext" >
 					{this.props.inventory[index].actionStack.map((item)=>{
 					return  (<p key={item.name}>{item.name}</p>);
 					})}
@@ -27,7 +27,7 @@ export default class QuickBar extends Component {
 		} else {
 			return <div id="tooltip">
 				<img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
-				<span class="tooltiptext">There's nothing in this space!</span>
+				<span className="tooltiptext">There's nothing in this space!</span>
 			</div>
 
 		}
