@@ -15,6 +15,7 @@ li {
     :hover {
         color: #ed1212;
     }
+    
 }
 
 #quick-bar img {
@@ -34,10 +35,12 @@ li {
 
 #tooltip img {
     border-style: solid;
+    object-fit: fill;
 }
 
 #tooltip {
   position: relative;
+  
 }
 
 #tooltip .tooltiptext {
@@ -51,10 +54,12 @@ li {
 
   /* Position the tooltip */
   position: absolute;
-  z-index: 1;
+  z-index: 4;
 }
 
 #tooltip:hover .tooltiptext {
   visibility: visible;
+  
+  
 }
 

@@ -15,11 +15,11 @@ export default class QuickBar extends Component {
 	render() {
 		return (
 			<div id="quick-bar">
-				<div onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d1" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[0].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[0].ingredient.name + ".png"} alt="empty spot" />)
+								return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
 							} else {
 
 								return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
@@ -27,11 +27,11 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d1" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[1].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[1].ingredient.name + ".png"} alt="empty spot" />)
+								return (<img className="top-img" src="/images/actions/pan.png" alt="empty spot" />)
 							} else {
 
 								return (<img className="bottom-img" src="/images/actions/pan.png" alt="pan" />)
@@ -39,11 +39,11 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d1" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[2].ingredient != null) {
-								return (<img className="top-img" src={"/images/ingredients/" + this.props.inventory[2].ingredient.name + ".png"} alt="empty spot" />)
+								return (<img className="top-img" src="/images/actions/knife.png" alt="empty spot" />)
 							} else {
 
 								return (<img className="bottom-img" src="/images/actions/knife.png" alt="knife" />)
