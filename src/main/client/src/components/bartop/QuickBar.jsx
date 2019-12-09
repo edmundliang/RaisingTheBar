@@ -34,18 +34,18 @@ export default class QuickBar extends Component {
 	}
 	render() {
 		return (
-			<div id="quick-bar">
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+			<div class="quick-bar">
+				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(0)
 					}
 				</div>
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(1)
 					}
 				</div>
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(2)
 					}
