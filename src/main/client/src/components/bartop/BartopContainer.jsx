@@ -39,15 +39,15 @@ export default class SimulationContainer extends Component {
       dragged: null,
       submissionSlot: null,
       quickBar: [{
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       }],
       actionBar: [{
@@ -94,10 +94,10 @@ export default class SimulationContainer extends Component {
     if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
       if (this.state.dragged.category === "glasses") {
-        quickBar[index].ingredient = this.state.dragged;
+        quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      } else if (quickBar[index].ingredient != null && quickBar[index].ingredient.category === "glasses") {
+      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") {
         quickBar[index].actionStack.push(this.state.dragged);
         this.setState({ quickBar: quickBar, dragged: null });
       }
@@ -156,8 +156,7 @@ export default class SimulationContainer extends Component {
               <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
               <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
-              
-            
+                          
               <div id="alcoholPanel">
                 <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} container="liquor" scrolling="hori" onDragStartCallback={this.onDragStartCallback} />
               </div>
