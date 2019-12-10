@@ -15,7 +15,7 @@ export default class QuickBar extends Component {
 	render() {
 		return (
 			<div id="quick-bar">
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d4" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[0].ingredient != null) {
@@ -27,7 +27,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d5" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[1].ingredient != null) {
@@ -39,7 +39,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className = "d1" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "d6" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[2].ingredient != null) {
