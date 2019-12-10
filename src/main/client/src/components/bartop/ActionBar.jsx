@@ -47,7 +47,7 @@ export default class ActionBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className={"action-item" + (this.hilightSlot(1) ? " hilight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"action-item" + (this.hilightSlot(1) ? " hilight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[1])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[1].ingredient != null) {
@@ -59,7 +59,7 @@ export default class ActionBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className={"action-item" + (this.hilightSlot(2) ? " hilight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"action-item" + (this.hilightSlot(2) ? " hilight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[2])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[2].ingredient != null) {
