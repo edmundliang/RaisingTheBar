@@ -12,8 +12,16 @@
 
 #sidebar-left {
     width: 25%;
-    height: 100%;
-    overflow: scroll;
+}
+
+#sidebar-left #top {
+    width: 100%;
+    height: 50vh;
+}
+
+#sidebar-left #bottom {
+    width: 100%;
+    height: 50vh;
 }
 
 #sidebar-left.active {

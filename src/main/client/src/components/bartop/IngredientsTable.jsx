@@ -5,6 +5,7 @@ import './IngredientsTable.scss';
 export default class IngredientsTabs extends Component {
 	constructor(props) {
 		super(props);
+		this.isDraggable = this.isDraggable.bind(this);
 	}
 	onIngredientClick(item, event) {
 		if (item !== this.props.selected) {
@@ -12,9 +13,15 @@ export default class IngredientsTabs extends Component {
 			callback(item)
 		}
 	}
+	isDraggable() {
+		return this.props.onDragStartCallback != null;
+	}
 	handleDragStart(item, e) {
-		var callback = this.props.onDragStartCallback;
-		callback(item);
+		if(this.props.onDragStartCallback != null) {
+			var callback = this.props.onDragStartCallback;
+			callback(item);
+
+		}
 	}
 	render() {
 		var gloablThis = this;
@@ -43,7 +50,7 @@ export default class IngredientsTabs extends Component {
 											for (var x of elements) {
 												let boundFunctionCall = this.onIngredientClick.bind(this, x);
 												output.push(
-													<div draggable onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+													<div draggable = {this.isDraggable()} onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
 														<img draggable="false" src={"/images/" + (x["category"] == "glasses" ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
 														<p>{x["name"]}</p>
 													</div>
