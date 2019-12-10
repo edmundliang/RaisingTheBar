@@ -8,18 +8,19 @@ li {
     display: inline;
 }
 
-#quick-bar {
-    position: relative;
-    left: 0;
-    top: 0;
+.quick-bar {
+    width:50%;
+    display:flex;
     :hover {
         color: #ed1212;
     }
+    margin-bottom:3%;
     
 }
 
-#quick-bar img {
-    width: 33.3%;
+.quick-bar img {
+
+    width:100%;
     border-style: solid;
 }
 

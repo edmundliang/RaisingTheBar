@@ -8,17 +8,18 @@ li {
     display: inline;
 }
 
-#quick-bar {
-    position: relative;
-    left: 0;
-    top: 0;
+.action-bar {
+    width:50%;
+    display:flex;
+    float:right;
     :hover {
         color: #ed1212;
     }
+    margin-bottom:3%;
 }
 
-#quick-bar img {
-    width: 33.3%;
+.action-bar img {
+    width:100%;
     border-style: solid;
 }
 
@@ -29,7 +30,6 @@ li {
 
 .bottom-img {
     z-index: 3;
-   
 }
 
 
