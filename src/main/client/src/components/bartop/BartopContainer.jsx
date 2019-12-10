@@ -153,9 +153,9 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               
-              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
+              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} onDragStartCallback={this.onDragStartCallback} inventory={this.state.actionBar} />
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
-              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} onDragStartCallback={this.onDragStartCallback} inventory={this.state.quickBar} />
               
             
               <div id="alcoholPanel">
