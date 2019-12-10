@@ -91,11 +91,21 @@ export default class SimulationContainer extends Component {
   }
   onDragEndActionBarCallback(index) {
     var actionBar = this.state.actionBar
-    actionBar[index].ingredient = this.state.dragged;
     if (actionBar[index].actionStack == null) {
       actionBar[index].actionStack = [];
     }
-    actionBar[index].actionStack.push(this.state.dragged);
+    var element;
+    if (this.state.dragged.category == null ){ //means is an actionbar item or quickbar item
+        for (element of this.state.dragged.actionStack) {
+            actionBar[index].actionStack.push(element);
+        }
+    }
+    else {
+        actionBar[index].ingredient = this.state.dragged;
+        actionBar[index].actionStack.push(this.state.dragged);
+    }
+    
+    
     this.setState({ actionBar: actionBar, dragged: null });
   }
   onDragEndSubmissionSlotCallback(index) {
