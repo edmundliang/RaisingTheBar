@@ -117,12 +117,20 @@ export default class SimulationContainer extends Component {
   onDragEndQuickBarCallback(index) {
     if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
-      if (this.state.dragged.category === "glasses") {
+      if (this.state.dragged.category === "glasses") { //if glass reset action stack
         quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") {
+      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" &&
+              this.state.dragged.category != null ) {//if glass in there and if item being dragged is an ingredient
         quickBar[index].actionStack.push(this.state.dragged);
+        this.setState({ quickBar: quickBar, dragged: null });
+      }
+      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") { //for quickbar to quickbar and actionbar to quickbar
+          var element;
+          for (element of this.state.dragged.actionStack) {
+            quickBar[index].actionStack.push(element);
+        }
         this.setState({ quickBar: quickBar, dragged: null });
       }
     } else {
