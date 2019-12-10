@@ -12,14 +12,26 @@ export default class QuickBar extends Component {
 		callback(index);
 		event.preventDefault()
 	}
+        handleDragStart(item, e) {
+		var callback = this.props.onDragStartCallback;
+                var output = {
+                    data: item.actionStack,
+                    type: "action"
+                }
+                
+		callback(item);
+	}
 	render() {
+     
 		return (
-			<div class="action-bar">
-				<div class = "action-item" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+			<div className="action-bar">
+				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[0].ingredient != null) {
-								return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
+
+                                                                return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
+                                                                
 							} else {
 
 								return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
@@ -27,7 +39,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div class = "action-item" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[1].ingredient != null) {
@@ -39,7 +51,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div class = "action-item" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[2].ingredient != null) {
