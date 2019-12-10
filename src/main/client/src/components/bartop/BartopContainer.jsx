@@ -83,6 +83,10 @@ export default class SimulationContainer extends Component {
   onDragEndActionBarCallback(index) {
     var actionBar = this.state.actionBar
     actionBar[index].ingredient = this.state.dragged;
+    if (actionBar[index].actionStack == null) {
+        actionBar[index].actionStack = [];
+    }
+    actionBar[index].actionStack.push(this.state.dragged);
     this.setState({ actionBar: actionBar, dragged: null });
   }
   onDragEndSubmissionSlotCallback(index) {

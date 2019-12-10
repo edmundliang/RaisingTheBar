@@ -13,6 +13,10 @@ export default class QuickBar extends Component {
 		callback(index);
 		event.preventDefault()
 	}
+        handleDragStart(item, e) {
+		var callback = this.props.onDragStartCallback;
+		callback(item);
+	}
 	getImage(index) {
 		if (this.props.inventory[index].glass != null) {
 			return <div id="tooltip">
@@ -34,18 +38,18 @@ export default class QuickBar extends Component {
 	}
 	render() {
 		return (
-			<div class="quick-bar">
-				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+			<div className="quick-bar">
+				<div className="quickbar-item" onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(0)
 					}
 				</div>
-				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className="quickbar-item" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(1)
 					}
 				</div>
-				<div class="quickbar-item" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className="quickbar-item" onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.getImage(2)
 					}
