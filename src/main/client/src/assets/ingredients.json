@@ -1,49 +1,54 @@
 {
-    "processes": [
-        {
-            "test": "test"
-        }
-    ],
-    "ingredients": [
-        {
+    "processes": [{
+        "input": {
+            "name": "water"
+        },
+        "output": {
+            "name": "water",
+            "modifiers": ["heated"]
+        },
+        "action": "pan",
+        "time": 10
+    }],
+    "ingredients": [{
             "name": "SHOT",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "CHAMPAGNE",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "HIGHBALL",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "HURRICANE",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "MARGARITA",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "MARTINI",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "PINT",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "POCO GRANDE",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "ROCKS",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "name": "WINE",
-            "category":"glasses"
+            "category": "glasses"
         },
         {
             "id": "5ddb26c03d63a0c961d753df",

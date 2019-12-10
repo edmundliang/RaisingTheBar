@@ -14,9 +14,9 @@ export default class QuickBar extends Component {
 		event.preventDefault()
 	}
 	getImage(index) {
-		if (this.props.inventory[index].ingredient != null) {
+		if (this.props.inventory[index].glass != null) {
 			return <div id="tooltip">
-				<img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].ingredient.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].ingredient.name} />
+				<img className="top-img" draggable="false" src={"/images/" + (this.props.inventory[index].glass.category == "glasses" ? "glasses/" : "ingredients/") + this.props.inventory[index].glass.name + ".png"} alt={"Missing Image: " + this.props.inventory[index].glass.name} />
 				<span className="tooltiptext" >
 					{this.props.inventory[index].actionStack.map((item)=>{
 					return  (<p key={item.name}>{item.name}</p>);

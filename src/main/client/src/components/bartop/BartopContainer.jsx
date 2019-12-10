@@ -39,15 +39,15 @@ export default class SimulationContainer extends Component {
       dragged: null,
       submissionSlot: null,
       quickBar: [{
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       }],
       actionBar: [{
@@ -94,10 +94,10 @@ export default class SimulationContainer extends Component {
     if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
       if (this.state.dragged.category === "glasses") {
-        quickBar[index].ingredient = this.state.dragged;
+        quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      } else if (quickBar[index].ingredient != null && quickBar[index].ingredient.category === "glasses") {
+      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") {
         quickBar[index].actionStack.push(this.state.dragged);
         this.setState({ quickBar: quickBar, dragged: null });
       }
