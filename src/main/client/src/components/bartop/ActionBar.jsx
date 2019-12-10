@@ -2,36 +2,40 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import "./ActionBar.scss";
 
-export default class QuickBar extends Component {
+export default class ActionBar extends Component {
 	constructor(props) {
 		super(props);
+		this.onClick = this.onClick.bind(this);
 	}
-
+	onClick(index) {
+		var callback = this.props.onSelectedSlotChangeCallback;
+		callback("action", index, this.props.inventory[index]);
+	}
 	handleDrop(index, event) {
 		var callback = this.props.onDragEndActionBarCallback;
 		callback(index);
 		event.preventDefault()
 	}
-        handleDragStart(item, e) {
+	handleDragStart(item, e) {
 		var callback = this.props.onDragStartCallback;
-                var output = {
-                    data: item.actionStack,
-                    type: "action"
-                }
-                
+		var output = {
+			data: item.actionStack,
+			type: "action"
+		}
+
 		callback(item);
 	}
 	render() {
-     
+
 		return (
 			<div className="action-bar">
-				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className="action-item" onClick={this.onClick.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[0].ingredient != null) {
 
-                                                                return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
-                                                                
+								return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
+
 							} else {
 
 								return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
@@ -39,7 +43,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className="action-item" onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[1].ingredient != null) {
@@ -51,7 +55,7 @@ export default class QuickBar extends Component {
 						}).call()
 					}
 				</div>
-				<div className = "action-item" onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className="action-item" onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						(() => {
 							if (this.props.inventory[2].ingredient != null) {

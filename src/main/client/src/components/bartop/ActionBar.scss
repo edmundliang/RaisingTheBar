@@ -9,28 +9,24 @@ li {
 }
 
 .action-bar {
-    width:50%;
-    display:flex;
-    float:right;
-    :hover {
+    width: 50%;
+    display: flex;
+    float: right;
+     :hover {
         color: #ed1212;
     }
     margin-bottom:3%;
 }
 
 .action-bar img {
-    width:100%;
+    width: 100%;
     border-style: solid;
 }
 
 .top-img {
     z-index: 1;
-   
 }
 
 .bottom-img {
     z-index: 3;
 }
-
-
-

@@ -8,7 +8,7 @@ export default class IngredientsTabs extends Component {
 	}
 	onIngredientClick(item, event) {
 		if (item !== this.props.selected) {
-			var callback = this.props.onSelectedChangeCallback;
+			var callback = this.props.onSelectedIngredientChangeCallback;
 			callback(item)
 		}
 	}
