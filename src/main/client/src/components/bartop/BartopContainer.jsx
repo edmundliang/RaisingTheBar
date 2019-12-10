@@ -73,6 +73,7 @@ export default class SimulationContainer extends Component {
     this.onDragEndQuickBarCallback = this.onDragEndQuickBarCallback.bind(this);
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
+    this.renderActionBarItem = this.renderActionBarItem.bind(this);
     // var xhr = new XMLHttpRequest();
     // xhr.addEventListener("load", function (e) {
     //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
@@ -138,7 +139,7 @@ export default class SimulationContainer extends Component {
     }
     // console.log(this.state.quickBar)
   }
-  onDragEndSelectedIngredientCallback() {
+  onDragEndSelectedIngredientCallback(index) {
 
   }
   submitRecipeCallback(name) {
@@ -179,7 +180,7 @@ export default class SimulationContainer extends Component {
 
   renderGlass(glass, actionStack) {
     if (glass != null) {
-      return <div id = "tooltip">
+      return <div id="tooltip">
         <img className="top-img" draggable="false" src={"/images/glasses/" + glass.name + ".png"} alt={"Missing Image: " + glass.name} />
         <span className="tooltiptext" >
           {actionStack.map((item) => {
@@ -194,6 +195,35 @@ export default class SimulationContainer extends Component {
       </div>
     }
   }
+  renderActionBarItem(index) {
+
+    if (index == 0) {
+      if (this.state.actionBar[0].ingredient != null) {
+
+        return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
+
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
+      }
+    } else if (index == 1) {
+      if (this.state.actionBar[1].ingredient != null) {
+        return (<img className="top-img" src="/images/actions/pan.png" alt="empty spot" />)
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/pan.png" alt="pan" />)
+      }
+    }
+    else if (index == 2) {
+      if (this.state.actionBar[2].ingredient != null) {
+        return (<img className="top-img" src="/images/actions/knife.png" alt="empty spot" />)
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/knife.png" alt="knife" />)
+      }
+    }
+
+  }
   render() {
     return (
       <React.Fragment>
@@ -206,9 +236,9 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient renderGlass={this.renderGlass} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
+                <SelectedIngredient renderGlass={this.renderGlass}  renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
                 <div id="right">
-                  <ActionBar selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
+                  <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
                 </div>
               </div>
               <div id="bottom">

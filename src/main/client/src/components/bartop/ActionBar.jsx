@@ -35,40 +35,17 @@ export default class ActionBar extends Component {
 			<div className="action-bar">
 				<div className={"action-item" + (this.hilightSlot(0) ? " hilight" : "")} onClick={this.onClick.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
-						(() => {
-							if (this.props.inventory[0].ingredient != null) {
-
-								return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
-
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
-							}
-						}).call()
+						this.props.renderActionBarItem(0)
 					}
 				</div>
 				<div className={"action-item" + (this.hilightSlot(1) ? " hilight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
-					{
-						(() => {
-							if (this.props.inventory[1].ingredient != null) {
-								return (<img className="top-img" src="/images/actions/pan.png" alt="empty spot" />)
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/pan.png" alt="pan" />)
-							}
-						}).call()
+					{						
+						this.props.renderActionBarItem(1)
 					}
 				</div>
 				<div className={"action-item" + (this.hilightSlot(2) ? " hilight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
-					{
-						(() => {
-							if (this.props.inventory[2].ingredient != null) {
-								return (<img className="top-img" src="/images/actions/knife.png" alt="empty spot" />)
-							} else {
-
-								return (<img className="bottom-img" src="/images/actions/knife.png" alt="knife" />)
-							}
-						}).call()
+					{						
+						this.props.renderActionBarItem(2)
 					}
 				</div>
 			</div>

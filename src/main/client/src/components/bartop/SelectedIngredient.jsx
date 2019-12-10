@@ -10,9 +10,8 @@ export default class SelectedIngredient extends Component {
 		this.getSlotImage = this.getSlotImage.bind(this);
 	}
 	handleDrop(index, event) {
-		var callback = this.props.onDragEndQuickBarCallback;
-		callback(index);
-		event.preventDefault()
+		// this.props.onDragEndSelectedIngredientCallback();
+		// callback(index);
 	}
 	getIngredientImage() {
 		if (this.props.selected_ingredient != null) {
@@ -41,7 +40,8 @@ export default class SelectedIngredient extends Component {
 				var callback = this.props.renderGlass;
 				return callback(glass, actionBar);				
 			} else if (this.props.selected_bar.bar == "action") {
-
+				var slot = this.props.selected_bar.slot
+				return this.props.renderActionBarItem(slot)
 			}
 
 		} else {
