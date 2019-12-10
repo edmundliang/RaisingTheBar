@@ -34,17 +34,12 @@ export default class SelectedIngredient extends Component {
 	}
 	getSlotImage() {
 
-		if (this.props.selected_bar != null && this.props.selected_bar.bar != null) {
+		if (this.props.selected_bar != null) {
 			if (this.props.selected_bar.bar == "quick") {
-				var intredient = this.props.selected_bar.slot.data
-				return <div >
-					<img className="top-img" draggable="false" src={"/images/" + (intredient.category == "glasses" ? "glasses/" : "ingredients/") + intredient.name + ".png"} alt={"Missing Image: " + intredient.name} />
-					{/* <span className="tooltiptext" >
-					{this.props.inventory[index].actionStack.map((item) => {
-						return (<p key={item.name}>{item.name}</p>);
-					})}
-				</span> */}
-				</div>
+				var glass = this.props.selected_bar.data.glass;
+				var actionBar = this.props.selected_bar.data.actionStack;
+				var callback = this.props.renderGlass;
+				return callback(glass, actionBar);				
 			} else if (this.props.selected_bar.bar == "action") {
 
 			}
