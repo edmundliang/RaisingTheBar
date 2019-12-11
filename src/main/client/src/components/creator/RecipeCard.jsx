@@ -9,7 +9,6 @@ export default class RecipeCard extends Component {
 
   render() {
     let { recipeName, ingredients, add } = this.props.recipe;
-    console.log(recipeName);
     return (
       <div className="card text-center col" id="card">
         <div className="card-body text-dark" id="card-body">

@@ -10,79 +10,17 @@ export default class CreateSimulation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: [
-        {
-          recipeName: "Recipe title 1",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 2",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 3",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 4",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 5",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 6",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 7",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 8",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 9",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 10",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 11",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 12",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 13",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-        {
-          recipeName: "Recipe title 14",
-          ingredients: ["test ingredient1", "test ingredient1", "test ingredient1", "test ingredient1"],
-          add: "Add",
-        },
-      ]
-    }
+      recipes: []
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/recipe/list', true);
+    xhr.onload = function () {
+      // do something to response
+      console.log(JSON.parse(this.responseText));
+      this.setState({recipes: JSON.parse(this.responseText).recipes});
+    };
+    xhr.send();
   }
   /*getSimulations() {
       var data = new FormData();
@@ -95,16 +33,7 @@ export default class CreateSimulation extends Component {
           xhr.send(data);
   }*/
   render() {
-          var globalThis = this;
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', '/recipe/list', true);
-          xhr.onload = function () {
-            // do something to response
-            console.log(JSON.parse(this.responseText));
-            globalThis.setState({recipes: JSON.parse(this.responseText).recipes});
-          };
-     xhr.send();
-    let recipeCards = globalThis.state.recipes.map(recipe => {
+    let recipeCards = this.state.recipes.map(recipe => {
       return (
         <div className="col">
           <RecipeCard key={recipe.recipeName} recipe={recipe} />
