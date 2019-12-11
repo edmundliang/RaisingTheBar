@@ -12,8 +12,16 @@
 
 #sidebar-left {
     width: 25%;
-    height:100%;
-    overflow: scroll;
+}
+
+#sidebar-left #top {
+    width: 100%;
+    height: 50vh;
+}
+
+#sidebar-left #bottom {
+    width: 100%;
+    height: 50vh;
 }
 
 #sidebar-left.active {
@@ -22,7 +30,7 @@
 
 #sidebar-right {
     width: 25%;
-    height:100%;
+    height: 100%;
     float: right;
     margin-left: auto;
     margin-right: 0;
@@ -30,12 +38,19 @@
 
 #main {
     width: 50%;
-    height:100%;
-    bottom:0;
     margin-left: auto;
     margin-right: auto;
+}
 
- 
+#main #top {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#main #bottom {
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #name_field {
@@ -43,6 +58,5 @@
 }
 
 #alcoholPanel {
-    width:100%;
+    width: 100%;
 }
-

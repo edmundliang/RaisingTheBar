@@ -4,6 +4,7 @@ import NavigationBar from "../navbar/NavigationBar";
 import IngredientsTable from "./IngredientsTable";
 import Controls from "./Controls";
 import QuickBar from "./QuickBar";
+import SelectedIngredient from "./SelectedIngredient";
 import ActionBar from "./ActionBar";
 import RecipeRightPanel from "./RecipeRightPanel.jsx";
 import SimulationRightPanel from "./SimulationRightPanel.jsx";
@@ -25,47 +26,52 @@ export default class SimulationContainer extends Component {
         otherIngredients.push(x);
       } else if (x["category"] === "glasses") {
         glasses.push(x)
-      } else if (x["category"] === "liquors" || x["category"] === "wine") {
-        alcohol.push(x)
       } else {
         otherIngredients.push(x);
       }
     }
     this.state = {
-      selected: null,
+      selected_ingredient: null,
+      selected_slot: null,
       otherIngredients: otherIngredients,
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
       submissionSlot: null,
       quickBar: [{
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       },
       {
-        ingredient: null,
+        glass: null,
         actionStack: null
       }],
       actionBar: [{
-        ingredient: null
+        //Shaker
+        actionStack: null
       },
       {
-        ingredient: null
+        //Pan
+        actionStack: null
       },
       {
-        ingredient: null
+        //Knife
+        actionStack: null
       }]
 
     };
-    this.onSelectedChangeCallback = this.onSelectedChangeCallback.bind(this);
+    this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
+    this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
     this.onDragEndActionBarCallback = this.onDragEndActionBarCallback.bind(this);
     this.onDragEndQuickBarCallback = this.onDragEndQuickBarCallback.bind(this);
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
+    this.renderGlass = this.renderGlass.bind(this);
+    this.renderActionBarItem = this.renderActionBarItem.bind(this);
     // var xhr = new XMLHttpRequest();
     // xhr.addEventListener("load", function (e) {
     //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
@@ -74,16 +80,38 @@ export default class SimulationContainer extends Component {
     // xhr.open("GET", '/ingredients/list');
     // xhr.send();
   }
-  onSelectedChangeCallback(selectedIngredient) {
-    this.setState({ selected: selectedIngredient });
+  onSelectedIngredientChangeCallback(selectedIngredient) {
+    this.setState({ selected_ingredient: selectedIngredient });
+  }
+  onSelectedSlotChangeCallback(bar, slot, data) {
+    this.setState({ selected_slot: { bar: bar, slot: slot, data: data } });
   }
   onDragStartCallback(dragged) {
     this.setState({ dragged: dragged });
   }
   onDragEndActionBarCallback(index) {
     var actionBar = this.state.actionBar
-    actionBar[index].ingredient = this.state.dragged;
+    if (actionBar[index].actionStack == null) {
+      actionBar[index].actionStack = [];
+    }
+    var element;
+    if (this.state.dragged.category == null) { //means is an actionbar item or quickbar item
+      for (element of this.state.dragged.actionStack) {
+        actionBar[index].actionStack.push(element);
+      }
+    }
+    else {
+      actionBar[index].ingredient = this.state.dragged;
+      actionBar[index].actionStack.push(this.state.dragged);
+    }
+
+
     this.setState({ actionBar: actionBar, dragged: null });
+  }
+  onDragEndSelectedIngredientCallback(index) {
+    var submissionSlot = this.state.submissionSlot
+    submissionSlot[index].ingredient = this.state.dragged;
+    this.setState({ submissionSlot: submissionSlot, dragged: null });
   }
   onDragEndSubmissionSlotCallback(index) {
     var submissionSlot = this.state.submissionSlot
@@ -93,18 +121,29 @@ export default class SimulationContainer extends Component {
   onDragEndQuickBarCallback(index) {
     if (this.state.dragged != null) {
       var quickBar = this.state.quickBar;
-      if (this.state.dragged.category === "glasses") {
-        quickBar[index].ingredient = this.state.dragged;
+      if (this.state.dragged.category === "glasses") { //if glass reset action stack
+        quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      } else if (quickBar[index].ingredient != null && quickBar[index].ingredient.category === "glasses") {
+      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" &&
+        this.state.dragged.category != null) {//if glass in there and if item being dragged is an ingredient
         quickBar[index].actionStack.push(this.state.dragged);
+        this.setState({ quickBar: quickBar, dragged: null });
+      }
+      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") { //for quickbar to quickbar and actionbar to quickbar
+        var element;
+        for (element of this.state.dragged.actionStack) {
+          quickBar[index].actionStack.push(element);
+        }
         this.setState({ quickBar: quickBar, dragged: null });
       }
     } else {
       this.setState({ dragged: null });
     }
     // console.log(this.state.quickBar)
+  }
+  onDragEndSelectedIngredientCallback(index) {
+
   }
   submitRecipeCallback(name) {
 
@@ -141,6 +180,55 @@ export default class SimulationContainer extends Component {
     };
     xhr.send(data);
   }
+
+  renderGlass(glass, actionStack) {
+    if (glass != null) {
+      return <div id="tooltip">
+        <img className="top-img" draggable="false" src={"/images/glasses/" + glass.name + ".png"} alt={"Missing Image: " + glass.name} />
+        <span className="tooltiptext" >
+          {
+            actionStack.length == 0 ? "Empty" : actionStack.map((item) => {
+              return (<p key={item.name}>{item.name}</p>);
+            })
+          }
+        </span>
+      </div>
+    } else {
+      return <div id="tooltip">
+        <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
+        <span className="tooltiptext">There's nothing in this space!</span>
+      </div>
+    }
+  }
+  renderActionBarItem(index) {
+
+    if (index == 0) {
+      if (this.state.actionBar[0].ingredient != null) {
+
+        return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
+
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
+      }
+    } else if (index == 1) {
+      if (this.state.actionBar[1].ingredient != null) {
+        return (<img className="top-img" src="/images/actions/pan.png" alt="empty spot" />)
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/pan.png" alt="pan" />)
+      }
+    }
+    else if (index == 2) {
+      if (this.state.actionBar[2].ingredient != null) {
+        return (<img className="top-img" src="/images/actions/knife.png" alt="empty spot" />)
+      } else {
+
+        return (<img className="bottom-img" src="/images/actions/knife.png" alt="knife" />)
+      }
+    }
+
+  }
   render() {
     return (
       <React.Fragment>
@@ -148,19 +236,25 @@ export default class SimulationContainer extends Component {
         <div>
           <div id="wrapper" className="center">
             <div id="sidebar-left">
-              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
-              <IngredientsTable ingredients={this.state.glasses} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
+              <div id="top">
+                <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selected_ingredient} scrolling="vert" />
+              </div>
+
+              <div id="bottom">
+                <IngredientsTable ingredients={this.state.glasses} selected={this.state.selected_ingredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
+              </div>
             </div>
             <div id="main">
-              
-              <ActionBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
-              {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
-              <QuickBar selected={this.state.selected} parent={this} action_stack={this.state.action_stack} dragged={this.state.dragged} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
-              
-            
-              <div id="alcoholPanel">
-                <IngredientsTable ingredients={this.state.alcohol} onSelectedChangeCallback={this.onSelectedChangeCallback} selected={this.state.selected} container="liquor" scrolling="hori" onDragStartCallback={this.onDragStartCallback} />
+              <div id="top">
+                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndSelectedIngredientCallback} />
+                <div id="right">
+                  <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
+                </div>
               </div>
+              <div id="bottom">
+                <QuickBar renderGlass={this.renderGlass} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+              </div>
+              {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
             </div>
             <div id="sidebar-right">
               <Router>

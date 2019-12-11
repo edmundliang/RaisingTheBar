@@ -8,18 +8,17 @@
 
 .liquors-container {
     font-weight: bold;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .vert-table {
-    height: 270px;
-    overflow-y: auto;
+    height: 40vh;
+    overflow-y: scroll;
 }
 
 .hori-table {
     height: 150px;
-    overflow:auto;
-
+    overflow: auto;
 }
 
 .list_element {

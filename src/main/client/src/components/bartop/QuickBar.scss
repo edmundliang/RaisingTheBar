@@ -9,29 +9,29 @@ li {
 }
 
 .quick-bar {
-    width:50%;
-    display:flex;
-    :hover {
+    display: flex;
+     :hover {
         color: #ed1212;
     }
     margin-bottom:3%;
-    
 }
 
 .quick-bar img {
-
-    width:100%;
+    width: 100%;
     border-style: solid;
+}
+
+.quick-bar .hilight {
+    border-style: solid;
+    border-color: yellow;
 }
 
 .top-img {
     z-index: 1;
-   
 }
 
 .bottom-img {
     z-index: 3;
-   
 }
 
 #tooltip img {
@@ -40,27 +40,22 @@ li {
 }
 
 #tooltip {
-  position: relative;
-  
+    position: relative;
 }
 
 #tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 4;
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 4;
 }
 
 #tooltip:hover .tooltiptext {
-  visibility: visible;
-  
-  
+    visibility: visible;
 }
-
