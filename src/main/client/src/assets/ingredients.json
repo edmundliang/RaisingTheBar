@@ -12,43 +12,53 @@
     }],
     "ingredients": [{
             "name": "SHOT",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 1
         },
         {
             "name": "CHAMPAGNE",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 8 
         },
         {
             "name": "HIGHBALL",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 8
         },
         {
             "name": "HURRICANE",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 20
         },
         {
             "name": "MARGARITA",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 9
         },
         {
             "name": "MARTINI",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 9
         },
         {
             "name": "PINT",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 16
         },
         {
             "name": "POCO GRANDE",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 12
         },
         {
             "name": "ROCKS",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 9
         },
         {
             "name": "WINE",
-            "category": "glasses"
+            "category": "glasses",
+            "volume": 10
         },
         {
             "id": "5ddb26c03d63a0c961d753df",
