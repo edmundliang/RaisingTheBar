@@ -83,23 +83,26 @@ export default class SimulationContainer extends Component {
   onActionEndCallback(index) {
     if (index === 0) {
       let actionStack = this.state.actionBar[index].actionStack;
-      if (actionStack == null) {
-          actionStack=[];
+      if (actionStack[actionStack.length - 1] != "shake") {
+        actionStack.push("shake");
+        this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
       }
-      actionStack.push("shake");
-      this.setState({ actionBar: [{actionStack:actionStack}, this.state.actionBar[1], this.state.actionBar[2]] });
-  
     }
   }
   addSelectedIngredientToSelectedSlotCallback(amount) {
     // console.log(this.state.selected_slot)
     // console.log(this.state.selected_ingredient)
     if (this.state.selected_ingredient != null && this.state.selected_slot != null) {
-      if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null)||(this.state.selected_slot.bar === "action")) {
-
+      if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
         let data = this.state.selected_slot.data;
         let ingredient = Object.assign({}, this.state.selected_ingredient)
-        ingredient.amount = amount
+        console.log(ingredient)
+        if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+          ingredient.amount = amount +  data.actionStack[data.actionStack.length - 1].amount;
+          data.actionStack.pop();
+        } else {
+          ingredient.amount = amount;
+        }
         data.actionStack.push(ingredient);
         this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
       }
@@ -200,14 +203,14 @@ export default class SimulationContainer extends Component {
           }
           console.log(outputJson)
           var data = new FormData();
-           data.append('json', JSON.stringify(outputJson));
-           var xhr = new XMLHttpRequest();
-           xhr.open('POST', '/recipe/add', true);
-           xhr.onload = function () {
-             // do something to response
-             console.log(this.responseText);
-           };
-           xhr.send(data);
+          data.append('json', JSON.stringify(outputJson));
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/recipe/add', true);
+          xhr.onload = function () {
+            // do something to response
+            console.log(this.responseText);
+          };
+          xhr.send(data);
         } else {
 
           console.log("You must have something in the glass");
@@ -228,7 +231,11 @@ export default class SimulationContainer extends Component {
         <span className="tooltiptext" >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
-              return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+              if (item instanceof Object) {
+                return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+              } else {
+                return (<p key={item + index}>{item} {item.amount}</p>);
+              }
             })
           }
         </span>
@@ -259,7 +266,11 @@ export default class SimulationContainer extends Component {
     }
     return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
       this.state.actionBar[index].actionStack != null && this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
-        return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+        if (item instanceof Object) {
+          return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+        } else {
+          return (<p key={item + index}>{item} {item.amount}</p>);
+        }
       })
     }</span></div>)
 
