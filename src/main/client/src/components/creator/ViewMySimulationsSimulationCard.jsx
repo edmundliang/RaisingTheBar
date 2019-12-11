@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './SimulationCard.scss';
+import './ViewMySimulationsSimulationCard.scss';
 
-export default class SimulationCard extends Component {
+export default class ViewMySimulationsSimulationCard extends Component {
   constructor(props) {
     super(props);
   }

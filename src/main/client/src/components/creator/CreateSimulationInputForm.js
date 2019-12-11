@@ -15,6 +15,10 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(1),
       width: 200,
     },
+    '& Button': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
   },
 }));
 
@@ -63,6 +67,7 @@ export default function CreateSimulationInputForm() {
           className="create-button"
           type="submit"
           variant="contained"
+          color="primary"
           component="span"
         >
           Create

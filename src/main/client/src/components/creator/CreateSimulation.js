@@ -89,7 +89,7 @@ export default class CreateSimulation extends Component {
     let recipeCards = this.state.recipes.map(recipe => {
       return (
         <div className="col">
-          <RecipeCard key={recipe.title} recipe={recipe} />
+          <RecipeCard key={recipe.recipeName} recipe={recipe} />
         </div>
       )
     });

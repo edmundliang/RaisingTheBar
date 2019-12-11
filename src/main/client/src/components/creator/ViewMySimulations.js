@@ -1,6 +1,6 @@
 import {Component} from "react";
 import React from "react";
-import SimulationCard from "./SimulationCard";
+import ViewMySimulationsSimulationCard from "./ViewMySimulationsSimulationCard";
 
 export default class ViewMySimulations extends Component {
   constructor(props) {
@@ -120,7 +120,7 @@ export default class ViewMySimulations extends Component {
     let simulationCards = this.state.simulations.map(simulation => {
       return (
         <div className="col-md-3">
-          <SimulationCard key={simulation.title} simulation={simulation} />
+          <ViewMySimulationsSimulationCard key={simulation.title} simulation={simulation} />
         </div>
       )
     });
