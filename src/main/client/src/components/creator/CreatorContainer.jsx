@@ -13,21 +13,21 @@ export default class CreatorContainer extends Component {
     return (
       <div>
         <NavigationBar />
-        <Tabs defaultActiveKey="createSimulation" transition={false} id="tab-example">
+        <Tabs defaultActiveKey="createSimulation" transition={false} id="creator-tabs">
           <Tab eventKey="createSimulation" title="Create Simulation">
-            This tab is for creating simulations
+            <CreateSimulation/>
           </Tab>
           <Tab eventKey="editSimulation" title="Edit Simulation">
-            This tab is for editing simulations
+            <EditSimulation/>
           </Tab>
           <Tab eventKey="createRecipe" title="Create Recipe">
-            This tab is for creating recipes
+            <CreateRecipe/>
           </Tab>
           <Tab eventKey="editRecipe" title="Edit Recipe">
-            This tab is for editing recipes
+            <EditRecipe/>
           </Tab>
           <Tab eventKey="viewMySimulations" title="View My Simulations">
-            This tab is for listing user's simulations
+            <ViewMySimulations/>
           </Tab>
         </Tabs>
       </div>

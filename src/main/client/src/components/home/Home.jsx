@@ -9,10 +9,10 @@ export default class Home extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
-          <Jumbotron>
-            <h2>Welcome to Raising the Bar!</h2>
-            <p>This is the website for training a bartender.</p>
-          </Jumbotron>
+        <Jumbotron>
+          <h2>Welcome to Raising the Bar!</h2>
+          <p>This is the website for training a bartender.</p>
+        </Jumbotron>
       
       <div id="leftbox">
         <h3>Simulation</h3>
