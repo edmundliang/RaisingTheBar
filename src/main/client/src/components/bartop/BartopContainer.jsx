@@ -260,7 +260,7 @@ export default class SimulationContainer extends Component {
   renderGlass(glass, actionStack) {
     if (glass != null) {
       return <div id="tooltip">
-        <img className="top-img" draggable="false" src={"/images/glasses/" + glass.name + ".png"} alt={"Missing Image: " + glass.name} />
+        <img className="top-img" draggable="false" src={"/images/glasses/" + (glass.name).toLowerCase() + ".png"} alt={"Missing Image: " + glass.name} />
         <span className="tooltiptext" >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
