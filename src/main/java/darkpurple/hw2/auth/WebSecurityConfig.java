@@ -49,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/*", "/home", "/simulation/**", "/workshop", "/recipe/**","/ingredients/**", "/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
-                .antMatchers("/creator","/creator/**").hasAuthority("USER")
+                .antMatchers("/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
+                .antMatchers("/*", "/home", "/simulation/**", "/workshop", "/recipe/**", "/ingredients/**", "/creator", "/creator/**").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated().and().csrf().disable()
                 .formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)
@@ -76,7 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    public AuthenticationManager authenticationManagerBean() throws Exception {
 //        return super.authenticationManagerBean();
 //    }
-
     @Bean
     public UserDetailsService mongoUserDetails() {
         return new CustomUserDetailsService();

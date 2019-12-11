@@ -1,21 +1,24 @@
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    display: inline;
-}
-
+// ul {
+//     list-style-type: none;
+//     margin: 0;
+//     padding: 0;
+// }
+// li {
+//     display: inline;
+// }
 .action-bar {
-    width: 50%;
     display: flex;
-    float: right;
+    flex-direction: row;
+    margin-bottom: 3%;
+    margin-left: auto;
+    margin-right: auto;
      :hover {
-        color: #ed1212;
+        color: green;
     }
-    margin-bottom:3%;
+}
+
+.action-item {
+    width: 20%;
 }
 
 .action-bar img {
@@ -28,10 +31,28 @@ li {
     border-color: yellow;
 }
 
-.top-img {
-    z-index: 1;
+#tooltip img {
+    border-style: solid;
+    object-fit: fill;
 }
 
-.bottom-img {
-    z-index: 3;
+#tooltip {
+    position: relative;
+}
+
+#tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 4;
+}
+
+#tooltip:hover .tooltiptext {
+    visibility: visible;
 }

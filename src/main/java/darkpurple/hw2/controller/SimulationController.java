@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,13 +28,13 @@ public class SimulationController {
     
     
     @RequestMapping(value = "/simulation/get", method = RequestMethod.GET)
-    public Simulation getSimulation(@RequestBody String simulationId) {
+    public Simulation getSimulation(@RequestParam("id") String simulationId) {
         return simulationService.findSimulationById(simulationId);
         
     }
     
     @RequestMapping(value = "/simulation/complete", method = RequestMethod.GET)
-    public SimulationGrade submitSimulationGrade(@RequestBody String simulationId, int grade) {
+    public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade")int grade) {
         SimulationGrade simGrade = new SimulationGrade();
         simGrade.setDateCompleted(new Date());
         User user = userService.getLoggedUser();
@@ -49,10 +50,11 @@ public class SimulationController {
     
     
     @RequestMapping(value = "/simulation/add", method = RequestMethod.POST)
-    public Simulation createNewSimulation(@RequestBody String name, String creatorId, boolean test, String description, String duration, String[] recipes ) {
+    public Simulation createNewSimulation(@RequestParam("id") String name, @RequestParam("test")boolean test, @RequestParam("description")String description, @RequestParam("duration")String duration, @RequestParam("recipes")String[] recipes ) {
    
         Simulation simulation = new Simulation();
-        simulation.setCreator(creatorId);
+        User user = userService.getLoggedUser();
+        simulation.setCreator(user.getId());
         simulation.setName(name);
         simulation.setDate(new Date());
         simulation.setRecipes(recipes);

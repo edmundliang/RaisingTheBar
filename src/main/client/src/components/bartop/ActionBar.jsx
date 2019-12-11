@@ -43,19 +43,19 @@ export default class ActionBar extends Component {
 
 		return (
 			<div className="action-bar">
-				<div className={"action-item" + (this.hilightSlot(0) ? " hilight" : "")} onClick={this.onClick.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"action-item" + (this.hilightSlot(0) ? " highight" : "")} onClick={this.onClick.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
 					{
 						this.props.renderActionBarItem(0)
 					}
 				</div>
                                 <button onClick={this.onShakeClick.bind(this,0)}>Shake!</button> 
-				<div className={"action-item" + (this.hilightSlot(1) ? " hilight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"action-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{						
 						this.props.renderActionBarItem(1)
 					}
 				</div>
                                 <button onClick={this.onHeatClick.bind(this,0)}>Heat!</button> 
-				<div className={"action-item" + (this.hilightSlot(2) ? " hilight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"action-item" + (this.hilightSlot(2) ? " highight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
 					{						
 						this.props.renderActionBarItem(2)
 					}

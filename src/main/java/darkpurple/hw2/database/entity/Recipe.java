@@ -21,16 +21,11 @@ public class Recipe {
     
     private String name;
    
-    private String glass;
-   
     private Date date;
     
     private String creator;
     
-    private String ingredients;
-    
-    //private float[] volumes;
-    private String actionStack;
+    private String json;
     
     
 
@@ -66,33 +61,11 @@ public class Recipe {
         this.date = date;
     }
 
-    public String getIngredients() {
-        return ingredients;
+    public void setJson(String json) {
+        this.json = json;
     }
 
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
+    public String getJson() {
+        return json;
     }
-
-    public String getActionStack() {
-        return actionStack;
-    }
-
-    public void setActionStack(String actionStack) {
-        this.actionStack = actionStack;
-    }
-
-    public String getGlass() {
-        return glass;
-    }
-
-    public void setGlass(String glass) {
-        this.glass = glass;
-    }
-
-  
-    
-    
-    
-    
 }

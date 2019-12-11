@@ -31,35 +31,26 @@ public class RecipeController {
     private CustomUserDetailsService userService;
 
     @RequestMapping(value = "/recipe/get", method = RequestMethod.GET)
-    public Recipe getRecipe(@RequestBody String recipeId) {
-        return recipeService.findRecipeById(recipeId);
+    public String getRecipe(@RequestParam("id") String recipeId) {
+        return recipeService.findRecipeById(recipeId).getJson();
 
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("actionStack")String actionStack, @RequestParam("glass") String glass) {
+    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("json")String json) {
         Recipe recipe = new Recipe();
         User user = userService.getLoggedUser();
         recipe.setCreator(user.getId());
-        recipe.setGlass(glass);
-        recipe.setDate(new Date());
-  
-        
-        
-       /* float[] volumes2 = new float[volumesTemp.length]; code to coalesce an array
-        for (int i = 0; i< volumesTemp.length;i++) {
-            volumes2[i] = Float.parseFloat(volumesTemp[i]);
-        }
-*/
+        recipe.setJson(json);
         recipe.setName(name);
-        recipe.setActionStack(actionStack);
+        recipe.setDate(new Date());
         recipeService.saveRecipe(recipe);
 
         return recipe;
     }
 
     @RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
-    public void deleteRecipe(@RequestBody String recipeId) {
+    public void deleteRecipe(@RequestParam("id") String recipeId) {
         recipeService.deleteRecipe(recipeId);
     }
 

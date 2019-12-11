@@ -18,7 +18,7 @@ class App extends Component {
               <Route path="/signup" component={AuthContainer} />
               <Route path="/forgot-password" component={AuthContainer} />
               <Route path="/reset-password" component={AuthContainer} />
-              <Route path="/bartop" component={BartopContainer} />
+              <Route path="/bartop/:var1/:var2?/:var3?" component={BartopContainer} />
               <Route path="/creator" component={CreatorContainer} />
               <Route path="/workshop" component={Workshop} />
               <Route component={NoMatch} />
