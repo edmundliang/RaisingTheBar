@@ -33,7 +33,7 @@ export default class SimulationContainer extends Component {
     this.state = {
       selected_ingredient: null,
       selected_slot: null,
-      selected_amount: null,
+      selected_amount: 0,
       beingPoured: false,
       otherIngredients: otherIngredients,
       glasses: glasses,
@@ -224,7 +224,7 @@ export default class SimulationContainer extends Component {
         <span className="tooltiptext" >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
-              return (<p key={item.name + index}>{item.name}</p>);
+              return (<p key={item.name + index}>{item.name} {item.amount}</p>);
             })
           }
         </span>
@@ -235,6 +235,11 @@ export default class SimulationContainer extends Component {
         <span className="tooltiptext">There's nothing in this space!</span>
       </div>
     }
+  }
+  returnStats() {
+     if (this.state.selected_ingredient != null) {
+         return <p> {this.state.selected_ingredient.name}, {this.state.selected_amount}</p>
+     }
   }
   renderActionBarItem(index) {
 
@@ -282,6 +287,8 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
+              
+              {this.returnStats()}
                 <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}  />
                 <div id="right">
                   <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
