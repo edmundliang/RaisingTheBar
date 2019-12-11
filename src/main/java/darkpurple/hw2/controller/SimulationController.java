@@ -50,7 +50,7 @@ public class SimulationController {
     
     
     @RequestMapping(value = "/simulation/add", method = RequestMethod.POST)
-    public Simulation createNewSimulation(@RequestParam("id") String name, @RequestParam("test")boolean test, @RequestParam("description")String description, @RequestParam("duration")String duration, @RequestParam("recipes")String[] recipes ) {
+    public Simulation createNewSimulation(@RequestParam("id") String name, @RequestParam("test")boolean test, @RequestParam("description")String description, @RequestParam("duration")String duration, @RequestParam("recipesIds")String[] recipes ) {
    
         Simulation simulation = new Simulation();
         User user = userService.getLoggedUser();

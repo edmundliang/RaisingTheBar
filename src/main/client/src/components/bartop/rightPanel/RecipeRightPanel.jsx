@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Tabs, Tab, Button } from 'react-bootstrap';
 
 export default class RecipeRightPanel extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			name: ""
+			name: props.recipeName
 		};
 		this.submit = this.submit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -40,7 +40,7 @@ export default class RecipeRightPanel extends Component {
 			}
 			return "The glass must not be empty"
 		}
-		return "You must select a drink to submit as this recipe"
+		return "You must select a slot to submit as this recipe"
 	}
 	render() {
 		return (
@@ -48,22 +48,18 @@ export default class RecipeRightPanel extends Component {
 			<Tabs defaultActiveKey={"Submit"}>
 				<Tab key={"Submit"} eventKey={"Submit"} title={"Submit"}>
 
-					<div>
-						<div>"Your Recipe Will Be"</div>
-						{this.hadValidGlass() ? this.props.globalState.selected_slot.data.actionStack.map((item) => { return item.name }) : "None"}
-					</div>
-					{this.constructMessage()}
-					<form>
-						{/* Enter A Name For This Recipe:    <input type="text" name="name" /> */}
-						<div className="FormField">
+
+					<div className="FormField">
+						{this.constructMessage()}
+							{/* Enter A Name For This Recipe:    <input type="text" name="name" /> */}
 							<input type="text" id="name_field" className="FormField__Input" placeholder="Enter The Recipe Name" name="name_field" value={this.state.name} onChange={this.handleChange} />
+
+							<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
+						<div>
+							<div>Cup Contents</div>
+							{this.hadValidGlass() ? this.props.globalState.selected_slot.data.actionStack.map((item) => { return <p>{item.name + " " + item.amount + " Oz"}</p> }) : "None"}
 						</div>
-						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
-					</form>
-				</Tab>
-				<Tab key={"Data"} eventKey={"data"} title={"Data"}>
-
-
+					</div>
 				</Tab>
 			</Tabs>
 
