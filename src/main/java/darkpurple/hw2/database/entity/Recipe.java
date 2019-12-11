@@ -30,7 +30,7 @@ public class Recipe {
     private String ingredients;
     
     //private float[] volumes;
-    private String jsonBody;
+    private String actionStack;
     
     
 
@@ -74,12 +74,12 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public String getJsonBody() {
-        return jsonBody;
+    public String getActionStack() {
+        return actionStack;
     }
 
-    public void setJsonBody(String jsonBody) {
-        this.jsonBody = jsonBody;
+    public void setActionStack(String actionStack) {
+        this.actionStack = actionStack;
     }
 
     public String getGlass() {

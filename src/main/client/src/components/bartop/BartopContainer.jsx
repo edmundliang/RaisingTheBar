@@ -177,7 +177,14 @@ export default class SimulationContainer extends Component {
     if (this.state.selected_slot != null && this.state.selected_slot.bar == "quick") {
 
       if (this.state.selected_slot.data.glass != null) {
-        if (this.state.selected_slot.data.actionStack.length > 1) {
+          
+         console.log("selected slot data glass not null")
+         console.log(this.state.selected_slot.data.actionStack.length)
+         console.log(this.state.selected_slot.data.actionStack)
+         console.log(this.state.selected_slot.data)
+        if (this.state.selected_slot.data.actionStack.length >= 1) {
+            console.log("selected slot action stack greather than 1 or equal");
+        
           //Name is the name of the recipe that the user wants to submit
           //Where you should add your
           let prunedActionStack = []
@@ -204,7 +211,9 @@ export default class SimulationContainer extends Component {
           console.log(outputJson)
           var data = new FormData();
           data.append('name', name);
-          data.append('json', JSON.stringify(outputJson));
+          data.append('actionStack', JSON.stringify(outputJson.actionStack));
+          data.append('glass', outputJson.glass.name);
+          console.log(data)
           var xhr = new XMLHttpRequest();
           xhr.open('POST', '/recipe/add', true);
           xhr.onload = function () {

@@ -52,7 +52,7 @@ public class RecipeController {
         }
 */
         recipe.setName(name);
-        recipe.setJsonBody(actionStack);
+        recipe.setActionStack(actionStack);
         recipeService.saveRecipe(recipe);
 
         return recipe;
