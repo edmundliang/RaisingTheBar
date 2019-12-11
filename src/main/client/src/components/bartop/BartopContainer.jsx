@@ -38,6 +38,7 @@ export default class SimulationContainer extends Component {
       alcohol: alcohol,
       dragged: null,
       recipeQueue: [],
+      completedRecipes: [],
       recipeName: "",
       quickBar: [{
         glass: null,
@@ -294,7 +295,7 @@ export default class SimulationContainer extends Component {
             console.log(this.responseText);
           };
           xhr.send(data);
-          this.setState({recipeName : name});
+          this.setState({ recipeName: name });
         } else {
 
           console.log("You must have something in the glass");
@@ -383,8 +384,8 @@ export default class SimulationContainer extends Component {
             <div id="sidebar-right">
               <Router>
                 <Switch>
-                  <Route path="*/recipe" render={() => <RecipeRightPanel recipeName = {this.recipeName} onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel recipeQueue={this.state.recipeQueue} onSubmitCallback={this.submitGlassCallback} />} />
+                  <Route path="*/recipe" render={() => <RecipeRightPanel recipeName={this.recipeName} onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel completedRecipes={this.state.completedRecipes} recipeQueue={this.state.recipeQueue} onSubmitCallback={this.submitGlassCallback} />} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>

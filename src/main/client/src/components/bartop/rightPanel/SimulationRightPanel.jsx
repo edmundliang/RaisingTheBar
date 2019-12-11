@@ -21,8 +21,12 @@ export default class SimulationRightPanel extends Component {
 	render() {
 		return (
 
-			<Tabs defaultActiveKey={"Data"}>
-				<Tab key={"Data"} eventKey={"Data"} title={"Data"}>
+			<Tabs defaultActiveKey={"Tasks"}>
+				<Tab key={"Tasks"} eventKey={"Tasks"} title={"Tasks"}>
+					<div>
+						<div>Required Recipies</div>
+						{this.props.recipeName.map((recipe) => { return <p>{recipe.name}</p> })}
+					</div>
 					<div>
 						<form>
 							{/* Enter A Name For This Recipe:    <input type="text" name="name" /> */}
