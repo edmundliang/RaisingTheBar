@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 
 export default class SignUpForm extends Component {
   constructor() {
@@ -9,11 +10,14 @@ export default class SignUpForm extends Component {
       email: '',
       password: '',
       name: '',
-      hasAgreed: false
+      hasAgreed: false,
+      attempted: false,
+      sucessful: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formResults = this.formResults.bind(this);
   }
 
   handleChange(e) {
@@ -21,38 +25,41 @@ export default class SignUpForm extends Component {
     let value = target.type === 'checkbox' ? target.checked : target.value;
     let name = target.name;
 
-    this.setState({
-      [name]: value
-    });
+    this.setState({ [name]: value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     var xhr = new XMLHttpRequest();
     var formData = new FormData();
-    formData.append("email", this.state["email"]);
-    formData.append("password", this.state["password"]);
+    formData.append("email", this.state.email);
+    formData.append("password", this.state.password);
     xhr.addEventListener("load", this.formResults);
     xhr.open("POST", '/signup');
     xhr.send(formData);
+    console.log("Attempting Signup")
   }
 
   formResults(e) {
-    if (e.target.status === 202) {
-        console.log("Login Succeded")
-        //login was sucessful
+    if (e.target.status == 201 || e.target.status === 202) {
+      setTimeout(function(){this.props.redirectCallback("/")}.bind(this), 1500)
+      
+      this.setState({ attempted: true, sucessful: true })
+      console.log("Signup Succeded")
+      //login was sucessful
     } else if (e.target.status === 401) {
-        //The credentials werent recognized by the server
-        console.log("Login Failed")
+      this.setState({ attempted: true, sucessful: false })
+      // this.setState({ redirect: true, sucessful:false })
+      //The credentials werent recognized by the server
+      console.log("Signup Failed")
     } else {
-        //Sometthing strange went wrong
+      //Sometthing strange went wrong
     }
   }
 
   render() {
     return (
       <div className="FormCenter">
-
         <div className="FormTitle">
           <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
         </div>
@@ -65,7 +72,12 @@ export default class SignUpForm extends Component {
             <label className="FormField__Label" htmlFor="password">Password</label>
             <input type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} />
           </div>
-
+          <div className={this.state.attempted && !this.state.sucessful ? "show" : "hidden"}>
+            This username already exists.
+            </div>
+          <div className={this.state.attempted && this.state.sucessful ? "show" : "hidden"}>
+            Your account has been created redirecting...
+            </div>
           {/* <div className="FormField">
                 <label className="FormField__CheckboxLabel">
                     <input className="FormField__Checkbox" type="checkbox" name="hasAgreed" value={this.state.hasAgreed} onChange={this.handleChange} /> I agree all statements in <a href="" className="FormField__TermsLink">terms of service</a>

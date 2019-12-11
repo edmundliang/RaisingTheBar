@@ -8,6 +8,17 @@ import ResetPassword from './ResetPassword';
 import './AuthContainer.scss';
 
 export default class AuthContainer extends Component {
+  constructor() {
+    super();
+    this.redirectCallback = this.redirectCallback.bind(this);
+  }
+  redirectCallback(url) {
+    if(url == null) {
+      this.props.history.goBack();
+    }else {
+      this.props.history.push(url);
+    }
+  }
   render() {
     return (
       <Router>
@@ -19,9 +30,9 @@ export default class AuthContainer extends Component {
               <NavLink exact to="/signup" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
             </div>
 
-            <div className="center">             
-              <Route exact path="/signup" component={SignUpForm}></Route>
-              <Route exact path="/login" component={LoginForm}></Route>
+            <div className="center">
+              <Route exact path="/signup" render={()=><SignUpForm redirectCallback={this.redirectCallback} />}></Route>
+              <Route exact path="/login" render={()=><LoginForm redirectCallback={this.redirectCallback} />}></Route>
               <Route exact path="/forgot-password" component={ForgotPassword}></Route>
               <Route exact path="/reset-password" component={ResetPassword}></Route>
             </div>

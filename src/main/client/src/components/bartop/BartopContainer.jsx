@@ -98,10 +98,10 @@ export default class SimulationContainer extends Component {
         let ingredient = Object.assign({}, this.state.selected_ingredient)
         console.log(ingredient)
         if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-          ingredient.amount = amount +  data.actionStack[data.actionStack.length - 1].amount;
+          ingredient.amount = (0.025* amount) +  data.actionStack[data.actionStack.length - 1].amount;
           data.actionStack.pop();
         } else {
-          ingredient.amount = amount;
+          ingredient.amount = 0.025* amount;
         }
         data.actionStack.push(ingredient);
         this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
