@@ -89,7 +89,7 @@ export default class SimulationContainer extends Component {
     // xhr.send();
   }
   onSelectedIngredientChangeCallback(selectedIngredient) {
-    this.setState({ selected_ingredient: selectedIngredient });
+        this.setState({ selected_ingredient: selectedIngredient });
   }
   onSelectedSlotChangeCallback(bar, slot, data) {
     this.setState({ selected_slot: { bar: bar, slot: slot, data: data } });
@@ -168,6 +168,8 @@ export default class SimulationContainer extends Component {
          this.state.selected_ingredient.amount = this.state.selected_amount;
          this.state.selected_slot.data.actionStack.push(Object.assign({},this.state.selected_ingredient));
      }
+     this.setState({selected_amount: 0});
+     
    }
   pour() {
       this.setState({selected_amount: this.state.selected_amount + .25 });
