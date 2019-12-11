@@ -87,16 +87,7 @@ export default class SimulationContainer extends Component {
           actionStack=[];
       }
       actionStack.push("shake");
-      let actionBar = [];
-      for (var i = 0; i < 3; i++) {
-
-        if (i != index) {
-          actionBar.push(this.state.actionBar[index]);
-        } else {
-          actionBar.push(actionStack);
-        }
-      }
-      this.setState({ actionBar: actionBar });
+      this.setState({ actionBar: [{actionStack:actionStack}, this.state.actionBar[1], this.state.actionBar[2]] });
   
     }
   }
@@ -266,9 +257,8 @@ export default class SimulationContainer extends Component {
     else if (index == 2) {
       image = "/images/actions/knife.png";
     }
-
     return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
-      this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
+      this.state.actionBar[index].actionStack != null && this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
         return (<p key={item.name + index}>{item.name} {item.amount}</p>);
       })
     }</span></div>)
