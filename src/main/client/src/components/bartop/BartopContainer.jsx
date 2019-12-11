@@ -6,8 +6,8 @@ import Controls from "./Controls";
 import QuickBar from "./QuickBar";
 import SelectedIngredient from "./SelectedIngredient";
 import ActionBar from "./ActionBar";
-import RecipeRightPanel from "./RecipeRightPanel.jsx";
-import SimulationRightPanel from "./SimulationRightPanel.jsx";
+import RecipeRightPanel from "./rightPanel/RecipeRightPanel.jsx";
+import SimulationRightPanel from "./rightPanel/SimulationRightPanel.jsx";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NoMatch from '../NoMatch';
 
