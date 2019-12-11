@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Button } from 'react-bootstrap';
 import NavigationBar from "./../navbar/NavigationBar";
+import bgimage from "../../assets/background.jpg";
 import './Home.scss';
 
 export default class Home extends Component {
@@ -9,9 +10,9 @@ export default class Home extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
-          <Jumbotron>
-            <h2>Welcome to Raising the Bar!</h2>
-            <p>This is the website for training a bartender.</p>
+          <Jumbotron style={{ backgroundImage: `url(${bgimage})` }}>
+            <h1 class ="center">RAISING THE BAR</h1>
+            <h4 class = "center">A REALISTIC BARTENDING SIMULATOR GAME</h4>
           </Jumbotron>
       
       <div id="leftbox">
