@@ -27,9 +27,10 @@ public class Recipe {
     
     private String creator;
     
-    private String[] ingredients;
+    private String ingredients;
     
-    private float[] volumes;
+    //private float[] volumes;
+    private String jsonBody;
     
     
 
@@ -48,14 +49,6 @@ public class Recipe {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getGlass() {
-        return glass;
-    }
-
-    public void setGlass(String glass) {
-        this.glass = glass;
-    }
     
     public String getCreator() {
         return creator;
@@ -73,21 +66,31 @@ public class Recipe {
         this.date = date;
     }
 
-    public String[] getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String[] ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public float[] getVolumes() {
-        return volumes;
+    public String getJsonBody() {
+        return jsonBody;
     }
 
-    public void setVolumes(float[] volumes) {
-        this.volumes = volumes;
+    public void setJsonBody(String jsonBody) {
+        this.jsonBody = jsonBody;
     }
+
+    public String getGlass() {
+        return glass;
+    }
+
+    public void setGlass(String glass) {
+        this.glass = glass;
+    }
+
+  
     
     
     

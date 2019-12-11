@@ -60,521 +60,626 @@
             "category": "glasses",
             "volume": 10
         },
-        {
-            "id": "5ddb26c03d63a0c961d753df",
+        {   
+            "id":"5ddb26c03d63a0c961d753df",
             "name": "151 RUM",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb273c3d63a0c961d753e0",
             "name": "BRANDY",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb27583d63a0c961d753e1",
             "name": "BOURBON",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb276f3d63a0c961d753e2",
             "name": "CANADIAN WHISKEY",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb27863d63a0c961d753e3",
             "name": "CACHACA",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb279c3d63a0c961d753e4",
             "name": "COGNAC",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb27ab3d63a0c961d753e5",
             "name": "DARK RUM",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb27dc3d63a0c961d753e7",
             "name": "DRY VERMOUTH",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb27ea3d63a0c961d753e8",
             "name": "GIN",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb280f3d63a0c961d753e9",
             "name": "IRISH WHISKEY",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28243d63a0c961d753ea",
             "name": "ORANGE COGNAC",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28373d63a0c961d753eb",
             "name": "RUM",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb283e3d63a0c961d753ec",
             "name": "SCOTCH",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28473d63a0c961d753ed",
             "name": "SINGLE MALT SCOTCH",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28503d63a0c961d753ee",
             "name": "SOUTHERN COMFORT",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb285b3d63a0c961d753ef",
             "name": "SPICED RUM",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28613d63a0c961d753f0",
             "name": "SWEET VERMOUTH",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb286a3d63a0c961d753f1",
             "name": "TEQUILA",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28713d63a0c961d753f2",
             "name": "TRIPLE SEC",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28803d63a0c961d753f3",
             "name": "VODKA",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28853d63a0c961d753f4",
             "name": "VODKA CITRON",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb288d3d63a0c961d753f5",
             "name": "VODKA ORANGE",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28953d63a0c961d753f6",
             "name": "VODKA PEAR",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb289e3d63a0c961d753f7",
             "name": "VODKA VANILLA",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb28aa3d63a0c961d753f8",
             "name": "YUKON JACK",
-            "category": "liquors"
+            "category": "liquors",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29253d63a0c961d753f9",
             "name": "RED WINE",
-            "category": "wine"
+            "category": "wine",
+            "scale": "ounces"
         },
         {
             "id": "5ddb292c3d63a0c961d753fa",
             "name": "WHITE WINE",
-            "category": "wine"
+            "category": "wine",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29323d63a0c961d753fb",
             "name": "CHAMPAGNE",
-            "category": "wine"
+            "category": "wine",
+            "scale": "ounces"
         },
         {
             "id": "5ddb295b3d63a0c961d753fc",
             "name": "SWEET & SOUR",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29683d63a0c961d753fd",
             "name": "FRESH LIME JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29723d63a0c961d753fe",
             "name": "ORANGE JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29783d63a0c961d753ff",
             "name": "LEMON JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb297f3d63a0c961d75400",
             "name": "GRAPEFRUIT JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29873d63a0c961d75401",
             "name": "CRANBERRY JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29903d63a0c961d75402",
             "name": "PINEAPPLE JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29963d63a0c961d75403",
             "name": "TOMATO JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb299d3d63a0c961d75404",
             "name": "POMEGRANATE JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29a53d63a0c961d75405",
             "name": "APPLE JUICE",
-            "category": "juices"
+            "category": "juices",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29dc3d63a0c961d75406",
             "name": "MILK",
-            "category": "dairy"
+            "category": "dairy",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29e13d63a0c961d75407",
             "name": "CREAM",
-            "category": "dairy"
+            "category": "dairy",
+            "scale": "ounces"
         },
         {
             "id": "5ddb29e63d63a0c961d75408",
             "name": "ICE CREAM",
-            "category": "dairy"
+            "category": "dairy",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a053d63a0c961d75409",
             "name": "BITTERS",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a0e3d63a0c961d7540a",
             "name": "GINGER SYRUP",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a153d63a0c961d7540b",
             "name": "PINA COLADA MIX",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a1c3d63a0c961d7540c",
             "name": "RASPBERRY PUREE",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a383d63a0c961d7540d",
             "name": "TABASCO",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a483d63a0c961d7540e",
             "name": "BLOODY MARY MIX",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a4f3d63a0c961d7540f",
             "name": "ORGEAT ALMOND SYRUP",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a5f3d63a0c961d75410",
             "name": "RED BULL",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a663d63a0c961d75411",
             "name": "CREAM OF COCONUT",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a6c3d63a0c961d75412",
             "name": "HOT TEA",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a723d63a0c961d75413",
             "name": "COFFEE",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a783d63a0c961d75414",
             "name": "HOT WATER",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2a803d63a0c961d75415",
             "name": "GINGER BEER",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5ddb2acb3d63a0c961d75416",
             "name": "ORANGE",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2ad13d63a0c961d75417",
             "name": "BANANAS",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2ad93d63a0c961d75418",
             "name": "MINT",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2ae03d63a0c961d75419",
             "name": "BERRIES",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2ae73d63a0c961d7541a",
             "name": "STRAWBERRY",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2aee3d63a0c961d7541b",
             "name": "PEACHES",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2af33d63a0c961d7541c",
             "name": "PINEAPPLE",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b613d63a0c961d7541e",
             "name": "CHOCOLATE SYRUP",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b6a3d63a0c961d7541f",
             "name": "ICE CREAM",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b723d63a0c961d75420",
             "name": "RASPBERRY PUREE",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b803d63a0c961d75421",
             "name": "EGG",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b833d63a0c961d75422",
             "name": "SUGAR",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb2b8a3d63a0c961d75423",
             "name": "CARDAMOM",
-            "category": "pantry"
+            "category": "pantry",
+            "scale": "count"
         },
         {
             "id": "5ddb309e3d63a0c961d75424",
             "name": "SUGAR RIM",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30a33d63a0c961d75425",
             "name": "SALT RIM",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30a83d63a0c961d75426",
             "name": "LONG STRAW",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30ae3d63a0c961d75427",
             "name": "SIP STICK",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30b43d63a0c961d75428",
             "name": "MINT",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30b83d63a0c961d75429",
             "name": "LEMON WEDGE",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30be3d63a0c961d7542a",
             "name": "LEMON TWIST",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30c33d63a0c961d7542b",
             "name": "LEMON WHEEL",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30c93d63a0c961d7542c",
             "name": "LIME WEDGE",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30d33d63a0c961d7542d",
             "name": "LIME TWIST",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30d83d63a0c961d7542e",
             "name": "LIME WHEEL",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30df3d63a0c961d7542f",
             "name": "ORANGE WEDGE",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30e43d63a0c961d75430",
             "name": "ORANGE TWIST",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30e93d63a0c961d75431",
             "name": "ORANGE WHEEL",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30ef3d63a0c961d75432",
             "name": "PINEAPPLE WEDGE",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30f43d63a0c961d75433",
             "name": "CHERRY",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30f93d63a0c961d75434",
             "name": "OLIVE",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb30fe3d63a0c961d75435",
             "name": "COCKTAIL ONION",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb31043d63a0c961d75436",
             "name": "CELERY STICK",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb31093d63a0c961d75437",
             "name": "NUTMEG",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb31113d63a0c961d75438",
             "name": "BLACK PEPPER",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb31193d63a0c961d75439",
             "name": "WHIPPED CREAM",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb311f3d63a0c961d7543a",
             "name": "SWORD",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5ddb31243d63a0c961d7543b",
             "name": "UMBRELLA",
-            "category": "garnish"
+            "category": "garnish",
+            "scale": "count"
         },
         {
             "id": "5de6d0b343f3e2def616e0d5",
             "name": "LIME JUICE CORDIAL",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5de6d0cb43f3e2def616e0d6",
             "name": "GRENADINE",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5de6d0d543f3e2def616e0d7",
             "name": "SIMPLE SYRUP",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "id": "5de6d0df43f3e2def616e0d8",
             "name": "HONEY SYRUP",
-            "category": "mixers"
+            "category": "mixers",
+            "scale": "ounces"
         },
         {
             "name": "TONIC WATER",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "LEMON LIME",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "GINGER ALE",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "COKE",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "DIET COKE",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "SODA WATER",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "ORANGE SODA",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "PEPSI",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         },
         {
             "name": "SOUR MIX",
-            "category":"soda"
+            "category":"soda",
+            "scale": "ounces"
         }, 
         {
             "id": "5ddc1c6d17ac88d15e9e3ce8",
             "name": "ICE CUBES",
-            "category": "ice"
+            "category": "ice",
+            "scale": "count"
         }
     ]
 }
