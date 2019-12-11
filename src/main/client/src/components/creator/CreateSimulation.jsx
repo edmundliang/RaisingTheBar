@@ -36,35 +36,37 @@ export default class CreateSimulation extends Component {
             return (<div className="col" ><RecipeCard key={recipe.recipeName} recipe={recipe} /> </div>)
         });
 
-        return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" ><Row className="custom-row" ><Col xs={12}md={8} ><Jumbotron fluid className="jumbo p-0" ><div className="left-container" >
-                    <            Col className="mt-2" >                        <            div className="row p-1" > {recipeCards} <            /div> < /            Col > <            /div> < /
-            Jumbotron > <            /Col><Col xs={6}                                md={4} >
-                                <
-            Jumbotron fluid className="jumbo p-0" >
-                                    <
-            div className="right-container" >
-                                        <
-            Row >
-                                            <
-            Col >
-                                                <
-                                                    CreateSimulationRecipeTable />
-                                                <
-            /Col> < /
-            Row > <
-            Row >
-                                                    <
-            Col >
-                                                        <
-                                                            CreateSimulationInputForm />
-                                                        <
-            /Col> < /
-            Row > <
-            /div> < /
-            Jumbotron > <
-            /Col> < /
-            Row > <
-            /div>
-                                                    );
-                                                }
+        return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >
+            <Row className="custom-row" >
+                <Col xs={12} md={8} >
+                    <Jumbotron fluid className="jumbo p-0" >
+                        <div className="left-container" >
+                            <Col className="mt-2" >
+                                <div className="row p-1" >
+                                    {recipeCards}
+                                </div>
+                            </Col >
+                        </div>
+                    </Jumbotron >
+                </Col>
+                <Col xs={6} md={4} >
+                    <Jumbotron fluid className="jumbo p-0" >
+                        <div className="right-container" >
+                            <Row>
+                                <Col>
+                                    <CreateSimulationRecipeTable />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <CreateSimulationInputForm />
+                                </Col>
+                            </Row >
+                        </div>
+                    </Jumbotron >
+                </Col>
+            </Row >
+        </div>
+        );
+    }
 }
