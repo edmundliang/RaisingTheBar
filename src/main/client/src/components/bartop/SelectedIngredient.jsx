@@ -58,10 +58,10 @@ export default class SelectedIngredient extends Component {
     getIngredientImage() {
         if (this.props.selected_ingredient != null) {
             //if (!this.state.rotate ){
-            return <div onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)}> <img className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.selected_ingredient.name + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
+            return <div onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)}> <img className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
             // }
             /*else {
-            return <div> <img  className="rotImg" onClick={this.rotateFunction.bind(this)} draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.selected_ingredient.name + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
+            return <div> <img  className="rotImg" onClick={this.rotateFunction.bind(this)} draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
  
             }*/
             {/* <span className="tooltiptext" >

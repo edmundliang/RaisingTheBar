@@ -37,6 +37,8 @@ export default class SimulationContainer extends Component {
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
+      recipeQueue: [],
+      recipeName: "",
       quickBar: [{
         glass: null,
         actionStack: []
@@ -72,38 +74,86 @@ export default class SimulationContainer extends Component {
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
+    this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
+    this.submitGlassCallback = this.submitGlassCallback.bind(this);
 
     if (this.props.match.params.var1 === "recipe") {
       if (this.props.match.params.var2 === "edit" && this.props.match.params.var3 != null) {
         var data = new FormData();
-        data.append('recipeId', this.props.match.params.var3);
+        data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/recipe/get', true);
         xhr.onload = function (e) {
           // do something to response
           let recipeJson = JSON.parse(e.target.response);
           console.log(JSON.parse(e.target.response));
-          this.setState({ name:recipeJson.name , quickBar:[
-            {
-              glass: recipeJson.glass,
-              actionStack: recipeJson.actionStack
-            },
-            {
-              glass: null,
-              actionStack: []
-            },
-            {
-              glass: null,
-              actionStack: []
-            }
-          ] });
+          this.setState({
+            name: recipeJson.name, quickBar: [
+              {
+                glass: recipeJson.glass,
+                actionStack: recipeJson.actionStack
+              },
+              {
+                glass: null,
+                actionStack: []
+              },
+              {
+                glass: null,
+                actionStack: []
+              }
+            ]
+          });
         };
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-
+      if (this.props.match.params.var2 != null) {
+        var data = new FormData();
+        data.append('id', this.props.match.params.var3);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/simulation/get', true);
+        xhr.onload = function (e) {
+          // do something to response
+          let simulationJson = JSON.parse(e.target.response);
+          for (var i = 0; i < simulationJson.recipes.length; i++) {
+            var data = new FormData();
+            data.append('id', simulationJson.recipes[i]);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/recipe/get', true);
+            xhr.onload = function (e) {
+              this.addRecipeToQueue(JSON.parse(e.target.response))
+            };
+            xhr.send(data);
+          }
+          // console.log(JSON.parse(e.target.response));
+          // this.setState({
+          //   name: recipeJson.name, quickBar: [
+          //     {
+          //       glass: recipeJson.glass,
+          //       actionStack: recipeJson.actionStack
+          //     },
+          //     {
+          //       glass: null,
+          //       actionStack: []
+          //     },
+          //     {
+          //       glass: null,
+          //       actionStack: []
+          //     }
+          //   ]
+          // });
+        };
+        xhr.send(data);
+      }
     }
+  }
+  submitGlassCallback() {
 
+  }
+  addRecipeToQueue(recipe) {
+    let tempRecipeQueue = this.state.recipeQueue;
+    tempRecipeQueue.push(recipe);
+    this.setState({ recipeQueue: tempRecipeQueue })
   }
   onActionEndCallback(index) {
     if (index === 0) {
@@ -244,6 +294,7 @@ export default class SimulationContainer extends Component {
             console.log(this.responseText);
           };
           xhr.send(data);
+          this.setState({recipeName : name});
         } else {
 
           console.log("You must have something in the glass");
@@ -260,7 +311,7 @@ export default class SimulationContainer extends Component {
   renderGlass(glass, actionStack) {
     if (glass != null) {
       return <div id="tooltip">
-        <img className="top-img" draggable="false" src={"/images/glasses/" + glass.name + ".png"} alt={"Missing Image: " + glass.name} />
+        <img className="top-img" draggable="false" src={"/images/glasses/" + (glass.name).toLowerCase() + ".png"} alt={"Missing Image: " + glass.name} />
         <span className="tooltiptext" >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
@@ -332,8 +383,8 @@ export default class SimulationContainer extends Component {
             <div id="sidebar-right">
               <Router>
                 <Switch>
-                  <Route path="*/recipe" render={() => <RecipeRightPanel onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel onSubmitCallback={this.submitRecipeCallback} />} />
+                  <Route path="*/recipe" render={() => <RecipeRightPanel recipeName = {this.recipeName} onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel recipeQueue={this.state.recipeQueue} onSubmitCallback={this.submitGlassCallback} />} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
