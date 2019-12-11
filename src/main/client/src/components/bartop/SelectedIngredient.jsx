@@ -93,7 +93,10 @@ export default class SelectedIngredient extends Component {
     }
     render() {
         return (
+      
+
             <div className="selected_ingredient">
+            <p> {this.state.amount}</p>
                 <div onDrop={this.handleDrop.bind(this, 0)} onDragOver={(e) => e.preventDefault()} draggable>
                     {
                         this.getIngredientImage()
