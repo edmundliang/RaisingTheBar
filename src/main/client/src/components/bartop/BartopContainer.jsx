@@ -221,8 +221,8 @@ export default class SimulationContainer extends Component {
         <img className="top-img" draggable="false" src={"/images/glasses/" + glass.name + ".png"} alt={"Missing Image: " + glass.name} />
         <span className="tooltiptext" >
           {
-            actionStack.length == 0 ? "Empty" : actionStack.map((item) => {
-              return (<p key={item.name}>{item.name}</p>);
+            actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
+              return (<p key={item.name + index}>{item.name}</p>);
             })
           }
         </span>
