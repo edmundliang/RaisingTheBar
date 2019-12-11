@@ -83,6 +83,9 @@ export default class SimulationContainer extends Component {
   onActionEndCallback(index) {
     if (index === 0) {
       let actionStack = this.state.actionBar[index].actionStack;
+      if (actionStack == null) {
+          actionStack=[];
+      }
       actionStack.push("shake");
       let actionBar = [];
       for (var i = 0; i < 3; i++) {
@@ -94,6 +97,7 @@ export default class SimulationContainer extends Component {
         }
       }
       this.setState({ actionBar: actionBar });
+  
     }
   }
   addSelectedIngredientToSelectedSlotCallback(amount) {
@@ -203,15 +207,15 @@ export default class SimulationContainer extends Component {
             }
           }
           console.log(outputJson)
-          // var data = new FormData();
-          // data.append('json', JSON.stringify(outputJson));
-          // var xhr = new XMLHttpRequest();
-          // xhr.open('POST', '/recipe/add', true);
-          // xhr.onload = function () {
-          //   // do something to response
-          //   console.log(this.responseText);
-          // };
-          // xhr.send(data);
+          var data = new FormData();
+           data.append('json', JSON.stringify(outputJson));
+           var xhr = new XMLHttpRequest();
+           xhr.open('POST', '/recipe/add', true);
+           xhr.onload = function () {
+             // do something to response
+             console.log(this.responseText);
+           };
+           xhr.send(data);
         } else {
 
           console.log("You must have something in the glass");
