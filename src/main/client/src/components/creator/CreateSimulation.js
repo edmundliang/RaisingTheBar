@@ -84,9 +84,27 @@ export default class CreateSimulation extends Component {
       ]
     }
   }
-
+  /*getSimulations() {
+      var data = new FormData();
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/recipe/list', true);
+          xhr.onload = function () {
+            // do something to response
+            th.stateSet({recipes: JSON.parse(this.responseText)});
+          };
+          xhr.send(data);
+  }*/
   render() {
-    let recipeCards = this.state.recipes.map(recipe => {
+          var globalThis = this;
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/recipe/list', true);
+          xhr.onload = function () {
+            // do something to response
+            console.log(JSON.parse(this.responseText));
+            globalThis.setState({recipes: JSON.parse(this.responseText).recipes});
+          };
+     xhr.send();
+    let recipeCards = globalThis.state.recipes.map(recipe => {
       return (
         <div className="col">
           <RecipeCard key={recipe.recipeName} recipe={recipe} />
