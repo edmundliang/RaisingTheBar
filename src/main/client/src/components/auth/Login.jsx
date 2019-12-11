@@ -78,7 +78,7 @@ export default class LoginForm extends Component {
                     </div>
 
                     <div className={this.state.attempted && this.state.sucessful ? "show" : "hidden"}>
-                        Your account has been created redirecting...
+                        Login sucessful redirecting...
                     </div>
                     <div className="FormField">
                         <button className="FormField__Button mr-20">Login</button>
