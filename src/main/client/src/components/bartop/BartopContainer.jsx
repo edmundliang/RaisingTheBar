@@ -153,66 +153,82 @@ export default class SimulationContainer extends Component {
   onDragEndSelectedIngredientCallback(index) {
 
   }
-  
+
   onMouseDown() {
-      if (this.state.selected_amount == null) {
-          this.state.selected_amount =  0;
-      }
-      console.log("pls");
-      this.pouring();
+    if (this.state.selected_amount == null) {
+      this.state.selected_amount = 0;
+    }
+    console.log("pls");
+    this.pouring();
   }
   onMouseUp() {
-     clearTimeout(this.t);
-     this.start = 100;
-     if (this.state.selected_slot != null) {
-         this.state.selected_ingredient.amount = this.state.selected_amount;
-         this.state.selected_slot.data.actionStack.push(Object.assign({},this.state.selected_ingredient));
-     }
-   }
+    clearTimeout(this.t);
+    this.start = 100;
+    if (this.state.selected_slot != null) {
+      this.state.selected_ingredient.amount = this.state.selected_amount;
+      this.state.selected_slot.data.actionStack.push(Object.assign({}, this.state.selected_ingredient));
+    }
+  }
   pour() {
-      this.setState({selected_amount: this.state.selected_amount + .25 });
-          
+    this.setState({ selected_amount: this.state.selected_amount + .25 });
+
   }
   pouring() {
-      this.pour();
-      this.t = setTimeout(this.pouring, this.start);
-      this.start = this.start / 2;
+    this.pour();
+    this.t = setTimeout(this.pouring, this.start);
+    this.start = this.start / 2;
   }
-  
+
   submitRecipeCallback(name) {
 
-    //Name is the name of the recipe that the user wants to submit
-    //Where you should add your
-    var ingredients = [];
-    var volumes = [];
-    for (var value of this.state.action_stack) {
-      ingredients.push(value[0]["name"]);
-      volumes.push(value[1]);
-    }
-    for (var i = 0; i < ingredients.length - 1; i++) {
-      if (ingredients[i] === ingredients[i + 1]) {
-        volumes[i] = volumes[i] + volumes[i + 1];
-        ingredients.splice(i + 1, 1);
-        volumes.splice(i + 1, 1);
+    if (this.state.selected_slot != null && this.state.selected_slot.bar == "quick") {
+
+      if (this.state.selected_slot.data.glass != null) {
+        if (this.state.selected_slot.data.actionStack.length > 1) {
+          //Name is the name of the recipe that the user wants to submit
+          //Where you should add your
+          let prunedActionStack = []
+          for(var i = 0; i < this.state.selected_slot.data.actionStack.length; i++){
+            let current = this.state.selected_slot.data.actionStack[i];
+            if(current instanceof Object) {
+
+              let newObject = {
+                name:current.name,
+                amount:current.amount
+              }
+              prunedActionStack.push(newObject)
+            }else if(current === "shake"){
+              prunedActionStack.push(current);
+            }
+          }
+          let outputJson = {
+            name: name,
+            actionStack: prunedActionStack,
+            glass: {
+              name:this.state.selected_slot.data.glass.name
+            }
+          }
+          console.log(outputJson)
+          // var data = new FormData();
+          // data.append('json', JSON.stringify(outputJson));
+          // var xhr = new XMLHttpRequest();
+          // xhr.open('POST', '/recipe/add', true);
+          // xhr.onload = function () {
+          //   // do something to response
+          //   console.log(this.responseText);
+          // };
+          // xhr.send(data);
+        } else {
+
+          console.log("You must have something in the glass");
+        }
+
+      } else {
+        console.log("Must have a glass");
       }
-
+    } else {
+      console.log("A quick bar item must be selected");
     }
-    // console.log(ingredients);
-    // console.log(volumes);
-
-    var data = new FormData();
-    data.append('name', name);
-    data.append('glass', 'Shot Glass');
-    data.append('ingredients', ingredients);
-    data.append('volumes', volumes);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/recipe/add', true);
-    xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
-    };
-    xhr.send(data);
   }
 
   renderGlass(glass, actionStack) {
@@ -280,7 +296,7 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}  />
+                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} />
                 <div id="right">
                   <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
                 </div>
@@ -293,7 +309,7 @@ export default class SimulationContainer extends Component {
             <div id="sidebar-right">
               <Router>
                 <Switch>
-                  <Route path="*/recipe" render={() => <RecipeRightPanel onSubmitCallback={this.submitRecipeCallback} globalState ={this.state} />} />
+                  <Route path="*/recipe" render={() => <RecipeRightPanel onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
                   <Route path="*/simulation" render={() => <SimulationRightPanel onSubmitCallback={this.submitRecipeCallback} />} />
                   <Route component={NoMatch} />
                 </Switch>
