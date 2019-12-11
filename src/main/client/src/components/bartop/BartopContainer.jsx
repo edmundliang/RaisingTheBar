@@ -24,7 +24,7 @@ export default class SimulationContainer extends Component {
       if (x["category"] === null) {
         x["category"] = "other";
         otherIngredients.push(x);
-      } else if (x["category"] === "glasses") {
+      } else if (x["category"] === "glasses" || x["category"] === "ice") {
         glasses.push(x)
       } else {
         otherIngredients.push(x);
@@ -33,6 +33,8 @@ export default class SimulationContainer extends Component {
     this.state = {
       selected_ingredient: null,
       selected_slot: null,
+      selected_amount: null,
+      beingPoured: false,
       otherIngredients: otherIngredients,
       glasses: glasses,
       alcohol: alcohol,
@@ -64,6 +66,8 @@ export default class SimulationContainer extends Component {
       }]
 
     };
+    this.t = undefined;
+    this.start = 100;
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -72,6 +76,10 @@ export default class SimulationContainer extends Component {
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this)
+    this.pour = this.pour.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.pouring = this.pouring.bind(this);
     // var xhr = new XMLHttpRequest();
     // xhr.addEventListener("load", function (e) {
     //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
@@ -145,6 +153,27 @@ export default class SimulationContainer extends Component {
   onDragEndSelectedIngredientCallback(index) {
 
   }
+  
+  onMouseDown() {
+      if (this.state.selected_amount == null) {
+          this.state.selected_amount =  0;
+      }
+      this.pouring();
+  }
+  onMouseUp() {
+     clearTimeout(this.t)
+     this.start = 100
+   }
+  pour() {
+      this.setState({selected_amount: this.state.selected_amount + .5 });
+          
+  }
+  pouring() {
+      this.pour();
+      this.t = setTimeout(this.repeat, this.start);
+      this.start = this.start / 2;
+  }
+  
   submitRecipeCallback(name) {
 
     //Name is the name of the recipe that the user wants to submit
@@ -246,7 +275,7 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndSelectedIngredientCallback} />
+                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}  />
                 <div id="right">
                   <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
                 </div>
