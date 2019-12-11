@@ -203,6 +203,7 @@ export default class SimulationContainer extends Component {
           }
           console.log(outputJson)
           var data = new FormData();
+          data.append('name', name);
           data.append('json', JSON.stringify(outputJson));
           var xhr = new XMLHttpRequest();
           xhr.open('POST', '/recipe/add', true);
