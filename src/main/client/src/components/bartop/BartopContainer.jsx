@@ -165,6 +165,9 @@ export default class SimulationContainer extends Component {
      clearTimeout(this.t);
      this.start = 100;
      if (this.state.selected_slot != null) {
+         if (this.state.selected_slot.data.actionStack == null ) {
+             this.state.selected_slot.data.actionStack = [];
+         }
          this.state.selected_ingredient.amount = this.state.selected_amount;
          this.state.selected_slot.data.actionStack.push(Object.assign({},this.state.selected_ingredient));
      }
