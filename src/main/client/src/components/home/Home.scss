@@ -1,50 +1,51 @@
-#leftbox { 
-    float:left;
-    width:27%;
-    margin-left:3%;
-    margin-right:3%;
-} 
-#middlebox{ 
-    float:left; 
-    width:27%;
-    margin-left:3%;
-    margin-right:3%;
-} 
-#rightbox{ 
-    float:right; 
-    width:27%;
-    margin-left:3%;
-    margin-right:3%;
-}
-
-h1 {
-    color:white;
-    font-size:6em;
-}
-
-h2 {
-    color:white;
-}
-
-h3 {
-    color:white;
-}
-
-h4 {
-    color:white;
-
-}
-
-#center {
-    text-align:center;
-}
-
-.jumbotron {
-    height:100%;
-}
-
-.btn-info {
-    color:white;
-    background-color:black;
-    border-color:black;
+#home {
+    h1 {
+        color: black;
+        font-size: 6em;
+    }
+    h2 {
+        color: black;
+    }
+    h3 {
+        color: black;
+    }
+    h4 {
+        color: black;
+    }
+    .jumbotron {
+        height: 100%;
+        color: white;
+        h1 {
+            color: white;
+        }
+        h4 {
+            color: white;
+        }
+    }
+    .btn-info {
+        color: white;
+        background-color: black;
+        border-color: black;
+    }
+    #center {
+        text-align: center;
+    }
+    #leftbox {
+        float: left;
+        width: 27%;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    #middlebox {
+        float: left;
+        width: 27%;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    #rightbox {
+        float: right;
+        width: 27%;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
 }
