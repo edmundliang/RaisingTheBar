@@ -39,27 +39,27 @@ export default class SimulationContainer extends Component {
       dragged: null,
       quickBar: [{
         glass: null,
-        actionStack: null
+        actionStack: []
       },
       {
         glass: null,
-        actionStack: null
+        actionStack: []
       },
       {
         glass: null,
-        actionStack: null
+        actionStack: []
       }],
       actionBar: [{
         //Shaker
-        actionStack: null
+        actionStack: []
       },
       {
         //Pan
-        actionStack: null
+        actionStack: []
       },
       {
         //Knife
-        actionStack: null
+        actionStack: []
       }]
     };
     this.onActionEndCallback = this.onActionEndCallback.bind(this);
@@ -99,13 +99,15 @@ export default class SimulationContainer extends Component {
   addSelectedIngredientToSelectedSlotCallback(amount) {
     // console.log(this.state.selected_slot)
     // console.log(this.state.selected_ingredient)
-    if (this.state.selected_ingredient != null && this.state.selected_slot != null && this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) {
+    if (this.state.selected_ingredient != null && this.state.selected_slot != null) {
+      if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null)||(this.state.selected_slot.bar === "action")) {
 
-      let data = this.state.selected_slot.data;
-      let ingredient = Object.assign({}, this.state.selected_ingredient)
-      ingredient.amount = amount
-      data.actionStack.push(ingredient);
-      this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+        let data = this.state.selected_slot.data;
+        let ingredient = Object.assign({}, this.state.selected_ingredient)
+        ingredient.amount = amount
+        data.actionStack.push(ingredient);
+        this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+      }
     }
   }
   onSelectedIngredientChangeCallback(selectedIngredient) {
@@ -159,8 +161,7 @@ export default class SimulationContainer extends Component {
         this.setState({ quickBar: quickBar, dragged: null });
       }
       else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") { //for quickbar to quickbar and actionbar to quickbar
-        var element;
-        for (element of this.state.dragged.actionStack) {
+        for (var element of this.state.dragged.actionStack) {
           quickBar[index].actionStack.push(element);
         }
         this.setState({ quickBar: quickBar, dragged: null });
@@ -251,31 +252,22 @@ export default class SimulationContainer extends Component {
   }
   renderActionBarItem(index) {
 
+    var image = null;
+
     if (index == 0) {
-      if (this.state.actionBar[0].ingredient != null) {
-
-        return (<img className="top-img" src="/images/actions/shaker.png" alt="empty spot" />)
-
-      } else {
-
-        return (<img className="bottom-img" src="/images/actions/shaker.png" alt="shaker" />)
-      }
+      image = "/images/actions/shaker.png";
     } else if (index == 1) {
-      if (this.state.actionBar[1].ingredient != null) {
-        return (<img className="top-img" src="/images/actions/pan.png" alt="empty spot" />)
-      } else {
-
-        return (<img className="bottom-img" src="/images/actions/pan.png" alt="pan" />)
-      }
+      image = "/images/actions/pan.png";
     }
     else if (index == 2) {
-      if (this.state.actionBar[2].ingredient != null) {
-        return (<img className="top-img" src="/images/actions/knife.png" alt="empty spot" />)
-      } else {
-
-        return (<img className="bottom-img" src="/images/actions/knife.png" alt="knife" />)
-      }
+      image = "/images/actions/knife.png";
     }
+
+    return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
+      this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
+        return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+      })
+    }</span></div>)
 
   }
   render() {

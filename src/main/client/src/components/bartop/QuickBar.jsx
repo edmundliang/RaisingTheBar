@@ -24,7 +24,6 @@ export default class QuickBar extends Component {
 		callback(item);
 	}
 	getImage(index) {
-		console.log(this.props.inventory);
 		var glass = this.props.inventory[index].glass
 		var actionBar = this.props.inventory[index].actionStack;
 		return this.props.renderGlass(glass, actionBar);
