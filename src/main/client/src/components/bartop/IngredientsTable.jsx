@@ -6,18 +6,24 @@ export default class IngredientsTabs extends Component {
 	constructor(props) {
 		super(props);
 		this.isDraggable = this.isDraggable.bind(this);
+		this.canSelectIngredient = this.canSelectIngredient.bind(this);
 	}
 	onIngredientClick(item, event) {
-		if (item !== this.props.selected) {
-			var callback = this.props.onSelectedIngredientChangeCallback;
-			callback(item)
+		if (this.canSelectIngredient()) {
+			if (item !== this.props.selected) {
+				var callback = this.props.onSelectedIngredientChangeCallback;
+				callback(item)
+			}
 		}
 	}
 	isDraggable() {
 		return this.props.onDragStartCallback != null;
 	}
+	canSelectIngredient() {
+		return this.props.onSelectedIngredientChangeCallback != null;
+	}
 	handleDragStart(item, e) {
-		if(this.props.onDragStartCallback != null) {
+		if (this.props.onDragStartCallback != null) {
 			var callback = this.props.onDragStartCallback;
 			callback(item);
 
@@ -50,8 +56,8 @@ export default class IngredientsTabs extends Component {
 											for (var x of elements) {
 												let boundFunctionCall = this.onIngredientClick.bind(this, x);
 												output.push(
-													<div draggable = {this.isDraggable()} onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
-														<img draggable="false" src={"/images/" + (x["category"] == "glasses" ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
+													<div draggable={this.isDraggable()} onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+														<img draggable="false" src={"/images/" + (x["category"] == ("glasses" || "ice") ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
 														<p>{x["name"]}</p>
 													</div>
 												);
