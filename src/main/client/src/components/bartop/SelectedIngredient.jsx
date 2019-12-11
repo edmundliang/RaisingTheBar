@@ -8,15 +8,20 @@ export default class SelectedIngredient extends Component {
 		super(props);
 		this.getIngredientImage = this.getIngredientImage.bind(this);
 		this.getSlotImage = this.getSlotImage.bind(this);
+                this.hold = false;
 	}
 	handleDrop(index, event) {
 		// this.props.onDragEndSelectedIngredientCallback();
 		// callback(index);
 	}
+        rotateFunction() {
+            var img = document.getElementByClassName("top-img");
+            img.setAttribute("className", "rotated-image");
+        }
 	getIngredientImage() {
 		if (this.props.selected_ingredient != null) {
 			return <div >
-				<img className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.selected_ingredient.name + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} />
+				<img  className="top-img" onClick={this.rotateFunction.bind(this)} draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + this.props.selected_ingredient.name + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} />
 				{/* <span className="tooltiptext" >
 					{this.props.inventory[index].actionStack.map((item) => {
 						return (<p key={item.name}>{item.name}</p>);
@@ -67,4 +72,5 @@ export default class SelectedIngredient extends Component {
 			</div>
 		);
 	}
+ 
 }
