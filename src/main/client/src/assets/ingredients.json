@@ -516,11 +516,6 @@
             "category": "garnish"
         },
         {
-            "id": "5ddc1c6d17ac88d15e9e3ce8",
-            "name": "Ice Cubes",
-            "category": "ice"
-        },
-        {
             "id": "5de6d0b343f3e2def616e0d5",
             "name": "LIME JUICE CORDIAL",
             "category": "mixers"
@@ -539,6 +534,47 @@
             "id": "5de6d0df43f3e2def616e0d8",
             "name": "HONEY SYRUP",
             "category": "mixers"
+        },
+        {
+            "name": "TONIC WATER",
+            "category":"soda"
+        },
+        {
+            "name": "LEMON LIME",
+            "category":"soda"
+        },
+        {
+            "name": "GINGER ALE",
+            "category":"soda"
+        },
+        {
+            "name": "COKE",
+            "category":"soda"
+        },
+        {
+            "name": "DIET COKE",
+            "category":"soda"
+        },
+        {
+            "name": "SODA WATER",
+            "category":"soda"
+        },
+        {
+            "name": "ORANGE SODA",
+            "category":"soda"
+        },
+        {
+            "name": "PEPSI",
+            "category":"soda"
+        },
+        {
+            "name": "SOUR MIX",
+            "category":"soda"
+        }, 
+        {
+            "id": "5ddc1c6d17ac88d15e9e3ce8",
+            "name": "ICE CUBES",
+            "category": "ice"
         }
     ]
 }
