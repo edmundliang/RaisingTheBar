@@ -13,14 +13,14 @@ import org.springframework.data.annotation.Id;
  */
 public class Glass {
          
-    private String type;
+    private String name;
     
     public String getType() {
-        return type;
+        return name;
     }
     
     public void setType(String type) {
-        this.type = type;
+        this.name = type;
     }
     
     

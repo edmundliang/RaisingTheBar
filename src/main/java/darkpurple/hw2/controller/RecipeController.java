@@ -12,12 +12,14 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import darkpurple.hw2.database.entity.Glass;
 
 @RestController
 public class RecipeController {
@@ -35,20 +37,22 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("glass")String glass, @RequestParam("ingredients")String ingredients, @RequestParam("volumes")String volumes) {
+    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("actionStack")String actionStack, @RequestParam("glass") String glass) {
         Recipe recipe = new Recipe();
         User user = userService.getLoggedUser();
         recipe.setCreator(user.getId());
-        recipe.setDate(new Date());
         recipe.setGlass(glass);
-        recipe.setIngredients(ingredients.split(","));
-        String[] volumesTemp = volumes.split(",");
-        float[] volumes2 = new float[volumesTemp.length];
+        recipe.setDate(new Date());
+  
+        
+        
+       /* float[] volumes2 = new float[volumesTemp.length]; code to coalesce an array
         for (int i = 0; i< volumesTemp.length;i++) {
             volumes2[i] = Float.parseFloat(volumesTemp[i]);
         }
-        recipe.setVolumes(volumes2);
+*/
         recipe.setName(name);
+        recipe.setJsonBody(actionStack);
         recipeService.saveRecipe(recipe);
 
         return recipe;
