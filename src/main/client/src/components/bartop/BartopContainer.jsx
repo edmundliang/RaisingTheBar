@@ -158,19 +158,24 @@ export default class SimulationContainer extends Component {
       if (this.state.selected_amount == null) {
           this.state.selected_amount =  0;
       }
+      console.log("pls");
       this.pouring();
   }
   onMouseUp() {
-     clearTimeout(this.t)
-     this.start = 100
+     clearTimeout(this.t);
+     this.start = 100;
+     if (this.state.selected_slot != null) {
+         this.state.selected_ingredient.amount = this.state.selected_amount;
+         this.state.selected_slot.data.actionStack.push(Object.assign({},this.state.selected_ingredient));
+     }
    }
   pour() {
-      this.setState({selected_amount: this.state.selected_amount + .5 });
+      this.setState({selected_amount: this.state.selected_amount + .25 });
           
   }
   pouring() {
       this.pour();
-      this.t = setTimeout(this.repeat, this.start);
+      this.t = setTimeout(this.pouring, this.start);
       this.start = this.start / 2;
   }
   
