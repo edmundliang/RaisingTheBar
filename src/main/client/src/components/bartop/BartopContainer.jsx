@@ -33,13 +33,10 @@ export default class SimulationContainer extends Component {
     this.state = {
       selected_ingredient: null,
       selected_slot: null,
-      selected_amount: 0,
-      beingPoured: false,
       otherIngredients: otherIngredients,
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
-      submissionSlot: null,
       quickBar: [{
         glass: null,
         actionStack: null
@@ -64,10 +61,9 @@ export default class SimulationContainer extends Component {
         //Knife
         actionStack: null
       }]
-
     };
-    this.t = undefined;
-    this.start = 100;
+    this.onActionEndCallback = this.onActionEndCallback.bind(this);
+    this.addSelectedIngredientToSelectedSlotCallback = this.addSelectedIngredientToSelectedSlotCallback.bind(this);
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -76,10 +72,6 @@ export default class SimulationContainer extends Component {
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this)
-    this.pour = this.pour.bind(this);
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.pouring = this.pouring.bind(this);
     // var xhr = new XMLHttpRequest();
     // xhr.addEventListener("load", function (e) {
     //   this.setState({ ingredientsJson: JSON.parse(e.target.response).ingredients });
@@ -88,8 +80,36 @@ export default class SimulationContainer extends Component {
     // xhr.open("GET", '/ingredients/list');
     // xhr.send();
   }
+  onActionEndCallback(index) {
+    if (index === 0) {
+      let actionStack = this.state.actionBar[index].actionStack;
+      actionStack.push("shake");
+      let actionBar = [];
+      for (var i = 0; i < 3; i++) {
+
+        if (i != index) {
+          actionBar.push(this.state.actionBar[index]);
+        } else {
+          actionBar.push(actionStack);
+        }
+      }
+      this.setState({ actionBar: actionBar });
+    }
+  }
+  addSelectedIngredientToSelectedSlotCallback(amount) {
+    // console.log(this.state.selected_slot)
+    // console.log(this.state.selected_ingredient)
+    if (this.state.selected_ingredient != null && this.state.selected_slot != null && this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) {
+
+      let data = this.state.selected_slot.data;
+      let ingredient = Object.assign({}, this.state.selected_ingredient)
+      ingredient.amount = amount
+      data.actionStack.push(ingredient);
+      this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+    }
+  }
   onSelectedIngredientChangeCallback(selectedIngredient) {
-        this.setState({ selected_ingredient: selectedIngredient });
+    this.setState({ selected_ingredient: selectedIngredient });
   }
   onSelectedSlotChangeCallback(bar, slot, data) {
     this.setState({ selected_slot: { bar: bar, slot: slot, data: data } });
@@ -153,34 +173,6 @@ export default class SimulationContainer extends Component {
   onDragEndSelectedIngredientCallback(index) {
 
   }
-
-  onMouseDown() {
-    if (this.state.selected_amount == null) {
-      this.state.selected_amount = 0;
-    }
-    console.log("pls");
-    this.pouring();
-  }
-  onMouseUp() {
-     clearTimeout(this.t);
-     this.start = 100;
-     if (this.state.selected_slot != null) {
-         this.state.selected_ingredient.amount = this.state.selected_amount;
-         this.state.selected_slot.data.actionStack.push(Object.assign({},this.state.selected_ingredient));
-     }
-     this.setState({selected_amount: 0});
-     
-   }
-  pour() {
-    this.setState({ selected_amount: this.state.selected_amount + .25 });
-
-  }
-  pouring() {
-    this.pour();
-    this.t = setTimeout(this.pouring, this.start);
-    this.start = this.start / 2;
-  }
-
   submitRecipeCallback(name) {
 
     if (this.state.selected_slot != null && this.state.selected_slot.bar == "quick") {
@@ -190,16 +182,16 @@ export default class SimulationContainer extends Component {
           //Name is the name of the recipe that the user wants to submit
           //Where you should add your
           let prunedActionStack = []
-          for(var i = 0; i < this.state.selected_slot.data.actionStack.length; i++){
+          for (var i = 0; i < this.state.selected_slot.data.actionStack.length; i++) {
             let current = this.state.selected_slot.data.actionStack[i];
-            if(current instanceof Object) {
+            if (current instanceof Object) {
 
               let newObject = {
-                name:current.name,
-                amount:current.amount
+                name: current.name,
+                amount: current.amount
               }
               prunedActionStack.push(newObject)
-            }else if(current === "shake"){
+            } else if (current === "shake") {
               prunedActionStack.push(current);
             }
           }
@@ -207,7 +199,7 @@ export default class SimulationContainer extends Component {
             name: name,
             actionStack: prunedActionStack,
             glass: {
-              name:this.state.selected_slot.data.glass.name
+              name: this.state.selected_slot.data.glass.name
             }
           }
           console.log(outputJson)
@@ -253,9 +245,9 @@ export default class SimulationContainer extends Component {
     }
   }
   returnStats() {
-     if (this.state.selected_ingredient != null) {
-         return <p> {this.state.selected_ingredient.name}, {this.state.selected_amount}</p>
-     }
+    if (this.state.selected_ingredient != null) {
+      return <p> {this.state.selected_ingredient.name}, {this.state.selected_amount}</p>
+    }
   }
   renderActionBarItem(index) {
 
@@ -303,9 +295,9 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-              
-              {this.returnStats()}
-                <SelectedIngredient renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}  />
+
+                {this.returnStats()}
+                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_bar={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
                 <div id="right">
                   <ActionBar renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
                 </div>

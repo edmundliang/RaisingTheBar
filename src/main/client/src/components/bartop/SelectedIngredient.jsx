@@ -8,11 +8,17 @@ export default class SelectedIngredient extends Component {
         super(props);
         this.getIngredientImage = this.getIngredientImage.bind(this);
         this.getSlotImage = this.getSlotImage.bind(this);
-        this.onMouseDown = this.onMouseDown.bind(this)
+		this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+		this.pour = this.pour.bind(this);
+		this.pouring = this.pouring.bind(this);
         this.state = {
-            rotate: false
+            rotate: false,
+			amount: 0,
+			beingPoured: false,
         }
  
+		this.t = undefined;
     }
     handleDrop(index, event) {
         // this.props.onDragEndSelectedIngredientCallback();
@@ -22,12 +28,28 @@ export default class SelectedIngredient extends Component {
         this.setState({ rotate: true });
  
     }
-    onMouseDown() {
-        this.props.onMouseDown();
-    }
-    onMouseUp() {
-        this.props.onMouseUp();
-    }
+	onMouseDown() {
+	  if (this.state.amount == null) {
+		this.setState({amount : 0})
+	  }
+	  this.pouring();
+	}
+	onMouseUp() {
+	   clearTimeout(this.t);
+	   if (this.state.amount > 0) {
+		   this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+	   }
+	   this.setState({amount: 0});
+	   
+	 }
+	pour() {
+	  this.setState({ amount: this.state.amount + 1 });
+  
+	}
+	pouring() {
+	  this.pour();
+	  this.t = setTimeout(this.pouring, 100);
+	}
     getIngredientImage() {
         if (this.props.selected_ingredient != null) {
             //if (!this.state.rotate ){
@@ -56,8 +78,7 @@ export default class SelectedIngredient extends Component {
             if (this.props.selected_bar.bar == "quick") {
                 var glass = this.props.selected_bar.data.glass;
                 var actionBar = this.props.selected_bar.data.actionStack;
-                var callback = this.props.renderGlass;
-                return callback(glass, actionBar);
+                return this.props.renderGlass(glass, actionBar);
             } else if (this.props.selected_bar.bar == "action") {
                 var slot = this.props.selected_bar.slot
                 return this.props.renderActionBarItem(slot)

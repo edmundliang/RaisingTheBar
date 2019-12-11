@@ -24,12 +24,10 @@ export default class QuickBar extends Component {
 		callback(item);
 	}
 	getImage(index) {
+		console.log(this.props.inventory);
 		var glass = this.props.inventory[index].glass
 		var actionBar = this.props.inventory[index].actionStack;
-		var callback = this.props.renderGlass;
-		return callback(glass, actionBar);
-
-
+		return this.props.renderGlass(glass, actionBar);
 	}
 	hilightSlot(index) {
 		return this.props.selected_slot != null && this.props.selected_slot.bar === "quick" && this.props.selected_slot.slot === index
