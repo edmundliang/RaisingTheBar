@@ -11,16 +11,21 @@ export default class CreateSimulation extends Component {
         this.state = {
             recipes: []
         };
-        this.updateRecipeData = this.updateRecipeData.bind(this);
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/recipe/list');
-        xhr.onload = this.updateRecipeData;
-        xhr.send();
+       var globalThis = this;
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/recipe/list', true);
+          xhr.onload = function () {
+            // do something to response
+            console.log(JSON.parse(this.responseText));
+            globalThis.setState({recipes: JSON.parse(this.responseText).recipes});
+          };
+     xhr.send();
     }
-    updateRecipeData(e) {
+    /*updateRecipeData(e) {
         this.setState({ recipes: JSON.parse(e.target.response).recipes });
+        console.log(this.state.recipes)
 
-    }
+    }*/
     /*getSimulations() {
         var data = new FormData();
             var xhr = new XMLHttpRequest();
