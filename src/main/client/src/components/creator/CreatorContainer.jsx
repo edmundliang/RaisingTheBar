@@ -21,9 +21,9 @@ export default class CreatorContainer extends Component {
             <EditSimulation/>
           </Tab>
 
-          <Tab eventKey="viewMySimulations" title="View My Simulations">
+          {/*<Tab eventKey="viewMySimulations" title="View My Simulations">
             <ViewMySimulations/>
-          </Tab>
+          </Tab>*/}
         </Tabs>
       </div>
     )
