@@ -9,16 +9,16 @@ export default class ViewMySimulations extends Component {
       simulations: []
     }
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/simulations/list', true);
-    xhr.onload = function (e) {
-      // do something to response
-      console.log(JSON.parse(e.target.response));
-      if(JSON.parse(e.target.response.simulations != null)) {
-        this.setState({simulations: JSON.parse(e.target.response).simulations});
-      }
-    };
-    xhr.send();
+    var globalThis = this;
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/simulation/list', true);
+          xhr.onload = function () {
+            // do something to response
+            console.log(JSON.parse(this.responseText));
+            globalThis.setState({simulations: JSON.parse(this.responseText).simulations});
+          };
+     xhr.send();
+
   }
 
   render() {

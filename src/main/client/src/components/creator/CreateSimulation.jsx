@@ -21,11 +21,6 @@ export default class CreateSimulation extends Component {
           };
      xhr.send();
     }
-    /*updateRecipeData(e) {
-        this.setState({ recipes: JSON.parse(e.target.response).recipes });
-        console.log(this.state.recipes)
-
-    }*/
     /*getSimulations() {
         var data = new FormData();
             var xhr = new XMLHttpRequest();
@@ -38,7 +33,7 @@ export default class CreateSimulation extends Component {
     }*/
     render() {
         let recipeCards = this.state.recipes.map(recipe => {
-            return (<div className="col" ><RecipeCard key={recipe.recipeName} recipe={recipe} /> </div>)
+            return (<div className="col" ><RecipeCard key={recipe.name} recipe={recipe} /> </div>)
         });
 
         return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >

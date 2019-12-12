@@ -8,14 +8,14 @@ export default class RecipeCard extends Component {
   }
 
   render() {
-    let { recipeName, ingredients, add } = this.props.recipe;
+    let { name, json, creator} = this.props.recipe;
     return (
       <div className="card text-center col" id="card">
         <div className="card-body text-dark" id="card-body">
-          <h4 className="card-title" id="card-title">{recipeName}</h4>
-          <p className="card-recipes text-secondary" id="card-recipes">{ingredients}</p>
+          <h4 className="card-title" id="card-title">{name}</h4>
+          <p className="card-recipes text-secondary" id="card-recipes">{creator}</p>
           <div className="card-bottom container-fluid d-flex justify-content-around" id="card-bottom">
-            <Button variant="contained">{add}</Button>
+            <Button variant="contained">{json}</Button>
           </div>
         </div>
       </div>
