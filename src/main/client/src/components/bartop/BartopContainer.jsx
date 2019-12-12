@@ -24,7 +24,7 @@ export default class SimulationContainer extends Component {
       if (x["category"] === null) {
         x["category"] = "other";
         otherIngredients.push(x);
-      } else if (x["category"] === "glasses" || x["category"] === "ice") {
+      } else if (x["category"] === "glasses") {
         glasses.push(x)
       } else {
         otherIngredients.push(x);
