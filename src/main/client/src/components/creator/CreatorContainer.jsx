@@ -20,12 +20,7 @@ export default class CreatorContainer extends Component {
           <Tab eventKey="editSimulation" title="Edit Simulation">
             <EditSimulation/>
           </Tab>
-          <Tab eventKey="createRecipe" title="Create Recipe">
-            <CreateRecipe/>
-          </Tab>
-          <Tab eventKey="editRecipe" title="Edit Recipe">
-            <EditRecipe/>
-          </Tab>
+
           <Tab eventKey="viewMySimulations" title="View My Simulations">
             <ViewMySimulations/>
           </Tab>

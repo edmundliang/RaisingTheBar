@@ -21,7 +21,7 @@ export default class Home extends Component {
             are given a list of each steps where the user is allowed to practice and follow along with the recipe instructions. In the testing simulation,
             there will be no steps given to the user as they will be tested on their knowledge of the recipes in the selected simulation. Users will then be graded
         based on the correctness of creating each recipe.</p>
-            <a class="btn btn-info" href="/simulation">Simulation</a>
+            <a class="btn btn-info" href="/bartop/recipe">Simulation</a>
           </div>
 
           <div id="middlebox">
