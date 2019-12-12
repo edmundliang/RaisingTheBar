@@ -18,12 +18,12 @@
         {
             "name": "CHAMPAGNE",
             "category": "glasses",
-            "volume": 8 
+            "volume": 10
         },
         {
             "name": "HIGHBALL",
             "category": "glasses",
-            "volume": 8
+            "volume": 9
         },
         {
             "name": "HURRICANE",
@@ -53,12 +53,12 @@
         {
             "name": "ROCKS",
             "category": "glasses",
-            "volume": 9
+            "volume": 12
         },
         {
             "name": "WHITE WINE",
             "category": "glasses",
-            "volume": 10
+            "volume": 12
         },
         {   
             "id":"5ddb26c03d63a0c961d753df",

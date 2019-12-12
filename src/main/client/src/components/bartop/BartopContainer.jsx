@@ -67,6 +67,7 @@ export default class SimulationContainer extends Component {
     };
     this.onActionEndCallback = this.onActionEndCallback.bind(this);
     this.addSelectedIngredientToSelectedSlotCallback = this.addSelectedIngredientToSelectedSlotCallback.bind(this);
+    this.addSelectedIngredientToSelectedSlotCallbackCount = this.addSelectedIngredientToSelectedSlotCallbackCount.bind(this);
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -173,16 +174,36 @@ export default class SimulationContainer extends Component {
         let data = this.state.selected_slot.data;
         let ingredient = Object.assign({}, this.state.selected_ingredient)
         console.log(ingredient)
-        if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-          ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
-          data.actionStack.pop();
+        if (amount > 0) {
+            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+                ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
+                data.actionStack.pop();
+            } else {
+            ingredient.amount = (0.025 * amount);
+            }
         } else {
-          ingredient.amount = 0.025 * amount;
+            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+                ingredient.amount = 1 + data.actionStack[data.actionStack.length-1].amount;
+                data.actionStack.pop();
+            } else {
+            ingredient.amount = 1;
+            }
         }
         data.actionStack.push(ingredient);
+        console.log(data.actionStack)
         this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
       }
     }
+  }
+  
+  addSelectedIngredientToSelectedSlotCallbackCount(amount) {
+      if (this.state.selected_ingredient != null && this.sate.selected_slot != null) {
+          if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
+              let data = this.state.selected_slot.data;
+              let ingredient = Object.assign({}, this.state.selected_ingredient)
+              console.log(ingredient)
+          }
+      }
   }
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selected_ingredient: selectedIngredient });

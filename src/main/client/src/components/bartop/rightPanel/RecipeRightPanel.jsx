@@ -57,8 +57,15 @@ export default class RecipeRightPanel extends Component {
 							<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
 						<div>
 							<div>Cup Contents</div>
-							{this.hadValidGlass() ? this.props.globalState.selected_slot.data.actionStack.map((item) => { return <p>{item.name + " " + item.amount + " Oz"}</p> }) : "None"}
+                                                        
+							{this.hadValidGlass() ? this.props.globalState.selected_slot.data.actionStack.map((item) => { 
+                                                            return item.toString() === "shake"  ? <p>{item.toString()}</p>:<p>{item.name + " " + item.amount + " " + item.scale}</p> }) : "None"}
+                                                                    
+                                                                   
+                                                                    
+                                                             
 						</div>
+                                                
 					</div>
 				</Tab>
 			</Tabs>

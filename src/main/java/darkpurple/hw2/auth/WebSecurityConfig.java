@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/home", "/simulation/**", "/workshop", "/recipe/**", "/ingredients/**", "/creator/**", "/creator/**","/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
-                .antMatchers("/*" ).hasAuthority("USER")
+                //.antMatchers("/*" ).hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated().and().csrf().disable()
                 .formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)

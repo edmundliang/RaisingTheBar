@@ -10,6 +10,7 @@ export default class SelectedIngredient extends Component {
         this.getSlotImage = this.getSlotImage.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseClick = this.onMouseClick.bind(this);
         this.pour = this.pour.bind(this);
         this.pouring = this.pouring.bind(this);
         this.state = {
@@ -17,8 +18,9 @@ export default class SelectedIngredient extends Component {
             amount: 0,
             beingPoured: false,
         }
-
+        
         this.t = undefined;
+        this.ounces = true;
     }
     returnStats() {
         if (this.state.selected_ingredient != null) {
@@ -47,6 +49,12 @@ export default class SelectedIngredient extends Component {
         this.setState({ amount: 0 });
 
     }
+    
+    onMouseClick() {
+        console.log(this.state.amount)
+        this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+ 
+    }
     pour() {
         this.setState({ amount: this.state.amount + 1 });
 
@@ -58,7 +66,15 @@ export default class SelectedIngredient extends Component {
     getIngredientImage() {
         if (this.props.selected_ingredient != null) {
             //if (!this.state.rotate ){
-            return <div onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)}> <img className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
+            
+            if(this.props.selected_ingredient.scale == "ounces") {
+                this.state.ounces = true;
+            } else {
+                this.state.ounces = false;
+            }
+            console.log(this.state.ounces);
+            return <div onMouseDown={this.state.ounces ? this.onMouseDown.bind(this) : null} onMouseUp={this.state.ounces ? this.onMouseUp.bind(this) : this.onMouseClick.bind(this)}> 
+                <img className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
             // }
             /*else {
             return <div> <img  className="rotImg" onClick={this.rotateFunction.bind(this)} draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
