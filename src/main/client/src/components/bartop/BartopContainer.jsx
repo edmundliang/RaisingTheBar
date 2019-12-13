@@ -172,14 +172,17 @@ export default class SimulationContainer extends Component {
     if (this.state.selected_ingredient != null && this.state.selected_slot != null) {
       if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
         let data = this.state.selected_slot.data;
+        let stack = data.actionStack;
+        //console.log(this.state.selected_slot)
+        
         let ingredient = Object.assign({}, this.state.selected_ingredient)
-        console.log(ingredient)
+        //console.log(ingredient)
         if (amount > 0) {
             if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
                 ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
                 data.actionStack.pop();
             } else {
-            ingredient.amount = (0.025 * amount);
+                ingredient.amount = (0.025 * amount);
             }
         } else {
             if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
@@ -189,9 +192,32 @@ export default class SimulationContainer extends Component {
             ingredient.amount = 1;
             }
         }
-        data.actionStack.push(ingredient);
-        console.log(data.actionStack)
-        this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+        
+        
+        if((data.amount == null)) {
+            data.amount = 0;
+        }
+        
+        console.log(data.amount)
+        console.log(ingredient.amount)
+        console.log(data)
+        
+        //if((data.amount + (0.025 * amount)) < data.glass.volume) {
+            data.actionStack.push(ingredient);
+            let totalAmount = 0;
+            for(var i = 0; i < stack.length; i++) {
+                totalAmount = totalAmount + stack[i].amount;
+            
+            }
+            data.amount = totalAmount;
+            //console.log(data)
+            //console.log(data.amount)
+            this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+        //}
+        
+       
+        
+       
       }
     }
   }
