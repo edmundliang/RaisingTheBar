@@ -67,7 +67,6 @@ export default class SimulationContainer extends Component {
     };
     this.onActionEndCallback = this.onActionEndCallback.bind(this);
     this.addSelectedIngredientToSelectedSlotCallback = this.addSelectedIngredientToSelectedSlotCallback.bind(this);
-    this.addSelectedIngredientToSelectedSlotCallbackCount = this.addSelectedIngredientToSelectedSlotCallbackCount.bind(this);
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -202,18 +201,18 @@ export default class SimulationContainer extends Component {
         console.log(ingredient.amount)
         console.log(data)
         
-        //if((data.amount + (0.025 * amount)) < data.glass.volume) {
+      ///  if((data.amount + (0.025 * amount)) < data.glass.volume) {
             data.actionStack.push(ingredient);
-            let totalAmount = 0;
-            for(var i = 0; i < stack.length; i++) {
-                totalAmount = totalAmount + stack[i].amount;
+            //let totalAmount = 0;
+            //for(var i = 0; i < stack.length; i++) {
+               // totalAmount = totalAmount + stack[i].amount;
             
-            }
-            data.amount = totalAmount;
-            //console.log(data)
+           // }
+            //data.amount = totalAmount;
+           // console.log(data)
             //console.log(data.amount)
             this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
-        //}
+       // }
         
        
         
@@ -222,15 +221,6 @@ export default class SimulationContainer extends Component {
     }
   }
   
-  addSelectedIngredientToSelectedSlotCallbackCount(amount) {
-      if (this.state.selected_ingredient != null && this.sate.selected_slot != null) {
-          if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
-              let data = this.state.selected_slot.data;
-              let ingredient = Object.assign({}, this.state.selected_ingredient)
-              console.log(ingredient)
-          }
-      }
-  }
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selected_ingredient: selectedIngredient });
   }
