@@ -13,21 +13,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author anilramsoomye
  */
-@Document (collection = "recipe")
+@Document(collection = "recipe")
 public class Recipe {
-    
+
     @Id
     private String id;
-    
+
     private String name;
-   
+    private String description;
+    private boolean isPrivate;
+
     private Date date;
-    
+
     private String creator;
-    
+
     private String json;
-    
-    
 
     public String getId() {
         return id;
@@ -44,11 +44,27 @@ public class Recipe {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
     public String getCreator() {
         return creator;
     }
-    
+
     public void setCreator(String creator) {
         this.creator = creator;
     }

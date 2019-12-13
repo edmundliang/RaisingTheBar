@@ -9,19 +9,18 @@ export default class ActionBar extends Component {
 		this.hilightSlot = this.hilightSlot.bind(this);
 	}
 	onClick(index) {
-		var callback = this.props.onSelectedSlotChangeCallback;
-		callback("action", index, this.props.inventory[index]);
+		this.props.onSelectedSlotChangeCallback("action", index, this.props.inventory[index]);
 	}
-        onShakeClick(index) {
-                var callback = this.props.onActionEndCallback;
-                callback(index);
-        }
-        onHeatClick(index) {
-            
-        }
-        onCutClick(index) {
-            
-        }
+	onShakeClick(index) {
+		var callback = this.props.onActionEndCallback;
+		callback(index);
+	}
+	onHeatClick(index) {
+
+	}
+	onCutClick(index) {
+
+	}
 	handleDrop(index, event) {
 		var callback = this.props.onDragEndActionBarCallback;
 		callback(index);
@@ -48,19 +47,19 @@ export default class ActionBar extends Component {
 						this.props.renderActionBarItem(0)
 					}
 				</div>
-                                <button onClick={this.onShakeClick.bind(this,0)}>Shake!</button> 
+				<button onClick={this.onShakeClick.bind(this, 0)}>Shake!</button>
 				<div className={"action-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
-					{						
+					{
 						this.props.renderActionBarItem(1)
 					}
 				</div>
-                                <button onClick={this.onHeatClick.bind(this,0)}>Heat!</button> 
+				<button onClick={this.onHeatClick.bind(this, 0)}>Heat!</button>
 				<div className={"action-item" + (this.hilightSlot(2) ? " highight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
-					{						
+					{
 						this.props.renderActionBarItem(2)
 					}
 				</div>
-                                <button onClick={this.onCutClick.bind(this,0)}>Cut!</button> 
+				<button onClick={this.onCutClick.bind(this, 0)}>Cut!</button>
 			</div>
 		);
 	}

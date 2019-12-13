@@ -6,8 +6,8 @@ import Controls from "./Controls";
 import QuickBar from "./QuickBar";
 import SelectedIngredient from "./SelectedIngredient";
 import ActionBar from "./ActionBar";
-import RecipeRightPanel from "./rightPanel/RecipeRightPanel.jsx";
-import SimulationRightPanel from "./rightPanel/SimulationRightPanel.jsx";
+import RecipeRightPanel from "./RecipeRightPanel.jsx";
+import SimulationRightPanel from "./SimulationRightPanel.jsx";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NoMatch from '../NoMatch';
 
@@ -31,15 +31,16 @@ export default class SimulationContainer extends Component {
       }
     }
     this.state = {
-      selected_ingredient: null,
-      selected_slot: null,
+      selectedIngredient: null,
+      selectedSlot: null,
       otherIngredients: otherIngredients,
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
-      recipeQueue: [],
-      completedRecipes: [],
-      recipeName: "",
+      messageLog: [],
+      mode: {
+        mode: null
+      },
       quickBar: [{
         glass: null,
         actionStack: []
@@ -72,38 +73,52 @@ export default class SimulationContainer extends Component {
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
     this.onDragEndActionBarCallback = this.onDragEndActionBarCallback.bind(this);
     this.onDragEndQuickBarCallback = this.onDragEndQuickBarCallback.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
     this.submitGlassCallback = this.submitGlassCallback.bind(this);
-
+    var mode = {
+      mode: this.props.match.params.var1,
+      submode: this.props.match.params.var2,
+      data: {}
+    }
     if (this.props.match.params.var1 === "recipe") {
-      if (this.props.match.params.var2 === "edit" && this.props.match.params.var3 != null) {
+
+      if (this.props.match.params.var2 === "add") {
+        mode.data = {
+          name: "",
+          description: ""
+        }
+      } else if (this.props.match.params.var2 === "edit" && this.props.match.params.var3 != null) {
         var data = new FormData();
         data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/recipe/get', true);
+        // let local_this = this;
         xhr.onload = function (e) {
           // do something to response
           let recipeJson = JSON.parse(e.target.response);
-          console.log(JSON.parse(e.target.response));
-          this.setState({
-            name: recipeJson.name, quickBar: [
-              {
-                glass: recipeJson.glass,
-                actionStack: recipeJson.actionStack
-              },
-              {
-                glass: null,
-                actionStack: []
-              },
-              {
-                glass: null,
-                actionStack: []
-              }
-            ]
-          });
+          // console.log(JSON.parse(e.target.response));
+          mode.data = {
+            name: recipeJson.name,
+            description: recipeJson.description
+          }
+          this.state.quickBar = [
+            {
+              glass: recipeJson.glass,
+              actionStack: recipeJson.actionStack
+            },
+            {
+              glass: null,
+              actionStack: []
+            },
+            {
+              glass: null,
+              actionStack: []
+            }
+          ];
         };
         xhr.send(data);
       }
@@ -114,7 +129,6 @@ export default class SimulationContainer extends Component {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/simulation/get', true);
         xhr.onload = function (e) {
-          // do something to response
           let simulationJson = JSON.parse(e.target.response);
           for (var i = 0; i < simulationJson.recipes.length; i++) {
             var data = new FormData();
@@ -122,6 +136,7 @@ export default class SimulationContainer extends Component {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/recipe/get', true);
             xhr.onload = function (e) {
+
               this.addRecipeToQueue(JSON.parse(e.target.response))
             };
             xhr.send(data);
@@ -147,6 +162,7 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     }
+    this.state.mode = mode;
   }
   submitGlassCallback() {
 
@@ -166,66 +182,62 @@ export default class SimulationContainer extends Component {
     }
   }
   addSelectedIngredientToSelectedSlotCallback(amount) {
-    // console.log(this.state.selected_slot)
-    // console.log(this.state.selected_ingredient)
-    if (this.state.selected_ingredient != null && this.state.selected_slot != null) {
-      if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
-        let data = this.state.selected_slot.data;
+    // console.log(this.state.selectedSlot)
+    // console.log(this.state.selectedIngredient)
+    if (this.state.selectedIngredient != null && this.state.selectedSlot != null) {
+      if ((this.state.selectedSlot.bar === "quick" && this.state.selectedSlot.data.glass != null) || (this.state.selectedSlot.bar === "action")) {
+        let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
-        //console.log(this.state.selected_slot)
-        
-        let ingredient = Object.assign({}, this.state.selected_ingredient)
+        //console.log(this.state.selectedSlot)
+
+        let ingredient = Object.assign({}, this.state.selectedIngredient)
         //console.log(ingredient)
         if (amount > 0) {
-            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-                ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
-                data.actionStack.pop();
-            } else {
-                ingredient.amount = (0.025 * amount);
-            }
+          if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+            ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
+            data.actionStack.pop();
+          } else {
+            ingredient.amount = (0.025 * amount);
+          }
         } else {
-            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-                ingredient.amount = 1 + data.actionStack[data.actionStack.length-1].amount;
-                data.actionStack.pop();
-            } else {
+          if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+            ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
+            data.actionStack.pop();
+          } else {
             ingredient.amount = 1;
-            }
+          }
         }
-        
-        
-        if((data.amount == null)) {
-            data.amount = 0;
+
+
+        if ((data.amount == null)) {
+          data.amount = 0;
         }
-        
-        console.log(data.amount)
-        console.log(ingredient.amount)
-        console.log(data)
-        
-      ///  if((data.amount + (0.025 * amount)) < data.glass.volume) {
-            data.actionStack.push(ingredient);
-            //let totalAmount = 0;
-            //for(var i = 0; i < stack.length; i++) {
-               // totalAmount = totalAmount + stack[i].amount;
-            
-           // }
-            //data.amount = totalAmount;
-           // console.log(data)
-            //console.log(data.amount)
-            this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
-       // }
-        
-       
-        
-       
+
+        // console.log(data.amount)
+        // console.log(ingredient.amount)
+        // console.log(data)
+
+        ///  if((data.amount + (0.025 * amount)) < data.glass.volume) {
+        data.actionStack.push(ingredient);
+        //let totalAmount = 0;
+        //for(var i = 0; i < stack.length; i++) {
+        // totalAmount = totalAmount + stack[i].amount;
+
+        // }
+        //data.amount = totalAmount;
+        // console.log(data)
+        //console.log(data.amount)
+        this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
+        // }
       }
     }
   }
-  
+
   onSelectedIngredientChangeCallback(selectedIngredient) {
-    this.setState({ selected_ingredient: selectedIngredient });
+    this.setState({ selectedIngredient: selectedIngredient });
   }
   onSelectedSlotChangeCallback(bar, slot, data) {
-    this.setState({ selected_slot: { bar: bar, slot: slot, data: data } });
+    this.setState({ selectedSlot: { bar: bar, slot: slot, data: data } });
   }
   onDragStartCallback(dragged) {
     this.setState({ dragged: dragged });
@@ -285,65 +297,76 @@ export default class SimulationContainer extends Component {
   onDragEndSelectedIngredientCallback(index) {
 
   }
-  submitRecipeCallback(name) {
+  sendMessage(message) {
+    let messageLog = this.state.messageLog;
+    messageLog.push(message);
+    this.setState({ messageLog: messageLog });
+  }
+  submitRecipeCallback(data) {
 
-    if (this.state.selected_slot != null && this.state.selected_slot.bar == "quick") {
-
-      if (this.state.selected_slot.data.glass != null) {
-
-        // console.log("selected slot data glass not null")
-        // console.log(this.state.selected_slot.data.actionStack.length)
-        // console.log(this.state.selected_slot.data.actionStack)
-        // console.log(this.state.selected_slot.data)
-        if (this.state.selected_slot.data.actionStack.length >= 1) {
-          // console.log("selected slot action stack greather than 1 or equal");
-
-          //Name is the name of the recipe that the user wants to submit
-          //Where you should add your
-          let prunedActionStack = []
-          for (var i = 0; i < this.state.selected_slot.data.actionStack.length; i++) {
-            let current = this.state.selected_slot.data.actionStack[i];
-            if (current instanceof Object) {
-
-              let newObject = {
-                name: current.name,
-                amount: current.amount
-              }
-              prunedActionStack.push(newObject)
-            } else if (current === "shake") {
-              prunedActionStack.push(current);
-            }
-          }
-          let outputJson = {
-            name: name,
-            actionStack: prunedActionStack,
-            glass: {
-              name: this.state.selected_slot.data.glass.name
-            }
-          }
-          console.log(outputJson)
-          var data = new FormData();
-          data.append('name', name);
-          data.append('json', JSON.stringify(outputJson));
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '/recipe/add', true);
-          xhr.onload = function () {
-            // do something to response
-            console.log(this.responseText);
-          };
-          xhr.send(data);
-          this.setState({ recipeName: name });
-        } else {
-
-          console.log("You must have something in the glass");
-        }
-
-      } else {
-        console.log("Must have a glass");
-      }
-    } else {
-      console.log("A quick bar item must be selected");
+    if (data.name.length <= 0) {
+      this.sendMessage("Can't submit, you must input a name");
+      return;
     }
+    if (data.description.length <= 0) {
+      this.sendMessage("Can't submit, you must input a description");
+      return;
+    }
+    if (data.name.length > 50) {
+      this.sendMessage("Can't submit, the recipe name cant be longer than 50 characters");
+      return;
+    }
+    if (data.description.length > 500) {
+      this.sendMessage("Can't submit, the recipe description cant be longer than 500 characters");
+      return;
+    }
+    if (this.state.selectedSlot == null || this.state.selectedSlot.bar != "quick") {
+      this.sendMessage("Can't submit, a quick bar item must be selected");
+      return;
+    }
+    if (this.state.selectedSlot.data.glass == null) {
+      this.sendMessage("Can't submit, you must select a glass");
+      return;
+    }
+    if (this.state.selectedSlot.data.actionStack.length < 1) {
+      this.sendMessage("Can't submit, the glass cannot be empty");
+      return;
+    }
+    let prunedActionStack = []
+    for (var i = 0; i < this.state.selectedSlot.data.actionStack.length; i++) {
+      let current = this.state.selectedSlot.data.actionStack[i];
+      if (current instanceof Object) {
+
+        let newObject = {
+          name: current.name,
+          amount: current.amount
+        }
+        prunedActionStack.push(newObject)
+      } else if (current === "shake") {
+        prunedActionStack.push(current);
+      }
+    }
+    let outputJson = {
+      name: data.name,
+      actionStack: prunedActionStack,
+      glass: {
+        name: this.state.selectedSlot.data.glass.name
+      }
+    }
+    console.log(outputJson)
+    var data = new FormData();
+    data.append('name', data.name);
+    data.append('description', data.description);
+    data.append('private', data.private);
+    data.append('json', JSON.stringify(outputJson));
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/recipe/add', true);
+    xhr.onload = function () {
+      // do something to response
+      console.log(this.responseText);
+    };
+    console.log(data)
+    xhr.send(data);
   }
 
   renderGlass(glass, actionStack) {
@@ -400,29 +423,29 @@ export default class SimulationContainer extends Component {
           <div id="wrapper" className="center">
             <div id="sidebar-left">
               <div id="top">
-                <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selected_ingredient} scrolling="vert" />
+                <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
               </div>
 
               <div id="bottom">
-                <IngredientsTable ingredients={this.state.glasses} selected={this.state.selected_ingredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
+                <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
               </div>
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_slot={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
+                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
 
               </div>
               <div id="bottom">
-                <QuickBar renderGlass={this.renderGlass} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
-                <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem} selected_slot={this.state.selected_slot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
+                <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+                <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
               </div>
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
             </div>
             <div id="sidebar-right">
               <Router>
                 <Switch>
-                  <Route path="*/recipe" render={() => <RecipeRightPanel recipeName={this.recipeName} onSubmitCallback={this.submitRecipeCallback} globalState={this.state} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel completedRecipes={this.state.completedRecipes} recipeQueue={this.state.recipeQueue} onSubmitCallback={this.submitGlassCallback} />} />
+                  <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.submitGlassCallback} />} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
