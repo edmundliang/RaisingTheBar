@@ -67,7 +67,7 @@ export default class SimulationContainer extends Component {
     };
     this.onActionEndCallback = this.onActionEndCallback.bind(this);
     this.addSelectedIngredientToSelectedSlotCallback = this.addSelectedIngredientToSelectedSlotCallback.bind(this);
-    this.addSelectedIngredientToSelectedSlotCallbackCount = this.addSelectedIngredientToSelectedSlotCallbackCount.bind(this);
+    this.addSelectedIngredientToSelectedSlotCallbackRemaining = this.addSelectedIngredientToSelectedSlotCallbackRemaining.bind(this);
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -192,45 +192,39 @@ export default class SimulationContainer extends Component {
             ingredient.amount = 1;
             }
         }
-        
-        
-        if((data.amount == null)) {
-            data.amount = 0;
-        }
-        
-        console.log(data.amount)
-        console.log(ingredient.amount)
-        console.log(data)
-        
-        //if((data.amount + (0.025 * amount)) < data.glass.volume) {
-            data.actionStack.push(ingredient);
-            let totalAmount = 0;
-            for(var i = 0; i < stack.length; i++) {
-                totalAmount = totalAmount + stack[i].amount;
-            
-            }
-            data.amount = totalAmount;
-            //console.log(data)
-            //console.log(data.amount)
-            this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
-        //}
-        
-       
-        
-       
+
+        data.actionStack.push(ingredient);
+        this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+
       }
     }
   }
-  
-  addSelectedIngredientToSelectedSlotCallbackCount(amount) {
-      if (this.state.selected_ingredient != null && this.sate.selected_slot != null) {
-          if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
-              let data = this.state.selected_slot.data;
-              let ingredient = Object.assign({}, this.state.selected_ingredient)
-              console.log(ingredient)
-          }
+  addSelectedIngredientToSelectedSlotCallbackRemaining(amount) {
+      if (this.state.selected_ingredient != null && this.state.selected_slot != null) {
+      if ((this.state.selected_slot.bar === "quick" && this.state.selected_slot.data.glass != null) || (this.state.selected_slot.bar === "action")) {
+        let data = this.state.selected_slot.data;
+        let stack = data.actionStack;
+        
+        let ingredient = Object.assign({}, this.state.selected_ingredient)
+        //console.log(ingredient)
+        if (amount > 0) {
+            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selected_ingredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+                ingredient.amount = (amount) + data.actionStack[data.actionStack.length - 1].amount;
+                data.actionStack.pop();
+            } else {
+                ingredient.amount = (amount);
+            }
+        }
+
+        data.actionStack.push(ingredient);
+        this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
+
       }
+    }
+  
+      
   }
+ 
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selected_ingredient: selectedIngredient });
   }
@@ -419,7 +413,7 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_slot={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
+                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selected_ingredient={this.state.selected_ingredient} selected_slot={this.state.selected_slot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
 
               </div>
               <div id="bottom">

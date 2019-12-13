@@ -50,6 +50,8 @@ export default class SelectedIngredient extends Component {
     }
     
     onMouseDown() {
+        
+        
         this.rotate();
         if (this.state.amount == null) {
             this.setState({ amount: 0 })
@@ -58,8 +60,47 @@ export default class SelectedIngredient extends Component {
     }
     onMouseUp() {
         clearTimeout(this.t);
+        
         if (this.state.amount > 0) {
-            this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+            
+            
+            let data = this.props.selected_slot.data;
+            let stack = data.actionStack;
+            if((data.amount == null)) {
+                data.amount = 0;
+            }
+            let totalAmount = 0;
+            for(var i = 0; i < stack.length; i++) {
+                totalAmount = totalAmount + stack[i].amount;
+            
+            }
+            
+            // total amount in cup currently
+            data.amount = totalAmount;
+            
+            // amount to be poured
+            let amountToBePoured = 0.025 * this.state.amount
+            console.log(stack)
+            console.log(data.amount)
+            
+            if ((data.amount + amountToBePoured) < data.glass.volume) {
+                // add ingredient if there is enough room
+                this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+            } else {
+               
+                let remainingVolume = data.glass.volume - data.amount;
+                
+                if (remainingVolume !=0) {
+                    // if there is remaining space add the remaining volume
+                    this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
+                } else {
+                    // if there is no remaining space add error message
+                    
+                   
+                }
+                
+            }
+  
         }
         this.setState({ amount: 0 });
         this.rotateBack();
