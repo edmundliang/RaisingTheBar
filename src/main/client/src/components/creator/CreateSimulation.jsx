@@ -9,7 +9,8 @@ export default class CreateSimulation extends Component {
     constructor() {
         super();
         this.state = {
-            recipes: []
+            recipes: [],
+            jsonBodies: []
         };
        var globalThis = this;
           var xhr = new XMLHttpRequest();
@@ -17,9 +18,20 @@ export default class CreateSimulation extends Component {
           xhr.onload = function () {
             // do something to response
             console.log(JSON.parse(this.responseText));
-            globalThis.setState({recipes: JSON.parse(this.responseText).recipes});
+            var rec = JSON.parse(this.responseText).recipes;
+            var jsonBod = [];
+            var x;
+            for (x of rec) {
+                if (x.json != null) {
+                    jsonBod.push(JSON.parse(x.json));
+            }
+            }
+            console.log(jsonBod);
+            globalThis.setState({recipes: rec, jsonBodies: jsonBod});
           };
-     xhr.send();
+          xhr.send();
+          
+          
     }
     /*getSimulations() {
         var data = new FormData();

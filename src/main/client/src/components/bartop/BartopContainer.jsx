@@ -219,12 +219,12 @@ export default class SimulationContainer extends Component {
         data.actionStack.push(ingredient);
         this.setState({ selected_slot: { bar: this.state.selected_slot.bar, slot: this.state.selected_slot.slot, data: data } });
 
+
       }
-    }
-  
-      
+    }   
   }
  
+
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selected_ingredient: selectedIngredient });
   }
