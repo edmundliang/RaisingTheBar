@@ -71,7 +71,12 @@ export default class SelectedIngredient extends Component {
             }
             let totalAmount = 0;
             for(var i = 0; i < stack.length; i++) {
-                totalAmount = totalAmount + stack[i].amount;
+                // check if it is ingredient or action
+                if (stack[i].amount != null) {
+                    totalAmount = totalAmount + stack[i].amount;
+                }
+            
+                
             
             }
             
@@ -82,8 +87,10 @@ export default class SelectedIngredient extends Component {
             let amountToBePoured = 0.025 * this.state.amount
             console.log(stack)
             console.log(data.amount)
+            console.log(this.props.selected_slot)
             
-            if ((data.amount + amountToBePoured) < data.glass.volume) {
+            if(this.props.selected_slot.bar != "action") {
+                if ((data.amount + amountToBePoured) < data.glass.volume) {
                 // add ingredient if there is enough room
                 this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
             } else {
@@ -100,6 +107,13 @@ export default class SelectedIngredient extends Component {
                 }
                 
             }
+            } else {
+                this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+            }
+                
+            
+            
+            
   
         }
         this.setState({ amount: 0 });
