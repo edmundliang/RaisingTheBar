@@ -68,6 +68,7 @@ export default class SimulationContainer extends Component {
     };
     this.onActionEndCallback = this.onActionEndCallback.bind(this);
     this.addSelectedIngredientToSelectedSlotCallback = this.addSelectedIngredientToSelectedSlotCallback.bind(this);
+    this.addSelectedIngredientToSelectedSlotCallbackRemaining = this.addSelectedIngredientToSelectedSlotCallbackRemaining.bind(this);
     this.onSelectedIngredientChangeCallback = this.onSelectedIngredientChangeCallback.bind(this);
     this.onSelectedSlotChangeCallback = this.onSelectedSlotChangeCallback.bind(this);
     this.onDragStartCallback = this.onDragStartCallback.bind(this);
@@ -208,30 +209,37 @@ export default class SimulationContainer extends Component {
           }
         }
 
-
-        if ((data.amount == null)) {
-          data.amount = 0;
-        }
-
-        // console.log(data.amount)
-        // console.log(ingredient.amount)
-        // console.log(data)
-
-        ///  if((data.amount + (0.025 * amount)) < data.glass.volume) {
         data.actionStack.push(ingredient);
-        //let totalAmount = 0;
-        //for(var i = 0; i < stack.length; i++) {
-        // totalAmount = totalAmount + stack[i].amount;
-
-        // }
-        //data.amount = totalAmount;
-        // console.log(data)
-        //console.log(data.amount)
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
-        // }
+
       }
     }
   }
+  addSelectedIngredientToSelectedSlotCallbackRemaining(amount) {
+    if (this.state.selectedIngredient != null && this.state.selectedSlot != null) {
+      if ((this.state.selectedSlot.bar === "quick" && this.state.selectedSlot.data.glass != null) || (this.state.selectedSlot.bar === "action")) {
+        let data = this.state.selectedSlot.data;
+        let stack = data.actionStack;
+
+        let ingredient = Object.assign({}, this.state.selectedIngredient)
+        //console.log(ingredient)
+        if (amount > 0) {
+          if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+            ingredient.amount = (amount) + data.actionStack[data.actionStack.length - 1].amount;
+            data.actionStack.pop();
+          } else {
+            ingredient.amount = (amount);
+          }
+        }
+
+        data.actionStack.push(ingredient);
+        this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
+
+
+      }
+    }
+  }
+
 
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selectedIngredient: selectedIngredient });
@@ -432,8 +440,7 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} parent={this} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} />
-
+                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} />
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
