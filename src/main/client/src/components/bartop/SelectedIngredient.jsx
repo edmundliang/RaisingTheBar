@@ -75,12 +75,16 @@ export default class SelectedIngredient extends Component {
             let totalAmount = 0;
             for(var i = 0; i < stack.length; i++) {
                 // check if it is ingredient or action
-                if (stack[i].amount != null) {
-                    totalAmount = totalAmount + stack[i].amount;
-                }
-            
+                if (stack[i].amount != null ) {
+
+                    // check if ingredient is liquid or not
+                    if (stack[i].scale != "count") {
+
+                        totalAmount = totalAmount + stack[i].amount;
+                    }
                 
-            
+                    
+                }
             }
             
             // total amount in cup currently
@@ -103,21 +107,17 @@ export default class SelectedIngredient extends Component {
                 if (remainingVolume !=0) {
                     // if there is remaining space add the remaining volume
                     this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
+                    this.props.sendMessage("Remaining glass volume exceeded. Filled with " + remainingVolume +" ounces of " + this.props.selectedIngredient.name)
                 } else {
                     // if there is no remaining space add error message
-                    
-                   
+                    this.props.sendMessage("Glass is full!")
                 }
                 
             }
             } else {
                 this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
             }
-                
-            
-            
-            
-  
+
         }
         this.setState({ amount: 0 });
         this.rotateBack();

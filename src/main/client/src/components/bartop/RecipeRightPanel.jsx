@@ -53,7 +53,7 @@ export default class RecipeRightPanel extends Component {
 						</div>
 						<input type="text" id="description" className="FormField__Input" placeholder="Enter The Recipe Description" name="description" value={this.state.description} onChange={this.handleChange} />
 						<div>
-							Public?
+							Public Recipe?
 						<input type="checkbox" id="public" name="public" checked={this.state.public} onChange={this.handleChange} />
 						</div>
 						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
