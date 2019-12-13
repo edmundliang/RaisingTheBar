@@ -38,9 +38,9 @@ export default class RecipeRightPanel extends Component {
 
 				return "Press submit to submit this glass"
 			}
-			return "The glass must not be empty"
+			return "The glass can't be empty"
 		}
-		return "You must select a slot to submit as this recipe"
+		return "You must select a slot to submit a recipe"
 	}
 	render() {
 		return (

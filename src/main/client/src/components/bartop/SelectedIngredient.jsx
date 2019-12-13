@@ -18,6 +18,7 @@ export default class SelectedIngredient extends Component {
         this.state = {
             rotation: 0,
             amount: 0,
+            volumePoured: 0,
             beingPoured: false,
         }
         
@@ -34,17 +35,17 @@ export default class SelectedIngredient extends Component {
         // callback(index);
     }
     rotate () {
-        let newRotation = this.state.rotation + 45;
+     
         this.setState({
-            rotation: newRotation
-        })
+            rotation: 120
+        });
     }
     
     rotateBack() {
-        let newRotation = this.state.rotation - 45;
+ 
         this.setState({
-            rotation: newRotation
-        })
+            rotation: 0
+        });
         
     }
     
@@ -86,7 +87,7 @@ export default class SelectedIngredient extends Component {
             } else {
                 this.state.ounces = false;
             }
-            console.log(this.state.ounces);
+            //console.log(this.state.ounces);
             return <div onMouseDown={this.state.ounces ? this.onMouseDown.bind(this) : null} onMouseUp={this.state.ounces ? this.onMouseUp.bind(this) : this.onMouseClick.bind(this)}> 
                 <img style={{transform: `rotate(${rotation}deg)`}}className="top-img" draggable="false" src={"/images/" + (this.props.selected_ingredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selected_ingredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selected_ingredient.name} /> </div>
 

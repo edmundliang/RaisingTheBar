@@ -304,7 +304,7 @@
             "id": "5ddb29e63d63a0c961d75408",
             "name": "ICE CREAM",
             "category": "dairy",
-            "scale": "ounces"
+            "scale": "count"
         },
         {
             "id": "5ddb2a053d63a0c961d75409",
