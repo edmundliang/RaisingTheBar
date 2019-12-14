@@ -12,26 +12,30 @@ export default class CreateSimulation extends Component {
             recipes: [],
             jsonBodies: []
         };
-       var globalThis = this;
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', '/recipe/list', true);
-          xhr.onload = function () {
+        var globalThis = this;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/recipe/list', true);
+        xhr.onload = function () {
             // do something to response
-            console.log(JSON.parse(this.responseText));
-            var rec = JSON.parse(this.responseText).recipes;
-            var jsonBod = [];
-            var x;
-            for (x of rec) {
-                if (x.json != null) {
-                    jsonBod.push(JSON.parse(x.json));
+            var responseObject = null;
+            try {
+                responseObject = JSON.parse(this.responseText)
+                console.log(responseObject);
+                var rec = responseObject.recipes;
+                var jsonBod = [];
+                var x;
+                for (x of rec) {
+                    if (x.json != null) {
+                        jsonBod.push(JSON.parse(x.json));
+                    }
+                }
+                console.log(jsonBod);
+                globalThis.setState({ recipes: rec, jsonBodies: jsonBod });
+            } catch (e) {
+                console.error("Got Non JSON response from server");
             }
-            }
-            console.log(jsonBod);
-            globalThis.setState({recipes: rec, jsonBodies: jsonBod});
-          };
-          xhr.send();
-          
-          
+        };
+        xhr.send();
     }
     /*getSimulations() {
         var data = new FormData();

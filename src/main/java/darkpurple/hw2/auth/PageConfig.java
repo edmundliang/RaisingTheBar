@@ -20,12 +20,10 @@ public class PageConfig implements WebMvcConfigurer {
 
         registry.addViewController("/").setViewName("forward:/index.html");
         registry.addViewController("/home").setViewName("forward:/index.html");
-        registry.addViewController("/simulation").setViewName("forward:/index.html");
         registry.addViewController("/forgot-password").setViewName("forward:/index.html");
         registry.addViewController("/reset-password").setViewName("forward:/index.html");
         registry.addViewController("/signup").setViewName("forward:/index.html");
         registry.addViewController("/workshop").setViewName("forward:/index.html");
-        registry.addViewController("/recipe").setViewName("forward:/index.html");
         registry.addViewController("/creator").setViewName("forward:/index.html");
         registry.addViewController("/bartop/**").setViewName("forward:/index.html");
 //        registry.addViewController("/signin").setViewName("forward:/index.html");
