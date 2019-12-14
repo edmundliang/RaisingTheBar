@@ -28,15 +28,15 @@ export default class RecipeRightPanel extends Component {
 		if (e.target.type === "checkbox") {
 			this.setState({ [e.target.name]: e.target.checked });
 		} else {
-			if ((e.target.name == "name" && e.target.value.length > 0 && e.target.value.length <= 50)
+			if ((e.target.name == "name" && e.target.value.length <= 50)
 				||
-				(e.target.name == "description" && e.target.value.length > 0 && e.target.value.length <= 500)) {
+				(e.target.name == "description" && e.target.value.length <= 500)) {
 				this.setState({ [e.target.name]: e.target.value });
 			}
 		}
 	}
 	hadValidGlass() {
-		return this.props.selected_slot != null && this.props.selected_slot.bar == "quick" && this.props.selected_slot.data != null && this.props.selected_slot.data.glass != null && this.props.selected_slot.data.actionStack.length > 0;
+		return this.props.selectedSlot != null && this.props.selectedSlot.bar == "quick" && this.props.selectedSlot.data != null && this.props.selectedSlot.data.glass != null && this.props.selectedSlot.data.actionStack.length > 0;
 	}
 	render() {
 		return (
@@ -59,14 +59,14 @@ export default class RecipeRightPanel extends Component {
 						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
 						<div>
 							<div>Cup Contents</div>
-							{this.hadValidGlass() ? this.props.selected_slot.data.actionStack.map((item) => {
-								return item === "shake" ? <p>{item}</p> : <p>{item.name + " " + item.amount + " " + item.scale}</p>
+							{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
+								return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount/100) + " " + item.scale}</p>}</div>
 							}) : "None"}
 						</div>
 						<div>
 							<div>Log:</div>
 							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
-								return <p key={item + index}>{item}</p>
+								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{item}</p>
 							})}
 						</div>
 					</div>

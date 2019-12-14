@@ -37,12 +37,14 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("json")String json) {
+    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("private") boolean isPrivate, @RequestParam("json")String json) {
         Recipe recipe = new Recipe();
         User user = userService.getLoggedUser();
+        recipe.setName(name);
+        recipe.setDescription(description);
+        recipe.setIsPrivate(isPrivate);
         recipe.setCreator(user.getId());
         recipe.setJson(json);
-        recipe.setName(name);
         recipe.setDate(new Date());
         recipeService.saveRecipe(recipe);
 

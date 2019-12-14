@@ -13,55 +13,55 @@
     "ingredients": [{
             "name": "SHOT",
             "category": "glasses",
-            "volume": 1
+            "volume": 100
         },
         {
             "name": "CHAMPAGNE",
             "category": "glasses",
-            "volume": 10
+            "volume": 1000
         },
         {
             "name": "HIGHBALL",
             "category": "glasses",
-            "volume": 9
+            "volume": 900
         },
         {
             "name": "HURRICANE",
             "category": "glasses",
-            "volume": 20
+            "volume": 2000
         },
         {
             "name": "MARGARITA",
             "category": "glasses",
-            "volume": 9
+            "volume": 900
         },
         {
             "name": "MARTINI",
             "category": "glasses",
-            "volume": 9
+            "volume": 900
         },
         {
             "name": "PINT",
             "category": "glasses",
-            "volume": 16
+            "volume": 1600
         },
         {
             "name": "POCO GRANDE",
             "category": "glasses",
-            "volume": 12
+            "volume": 1200
         },
         {
             "name": "ROCKS",
             "category": "glasses",
-            "volume": 12
+            "volume": 1200
         },
         {
             "name": "WHITE WINE",
             "category": "glasses",
-            "volume": 12
+            "volume": 1200
         },
-        {   
-            "id":"5ddb26c03d63a0c961d753df",
+        {
+            "id": "5ddb26c03d63a0c961d753df",
             "name": "151 RUM",
             "category": "liquors",
             "scale": "ounces"
@@ -632,49 +632,49 @@
         },
         {
             "name": "TONIC WATER",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "LEMON LIME",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "GINGER ALE",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "COKE",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "DIET COKE",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "SODA WATER",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "ORANGE SODA",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "PEPSI",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
         },
         {
             "name": "SOUR MIX",
-            "category":"soda",
+            "category": "soda",
             "scale": "ounces"
-        }, 
+        },
         {
             "id": "5ddc1c6d17ac88d15e9e3ce8",
             "name": "ICE CUBES",

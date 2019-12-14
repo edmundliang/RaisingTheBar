@@ -30,6 +30,12 @@ export default class SimulationContainer extends Component {
         otherIngredients.push(x);
       }
     }
+    glasses.sort((a, b) => {
+      return a.name > b.name;
+    });
+    alcohol.sort((a, b) => {
+      return a.name < b.name;
+    });
     this.state = {
       selectedIngredient: null,
       selectedSlot: null,
@@ -80,6 +86,7 @@ export default class SimulationContainer extends Component {
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
     this.submitGlassCallback = this.submitGlassCallback.bind(this);
+    this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -182,9 +189,25 @@ export default class SimulationContainer extends Component {
       }
     }
   }
-  addSelectedIngredientToSelectedSlotCallback(amount) {
+  convertTimeToAmount(time) {
+    //amount is the amount of time that has passed in 1/10 second chunks. So amount = 10 means that 1 second has passed
+
+      return time < 20 ? time : time * 2;
+    // if (time >= 15) {
+    //   return elapsedTime * 10;
+    // }
+    // if (time >= 10) {
+    //   return 100;
+    // }
+    // if (time >= 5) {
+    //   return 50;
+    // }
+    // return 25;
+  }
+  addSelectedIngredientToSelectedSlotCallback(elapsedTime) {
     // console.log(this.state.selectedSlot)
     // console.log(this.state.selectedIngredient)
+
     if (this.state.selectedIngredient != null && this.state.selectedSlot != null) {
       if ((this.state.selectedSlot.bar === "quick" && this.state.selectedSlot.data.glass != null) || (this.state.selectedSlot.bar === "action")) {
         let data = this.state.selectedSlot.data;
@@ -193,12 +216,12 @@ export default class SimulationContainer extends Component {
 
         let ingredient = Object.assign({}, this.state.selectedIngredient)
         //console.log(ingredient)
-        if (amount > 0) {
+        if (elapsedTime > 0) {
           if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-            ingredient.amount = (0.025 * amount) + data.actionStack[data.actionStack.length - 1].amount;
+            ingredient.amount = this.convertTimeToAmount(elapsedTime) + data.actionStack[data.actionStack.length - 1].amount;
             data.actionStack.pop();
           } else {
-            ingredient.amount = (0.025 * amount);
+            ingredient.amount = this.convertTimeToAmount(elapsedTime);
           }
         } else {
           if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
@@ -208,7 +231,6 @@ export default class SimulationContainer extends Component {
             ingredient.amount = 1;
           }
         }
-
         data.actionStack.push(ingredient);
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
 
@@ -231,15 +253,11 @@ export default class SimulationContainer extends Component {
             ingredient.amount = (amount);
           }
         }
-
         data.actionStack.push(ingredient);
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
-
-
       }
     }
   }
-
 
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selectedIngredient: selectedIngredient });
@@ -265,8 +283,6 @@ export default class SimulationContainer extends Component {
       actionBar[index].ingredient = this.state.dragged;
       actionBar[index].actionStack.push(this.state.dragged);
     }
-
-
     this.setState({ actionBar: actionBar, dragged: null });
   }
   onDragEndSelectedIngredientCallback(index) {
@@ -311,7 +327,6 @@ export default class SimulationContainer extends Component {
     this.setState({ messageLog: messageLog });
   }
   submitRecipeCallback(data) {
-
     if (data.name.length <= 0) {
       this.sendMessage("Can't submit, you must input a name");
       return;
@@ -356,10 +371,10 @@ export default class SimulationContainer extends Component {
     }
     let outputJson = {
       name: data.name,
+      description: data.description,
+      private: data.private,
       actionStack: prunedActionStack,
-      glass: {
-        name: this.state.selectedSlot.data.glass.name
-      }
+      glass: this.state.selectedSlot.data.glass
     }
     console.log(outputJson)
     var data = new FormData();
@@ -373,7 +388,6 @@ export default class SimulationContainer extends Component {
       // do something to response
       console.log(this.responseText);
     };
-    console.log(data)
     xhr.send(data);
   }
 
@@ -440,7 +454,7 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} />
+                <SelectedIngredient convertTimeToAmount ={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} />
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />

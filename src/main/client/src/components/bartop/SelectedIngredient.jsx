@@ -18,7 +18,7 @@ export default class SelectedIngredient extends Component {
         this.pouring = this.pouring.bind(this);
         this.state = {
             rotation: 0,
-            amount: 0,
+            elapsedTime: 0,
             volumePoured: 0,
             beingPoured: false,
         }
@@ -45,89 +45,78 @@ export default class SelectedIngredient extends Component {
         });
     }
     onMouseDown() {
-        
-        
+        if (this.props.selectedSlot == null) {
+            return;
+        }
         this.rotate();
-        if (this.state.amount == null) {
-            this.setState({ amount: 0 })
+        if (this.state.elapsedTime == null) {
+            this.setState({ elapsedTime: 0 })
         }
         this.pouring();
     }
     onMouseOut() {
         clearTimeout(this.t);
-        if (this.state.amount > 0) {
-            this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+        if (this.state.elapsedTime > 0) {
+            this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
         }
-        this.setState({ amount: 0 });
+        this.setState({ elapsedTime: 0 });
         this.rotateBack();
     }
     onMouseUp() {
         clearTimeout(this.t);
-        
-        if (this.state.amount > 0) {
-            
-            
+        if (this.state.elapsedTime > 0) {
             let data = this.props.selectedSlot.data;
             let stack = data.actionStack;
-            if((data.amount == null)) {
+            if ((data.amount == null)) {
                 data.amount = 0;
             }
             let totalAmount = 0;
-            for(var i = 0; i < stack.length; i++) {
+            for (var i = 0; i < stack.length; i++) {
                 // check if it is ingredient or action
                 if (stack[i].amount != null) {
                     totalAmount = totalAmount + stack[i].amount;
                 }
-            
-                
-            
             }
-            
+
             // total amount in cup currently
             data.amount = totalAmount;
-            
+
             // amount to be poured
-            let amountToBePoured = 0.025 * this.state.amount
+            let amountToBePoured = this.props.convertTimeToAmount(this.state.elapsedTime);
             console.log(stack)
             console.log(data.amount)
             console.log(this.props.selectedSlot)
-            
-            if(this.props.selectedSlot.bar != "action") {
+
+            if (this.props.selectedSlot.bar != "action") {
                 if ((data.amount + amountToBePoured) < data.glass.volume) {
-                // add ingredient if there is enough room
-                this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
-            } else {
-               
-                let remainingVolume = data.glass.volume - data.amount;
-                
-                if (remainingVolume !=0) {
-                    // if there is remaining space add the remaining volume
-                    this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
+                    // add ingredient if there is enough room
+                    this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
                 } else {
-                    // if there is no remaining space add error message
-                    
-                   
+
+                    let remainingVolume = data.glass.volume - data.amount;
+
+                    if (remainingVolume != 0) {
+                        // if there is remaining space add the remaining volume
+                        this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
+                    } else {
+                        // if there is no remaining space add error message
+
+
+                    }
                 }
-                
-            }
             } else {
-                this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+                this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
             }
-                
-            
-            
-            
-  
         }
-        this.setState({ amount: 0 });
+        this.setState({ elapsedTime: 0 });
         this.rotateBack();
     }
     onMouseClick() {
-        console.log(this.state.amount)
-        this.props.addSelectedIngredientToSelectedSlotCallback(this.state.amount)
+        console.log(this.state.elapsedTime)
+        this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
     }
     pour() {
-        this.setState({ amount: this.state.amount + 1 });
+        this.setState({ elapsedTime: this.state.elapsedTime + 1 });
 
     }
     pouring() {
@@ -177,16 +166,13 @@ export default class SelectedIngredient extends Component {
             <div className="selectedIngredient">
 
                 <div className="right">
-                    <div onDrop={this.handleDrop.bind(this, 0)}  onDragStart={(e) => e.preventDefault()}  onDragOver={(e) => e.preventDefault()} draggable>
-                        {
-                            this.getIngredientImage()
-                        }
+                    <div onDrop={this.handleDrop.bind(this, 0)} onDragStart={(e) => e.preventDefault()} onDragOver={(e) => e.preventDefault()} draggable>
+                        {this.getIngredientImage()}
+                        {this.state.ounces ? (this.props.convertTimeToAmount(this.state.elapsedTime) / 100) + " Oz" : ""}
                     </div>
 
                     <div className="selected-slot" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
-                        {
-                            this.getSlotImage()
-                        }
+                        {this.getSlotImage()}
                     </div>
                 </div>
 
