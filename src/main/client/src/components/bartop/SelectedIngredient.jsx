@@ -73,8 +73,15 @@ export default class SelectedIngredient extends Component {
             let totalAmount = 0;
             for (var i = 0; i < stack.length; i++) {
                 // check if it is ingredient or action
-                if (stack[i].amount != null) {
-                    totalAmount = totalAmount + stack[i].amount;
+                if (stack[i].amount != null ) {
+
+                    // check if ingredient is liquid or not
+                    if (stack[i].scale != "count") {
+
+                        totalAmount = totalAmount + stack[i].amount;
+                    }
+                
+                    
                 }
             }
 
@@ -83,9 +90,9 @@ export default class SelectedIngredient extends Component {
 
             // amount to be poured
             let amountToBePoured = this.props.convertTimeToAmount(this.state.elapsedTime);
-            console.log(stack)
-            console.log(data.amount)
-            console.log(this.props.selectedSlot)
+            // console.log(stack)
+            // console.log(data.amount)
+            // console.log(this.props.selectedSlot)
 
             if (this.props.selectedSlot.bar != "action") {
                 if ((data.amount + amountToBePoured) < data.glass.volume) {
@@ -98,8 +105,10 @@ export default class SelectedIngredient extends Component {
                     if (remainingVolume != 0) {
                         // if there is remaining space add the remaining volume
                         this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
+                        this.props.sendMessage("Remaining glass volume exceeded. Filled with " + remainingVolume +" ounces of " + this.props.selectedIngredient.name)
                     } else {
                         // if there is no remaining space add error message
+                    this.props.sendMessage("Glass is full!")
 
 
                     }
