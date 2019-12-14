@@ -64,7 +64,10 @@ export default class SelectedIngredient extends Component {
     }
     onMouseUp() {
         clearTimeout(this.t);
-        if (this.state.elapsedTime > 0) {
+        
+        if (this.state.elapsedTime > 0 && this.props.selectedSlot!= null) {
+            
+            
             let data = this.props.selectedSlot.data;
             let stack = data.actionStack;
             if ((data.amount == null)) {
@@ -77,11 +80,8 @@ export default class SelectedIngredient extends Component {
 
                     // check if ingredient is liquid or not
                     if (stack[i].scale != "count") {
-
                         totalAmount = totalAmount + stack[i].amount;
                     }
-                
-                    
                 }
             }
 
@@ -116,13 +116,19 @@ export default class SelectedIngredient extends Component {
             } else {
                 this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
             }
+        } else {
+            this.props.sendMessage("Select a glass from quick bar to add ingredients to!")
         }
         this.setState({ elapsedTime: 0 });
         this.rotateBack();
     }
     onMouseClick() {
         console.log(this.state.elapsedTime)
-        this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
+         if (this.props.selectedSlot!= null) {
+            this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
+        } else {
+            this.props.sendMessage("Select a glass from quick bar to add ingredients to!")
+        }
     }
     pour() {
         this.setState({ elapsedTime: this.state.elapsedTime + 1 });
