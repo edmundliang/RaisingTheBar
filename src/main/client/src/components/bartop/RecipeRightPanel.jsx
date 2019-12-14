@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Button } from 'react-bootstrap';
+import './RecipeRightPanel.scss';
 
 export default class RecipeRightPanel extends Component {
 	constructor(props) {
@@ -63,8 +64,9 @@ export default class RecipeRightPanel extends Component {
 								return item === "shake" ? <p>{item}</p> : <p>{item.name + " " + item.amount + " " + item.scale}</p>
 							}) : "None"}
 						</div>
-						<div>
-							<div>Log:</div>
+                                                <div>Log:</div>
+						<div className="log">
+							
 							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
 								return <p key={item + index}>{item}</p>
 							})}
