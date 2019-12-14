@@ -20,6 +20,9 @@ export default class SimulationContainer extends Component {
     var otherIngredients = [];
     var glasses = [];
     var alcohol = [];
+    ingredientsJsonFile.ingredients.sort((a, b) => {
+      return a.name > b.name;
+    });
     for (var x of ingredientsJsonFile.ingredients) {
       if (x["category"] === null) {
         x["category"] = "other";
@@ -30,12 +33,6 @@ export default class SimulationContainer extends Component {
         otherIngredients.push(x);
       }
     }
-    glasses.sort((a, b) => {
-      return a.name > b.name;
-    });
-    alcohol.sort((a, b) => {
-      return a.name < b.name;
-    });
     this.state = {
       selectedIngredient: null,
       selectedSlot: null,
