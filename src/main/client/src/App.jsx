@@ -5,6 +5,7 @@ import AuthContainer from './components/auth/AuthContainer';
 import BartopContainer from './components/bartop/BartopContainer';
 import CreatorContainer from './components/creator/CreatorContainer';
 import Workshop from './components/workshop/Workshop';
+import Results from './components/results/Results.jsx';
 import NoMatch from './components/NoMatch';
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
               <Route path="/bartop/:var1/:var2?/:var3?" component={BartopContainer} />
               <Route path="/creator" component={CreatorContainer} />
               <Route path="/workshop" component={Workshop} />
+              <Route path="/results/:var1/:var2?/:var3?" component={Results} />
               <Route component={NoMatch} />
             </Switch>
           </Router>

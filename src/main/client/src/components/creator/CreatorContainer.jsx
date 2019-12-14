@@ -15,10 +15,10 @@ export default class CreatorContainer extends Component {
         <NavigationBar />
         <Tabs defaultActiveKey="createSimulation" transition={false} id="creator-tabs">
           <Tab eventKey="createSimulation" title="Create Simulation">
-            <CreateSimulation/>
+            <CreateSimulation />
           </Tab>
           <Tab eventKey="editSimulation" title="Edit Simulation">
-            <EditSimulation/>
+            <EditSimulation />
           </Tab>
 
           {/*<Tab eventKey="viewMySimulations" title="View My Simulations">

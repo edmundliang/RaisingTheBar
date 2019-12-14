@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 
 export default class CreateSimulationRecipeTable extends Component {
@@ -38,7 +38,8 @@ export default class CreateSimulationRecipeTable extends Component {
     }
   }
 
-  renter() {
+  render() {
+    var parent = this;
     return (
       <div className="ml-4 mr-4 mt-3 mb-0">
         <MaterialTable
@@ -50,7 +51,7 @@ export default class CreateSimulationRecipeTable extends Component {
               new Promise(resolve => {
                 setTimeout(() => {
                   resolve();
-                  setState(prevState => {
+                  parent.setState(prevState => {
                     const data = [...prevState.data];
                     data.splice(data.indexOf(oldData), 1);
                     return { ...prevState, data };

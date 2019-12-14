@@ -189,7 +189,7 @@ export default class SimulationContainer extends Component {
   convertTimeToAmount(time) {
     //amount is the amount of time that has passed in 1/10 second chunks. So amount = 10 means that 1 second has passed
 
-      return time < 20 ? time : time * 2;
+    return time < 20 ? time : time * 2;
     // if (time >= 15) {
     //   return elapsedTime * 10;
     // }
@@ -381,9 +381,15 @@ export default class SimulationContainer extends Component {
     data.append('json', JSON.stringify(outputJson));
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/recipe/add', true);
+    var parent = this
     xhr.onload = function () {
-      // do something to response
-      console.log(this.responseText);
+      // console.log(this)
+      if (this.status == 201) {
+        parent.props.history.push("/results/recipe/add/success");
+      } else {
+        parent.sendMessage("Error: " + this.status + " when sending recipe to server");
+      }
+      // console.log(this.responseText);
     };
     xhr.send(data);
   }
@@ -451,9 +457,9 @@ export default class SimulationContainer extends Component {
             </div>
             <div id="main">
               <div id="top">
-                <SelectedIngredient convertTimeToAmount ={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem} 
-                    selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback} 
-                    addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage}/>
+                <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
+                  selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
+                  addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} />
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />

@@ -12,14 +12,13 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import darkpurple.hw2.database.entity.Glass;
+import java.util.ArrayList;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class RecipeController {
@@ -30,45 +29,67 @@ public class RecipeController {
     @Autowired
     private CustomUserDetailsService userService;
 
-    @RequestMapping(value = "/recipe/get", method = RequestMethod.GET)
-    public String getRecipe(@RequestParam("id") String recipeId) {
-        return recipeService.findRecipeById(recipeId).getJson();
-
+    @RequestMapping(value = "/recipe/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getRecipe(@RequestParam("id") String recipeId) {
+        Recipe rec = recipeService.findRecipeById(recipeId);
+        if (rec != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(rec.getJson());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("private") boolean isPrivate, @RequestParam("json")String json) {
-        Recipe recipe = new Recipe();
+    public ResponseEntity addRecipe(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("private") boolean isPrivate, @RequestParam("json") String json) {
         User user = userService.getLoggedUser();
-        recipe.setName(name);
-        recipe.setDescription(description);
-        recipe.setIsPrivate(isPrivate);
-        recipe.setCreator(user.getId());
-        recipe.setJson(json);
-        recipe.setDate(new Date());
-        recipeService.saveRecipe(recipe);
-
-        return recipe;
+        if (user != null) {
+            Recipe recipe = new Recipe();
+            recipe.setName(name);
+            recipe.setDescription(description);
+            recipe.setIsPrivate(isPrivate);
+            recipe.setCreator(user.getId());
+            recipe.setJson(json);
+            recipe.setDate(new Date());
+            recipeService.saveRecipe(recipe);
+            return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     @RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
-    public void deleteRecipe(@RequestParam("id") String recipeId) {
-        recipeService.deleteRecipe(recipeId);
+    public ResponseEntity deleteRecipe(@RequestParam("id") String recipeId) {
+        User user = userService.getLoggedUser();
+        Recipe rec = recipeService.findRecipeById(recipeId);
+        if (user != null) {
+            if (rec != null && rec.getCreator() == user.getId()) {
+                recipeService.deleteRecipe(recipeId);
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 
     @RequestMapping(value = "/recipe/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllRecipes() {
-        
+    public ResponseEntity findAllRecipes() {
         ObjectMapper mapper = new ObjectMapper();
+        User user = userService.getLoggedUser();
         try {
             Map outputMap = new HashMap();
             List<Recipe> recipeList = recipeService.getAllRecipes();
-            outputMap.put("recipes", recipeList);
+            List<Recipe> approvedList = new ArrayList();
+            for (Recipe r : recipeList) {
+                if (!r.isIsPrivate() || r.getCreator() == user.getId()) {
+                    approvedList.add(r);
+                }
+            }
+            outputMap.put("recipes", approvedList);
             String output = mapper.writeValueAsString(outputMap);
-            return output;
+            return ResponseEntity.status(HttpStatus.OK).body(output);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return "Error";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
