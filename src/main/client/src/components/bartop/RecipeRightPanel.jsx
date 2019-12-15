@@ -59,13 +59,19 @@ export default class RecipeRightPanel extends Component {
 						</div>
 						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
 						<div>
-							<div>Cup Contents</div>
+							<div className="scroll">Cup Contents</div>
 							{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
-								return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " " + item.scale}</p>}</div>
+
+								if (item.scale === "ounces") {
+									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
+								} else {
+									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
+								}
+
 							}) : "None"}
 						</div>
 						<div>Log:</div>
-						<div className="log">
+						<div className="scroll">
 
 							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
 								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{item}</p>
