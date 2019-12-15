@@ -40,7 +40,10 @@ export default class SimulationContainer extends Component {
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
+      recipeQueue: [],
+      completedRecipes: [],
       messageLog: [],
+      
       mode: {
         mode: null
       },
@@ -82,9 +85,11 @@ export default class SimulationContainer extends Component {
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
-    this.submitGlassCallback = this.submitGlassCallback.bind(this);
+    this.onSubmitCallback = this.onSubmitCallback.bind(this);
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     this.handleChildClick = this.handleChildClick.bind(this);
+    this.handleGarbage = this.handleGarbage.bind(this);
+    this.submitRecipe = this.submitRecipe.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -129,7 +134,7 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-      if (this.props.match.params.var2 != null) {
+     /* if (this.props.match.params.var2 != null) {
         var data = new FormData();
         data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
@@ -167,17 +172,40 @@ export default class SimulationContainer extends Component {
         };
         xhr.send(data);
       }
-    }
+    }*/
+    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"Whisky Tonic","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"Testingg","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    this.addRecipeToQueue(rec1);
+    this.addRecipeToQueue(rec2);
     this.state.mode = mode;
   }
-  submitGlassCallback() {
-
   }
+  
+  onSubmitCallback() {
+      var index = this.state.completedRecipes.length; //how many recipes have been submitted tell u which recipe to check against
+      if (index == this.state.recipeQueue.length) { //finished w simulation
+          
+      }
+      else {
+            //if theres something to be submitted
+            if (this.state.selectedSlot != null && this.state.selectedSlot.bar === "quick") {
+                this.submitRecipe(this.state.selectedSlot.data);
+          }
+      }  
+  }
+  
   addRecipeToQueue(recipe) {
     let tempRecipeQueue = this.state.recipeQueue;
     tempRecipeQueue.push(recipe);
     this.setState({ recipeQueue: tempRecipeQueue })
   }
+  
+  submitRecipe(recipe) {
+    let tempRecipeQueue = this.state.completedRecipes;
+    tempRecipeQueue.push(recipe);
+    this.setState({ completedRecipes: tempRecipeQueue })
+  }
+  
   onActionEndCallback(index) {
     if (index === 0) {
       let actionStack = this.state.actionBar[index].actionStack;
@@ -418,7 +446,12 @@ export default class SimulationContainer extends Component {
     };
     xhr.send(formData);
   }
-
+  handleGarbage() {
+      if (this.state.dragged != null) {
+          this.state.dragged.actionStack = [];
+      }
+      this.setState({dragged:null});
+  }
   renderGlass(glass, actionStack) {
     if (glass != null) {
       return <div id="tooltip" >
@@ -447,6 +480,7 @@ export default class SimulationContainer extends Component {
       </div>
     }
   }
+  
   renderActionBarItem(index) {
     
     var image = null;
@@ -484,11 +518,13 @@ export default class SimulationContainer extends Component {
               <div id="top">
                 <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
               </div>
-
+             
               <div id="bottom">
                 <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
               </div>
+               <div className ="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}> <img src="/images/actions/garbage.png"/></div>
             </div>
+            
             <div id="main">
               <div id="top">
                 <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
@@ -497,6 +533,7 @@ export default class SimulationContainer extends Component {
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+                
                 <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
               </div>
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
@@ -505,7 +542,7 @@ export default class SimulationContainer extends Component {
               <Router>
                 <Switch>
                   <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.submitGlassCallback} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.onSubmitCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
