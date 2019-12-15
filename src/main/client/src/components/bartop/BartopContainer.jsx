@@ -210,7 +210,7 @@ export default class SimulationContainer extends Component {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
         //console.log(this.state.selectedSlot)
-
+        console.log(stack)
         let ingredient = Object.assign({}, this.state.selectedIngredient)
         //console.log(ingredient)
         if (elapsedTime > 0) {
@@ -402,7 +402,12 @@ export default class SimulationContainer extends Component {
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
-                return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+                  if(item.scale === "ounces") {
+                      return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
+                  } else {
+                    return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+                  }
+  
               } else {
                 return (<p key={item + index}>{item} {item.amount}</p>);
               }

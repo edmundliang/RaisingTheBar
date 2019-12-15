@@ -61,7 +61,13 @@ export default class RecipeRightPanel extends Component {
 						<div>
 							<div>Cup Contents</div>
 							{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
-								return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount/100) + " " + item.scale}</p>}</div>
+                                                            
+                                                            if (item.scale === "ounces") {
+                                                                return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount/100) + " oz"}</p>}</div>
+                                                            } else {
+                                                                return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
+                                                            }
+								
 							}) : "None"}
 						</div>
                                                 <div>Log:</div>
