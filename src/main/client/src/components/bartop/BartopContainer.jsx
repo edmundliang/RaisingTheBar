@@ -85,7 +85,7 @@ export default class SimulationContainer extends Component {
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
-    this.submitGlassCallback = this.submitGlassCallback.bind(this);
+    this.onSubmitCallback = this.onSubmitCallback.bind(this);
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     this.handleChildClick = this.handleChildClick.bind(this);
     this.handleGarbage = this.handleGarbage.bind(this);
