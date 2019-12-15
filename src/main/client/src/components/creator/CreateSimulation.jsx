@@ -13,30 +13,30 @@ export default class CreateSimulation extends Component {
             selectedRecipes: []
         };
         var globalThis = this;
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('GET', '/recipe/list', true);
-        // xhr.onload = function () {
-        //     // do something to response
-        //     var responseObject = null;
-        //     try {
-        //         responseObject = JSON.parse(this.responseText)
-        //         globalThis.setState({ recipes: responseObject.recipes });
-        //     } catch (e) {
-        //         console.error("Got Non JSON response from server");
-        //     }
-        // };
-        // xhr.send();
-        this.state.recipes = [
-            {
-                "id": "5df5b1de30778238e06d6b2e",
-                "name": "Whisky Tonic",
-                "description": "A classic drink for a classic person",
-                "isPublic": true,
-                "date": 1576382942151,
-                "creator": "5df0fcd730778234fc4656fd",
-                "json": "{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}"
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/recipe/list', true);
+        xhr.onload = function () {
+            // do something to response
+            var responseObject = null;
+            try {
+                responseObject = JSON.parse(this.responseText)
+                globalThis.setState({ recipes: responseObject.recipes });
+            } catch (e) {
+                console.error("Got Non JSON response from server");
             }
-        ];
+        };
+        xhr.send();
+        // this.state.recipes = [
+        //     {
+        //         "id": "5df5b1de30778238e06d6b2e",
+        //         "name": "Whisky Tonic",
+        //         "description": "A classic drink for a classic person",
+        //         "isPublic": true,
+        //         "date": 1576382942151,
+        //         "creator": "5df0fcd730778234fc4656fd",
+        //         "json": "{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}"
+        //     }
+        // ];
         this.addRecipeToSimulation = this.addRecipeToSimulation.bind(this);
         this.createSimulation = this.createSimulation.bind(this);
     }

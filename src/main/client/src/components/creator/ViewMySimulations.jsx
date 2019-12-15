@@ -1,4 +1,4 @@
-import {Component} from "react";
+import { Component } from "react";
 import React from "react";
 import ViewMySimulationsSimulationCard from "./ViewMySimulationsSimulationCard";
 
@@ -8,17 +8,20 @@ export default class ViewMySimulations extends Component {
     this.state = {
       simulations: []
     }
-
-    var globalThis = this;
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', '/simulation/list', true);
-          xhr.onload = function () {
-            // do something to response
-            console.log(JSON.parse(this.responseText));
-            globalThis.setState({simulations: JSON.parse(this.responseText).simulations});
-          };
-     xhr.send();
-
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/simulation/list', true);
+    var globalThis = this
+    xhr.onload = function () {
+      // do something to response
+      var responseObject = null;
+      try {
+        responseObject = JSON.parse(this.responseText)
+        globalThis.setState({ simulations: responseObject.simulations });
+      } catch (e) {
+        console.error("Got Non JSON response from server");
+      }
+    };
+    xhr.send();
   }
 
   render() {
