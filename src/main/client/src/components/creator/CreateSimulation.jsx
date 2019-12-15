@@ -42,23 +42,51 @@ export default class CreateSimulation extends Component {
     }
     addRecipeToSimulation(data) {
         let selectedList = this.state.selectedRecipes;
+        for (var x of selectedList) {
+            if (x.id === data.id) {
+                return;
+            }
+        }
         selectedList.push(data);
         this.setState({ selectedRecipes: selectedList });
         // console.log(data);
     }
     createSimulation(data) {
-        console.log(data);
+        // console.log(data);
+        if (data.name <= 0 || data.name > 50) {
+            return;
+        }
+        if (data.description <= 0 || data.description > 500) {
+            return;
+        }
+        if (this.state.selectedRecipes.length <= 0) {
+            return;
+        }
+        var formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("description", data.description);
+        formData.append("public", data.public);
+        formData.append("practice", data.practice);
+        let recipeIds = [];
+        for (var i = 0; i < this.state.selectedRecipes.length; i++) {
+            recipeIds.push(this.state.selectedRecipes[i].id);
+        }
+        formData.append("recipes", recipeIds);
+        formData.append("json", JSON.stringify({
+            name: data.name,
+            description: data.description,
+            public: data.public,
+            practice: data.practice,
+            recipes: recipeIds
+        }));
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/simulation/add');
+        xhr.onload = function () {
+            console.log(this);
+        };
+        xhr.send(formData);
+
     }
-    /*getSimulations() {
-        var data = new FormData();
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/recipe/list', true);
-            xhr.onload = function () {
-              // do something to response
-              th.stateSet({recipes: JSON.parse(this.responseText)});
-            };
-            xhr.send(data);
-    }*/
     render() {
         let recipeCards = this.state.recipes.map((recipe, index) => {
             return (<div className="col" ><RecipeCard key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)

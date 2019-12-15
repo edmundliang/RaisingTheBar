@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author anilramsoomye
  */
-@Document(collection = "recipe")
+@Document(collection = "recipes")
 public class Recipe {
 
     @Id

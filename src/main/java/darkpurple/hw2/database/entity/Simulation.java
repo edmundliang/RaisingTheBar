@@ -13,54 +13,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author anilramsoomye
  */
-@Document (collection = "simulation")
+@Document (collection = "simulations")
 public class Simulation {
     
     @Id
     private String id;
     
-    private String name;
-    private Date date;
-    private String[] recipes;
     private String creator;
+    private String name;
     private String description;
+    private boolean isPublic;
+    private boolean isPractice;
+    private String[] recipes;
+    private Date date;
+    private String json;
 
-    public String getDescription() {
-        return description;
+    public Simulation() {
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    
-    
-    public enum simulationType {
-        PRACTICE,
-        TEST
-    }
-    
-    private simulationType type;
-    
-    private float duration;
-
-    public simulationType getType() {
-        return type;
-    }
-
-    public void setType(simulationType type) {
-        this.type = type;
-    }
-    
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-    
 
     public String getId() {
         return id;
@@ -68,6 +37,14 @@ public class Simulation {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public String getName() {
@@ -78,15 +55,29 @@ public class Simulation {
         this.name = name;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDescription(String description) {
+        this.description = description;
     }
-    
-    
+
+    public boolean isIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
+    public boolean isIsPractice() {
+        return isPractice;
+    }
+
+    public void setIsPractice(boolean isPractice) {
+        this.isPractice = isPractice;
+    }
 
     public String[] getRecipes() {
         return recipes;
@@ -96,12 +87,20 @@ public class Simulation {
         this.recipes = recipes;
     }
 
-    public float getDuration() {
-        return duration;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
     
     

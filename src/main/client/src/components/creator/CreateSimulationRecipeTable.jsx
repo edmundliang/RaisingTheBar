@@ -18,15 +18,13 @@ export default class CreateSimulationRecipeTable extends Component {
           columns={columns}
           data={this.props.selected}
           editable={{
-            onRowDelete: oldData =>
-              new Promise(resolve => {
+            onRowDelete: (newData, oldData) =>
+              new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  resolve();
-                  parent.setState(prevState => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
+                  let newList = parent.props.selected;
+                  newList.splice(newList.indexOf(oldData), 1);
+                  parent.setState({selected : newList});                  
+                  resolve();                  
                 }, 600);
               }),
           }}
