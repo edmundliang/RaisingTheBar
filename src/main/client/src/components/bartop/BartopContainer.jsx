@@ -89,6 +89,7 @@ export default class SimulationContainer extends Component {
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     this.handleChildClick = this.handleChildClick.bind(this);
     this.handleGarbage = this.handleGarbage.bind(this);
+    this.submitRecipe = this.submitRecipe.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -182,14 +183,29 @@ export default class SimulationContainer extends Component {
   
   onSubmitCallback() {
       var index = this.state.completedRecipes.length; //how many recipes have been submitted tell u which recipe to check against
-      
-      
+      if (index == this.state.recipeQueue.length) { //finished w simulation
+          
+      }
+      else {
+            //if theres something to be submitted
+            if (this.state.selectedSlot != null && this.state.selectedSlot.bar === "quick") {
+                this.submitRecipe(this.state.selectedSlot.data);
+          }
+      }  
   }
+  
   addRecipeToQueue(recipe) {
     let tempRecipeQueue = this.state.recipeQueue;
     tempRecipeQueue.push(recipe);
     this.setState({ recipeQueue: tempRecipeQueue })
   }
+  
+  submitRecipe(recipe) {
+    let tempRecipeQueue = this.state.completedRecipes;
+    tempRecipeQueue.push(recipe);
+    this.setState({ completedRecipes: tempRecipeQueue })
+  }
+  
   onActionEndCallback(index) {
     if (index === 0) {
       let actionStack = this.state.actionBar[index].actionStack;
@@ -526,7 +542,7 @@ export default class SimulationContainer extends Component {
               <Router>
                 <Switch>
                   <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.submitGlassCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.onSubmitCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
