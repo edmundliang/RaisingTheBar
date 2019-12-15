@@ -9,8 +9,7 @@ export default class CreateSimulation extends Component {
     constructor() {
         super();
         this.state = {
-            recipes: [],
-            jsonBodies: []
+            recipes: []
         };
         var globalThis = this;
         var xhr = new XMLHttpRequest();
@@ -20,17 +19,7 @@ export default class CreateSimulation extends Component {
             var responseObject = null;
             try {
                 responseObject = JSON.parse(this.responseText)
-                console.log(responseObject);
-                var rec = responseObject.recipes;
-                var jsonBod = [];
-                var x;
-                for (x of rec) {
-                    if (x.json != null) {
-                        jsonBod.push(JSON.parse(x.json));
-                    }
-                }
-                console.log(jsonBod);
-                globalThis.setState({ recipes: rec, jsonBodies: jsonBod });
+                globalThis.setState({ recipes: responseObject.recipes });
             } catch (e) {
                 console.error("Got Non JSON response from server");
             }
@@ -48,8 +37,8 @@ export default class CreateSimulation extends Component {
             xhr.send(data);
     }*/
     render() {
-        let recipeCards = this.state.recipes.map(recipe => {
-            return (<div className="col" ><RecipeCard key={recipe.name} recipe={recipe} /> </div>)
+        let recipeCards = this.state.recipes.map((recipe, index) => {
+            return (<div className="col" ><RecipeCard key={recipe.name + index} recipe={recipe} /> </div>)
         });
 
         return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >

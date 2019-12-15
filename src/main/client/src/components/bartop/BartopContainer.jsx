@@ -211,7 +211,7 @@ export default class SimulationContainer extends Component {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
         //console.log(this.state.selectedSlot)
-
+        console.log(stack)
         let ingredient = Object.assign({}, this.state.selectedIngredient)
         //console.log(ingredient)
         if (elapsedTime > 0) {
@@ -347,6 +347,7 @@ export default class SimulationContainer extends Component {
     this.setState({ messageLog: messageLog });
   }
   submitRecipeCallback(data) {
+    // console.log(data);
     if (data.name.length <= 0) {
       this.sendMessage("Can't submit, you must input a name");
       return;
@@ -392,19 +393,20 @@ export default class SimulationContainer extends Component {
     let outputJson = {
       name: data.name,
       description: data.description,
-      private: data.private,
+      public: data.public,
       actionStack: prunedActionStack,
       glass: this.state.selectedSlot.data.glass
     }
-    console.log(outputJson)
-    var data = new FormData();
-    data.append('name', data.name);
-    data.append('description', data.description);
-    data.append('private', data.private);
-    data.append('json', JSON.stringify(outputJson));
+    // console.log(outputJson);
+    var formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('public', data.public);
+    formData.append('json', JSON.stringify(outputJson));
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/recipe/add', true);
+    xhr.open('POST', '/recipe/add');
     var parent = this
+    console.log(formData.entries());
     xhr.onload = function () {
       // console.log(this)
       if (this.status == 201) {
@@ -412,9 +414,9 @@ export default class SimulationContainer extends Component {
       } else {
         parent.sendMessage("Error: " + this.status + " when sending recipe to server");
       }
-      // console.log(this.responseText);
+      // console.log(this);
     };
-    xhr.send(data);
+    xhr.send(formData);
   }
 
   renderGlass(glass, actionStack) {
@@ -425,7 +427,12 @@ export default class SimulationContainer extends Component {
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
-                return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+                  if(item.scale === "ounces") {
+                      return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
+                  } else {
+                    return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+                  }
+  
               } else {
                 return (<p key={item + index}>{item} {item.amount}</p>);
               }
@@ -441,7 +448,7 @@ export default class SimulationContainer extends Component {
     }
   }
   renderActionBarItem(index) {
-
+    
     var image = null;
 
     if (index == 0) {
@@ -455,7 +462,11 @@ export default class SimulationContainer extends Component {
     return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
       this.state.actionBar[index].actionStack != null && this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
         if (item instanceof Object) {
-          return (<p key={item.name + index}>{item.name} {item.amount}</p>);
+          if(item.scale === "ounces") {
+                      return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
+                  } else {
+                    return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+                  }
         } else {
           return (<p key={item + index}>{item} {item.amount}</p>);
         }

@@ -105,7 +105,7 @@ export default class SelectedIngredient extends Component {
                     if (remainingVolume != 0) {
                         // if there is remaining space add the remaining volume
                         this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
-                        this.props.sendMessage("Remaining glass volume exceeded. Filled with " + remainingVolume +" ounces of " + this.props.selectedIngredient.name)
+                        this.props.sendMessage("Remaining glass volume exceeded. Filled with " + remainingVolume/100 +" ounces of " + this.props.selectedIngredient.name)
                     } else {
                         // if there is no remaining space add error message
                     this.props.sendMessage("Glass is full!")
@@ -125,7 +125,7 @@ export default class SelectedIngredient extends Component {
     onMouseClick() {
         console.log(this.state.elapsedTime)
          if (this.props.selectedSlot!= null) {
-            this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
+            this.props.addSelectedIngredientToSelectedSlotCallback(0)
         } else {
             this.props.sendMessage("Select a glass from quick bar to add ingredients to!")
         }

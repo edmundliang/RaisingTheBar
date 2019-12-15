@@ -39,13 +39,13 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/add", method = RequestMethod.POST)
-    public ResponseEntity addRecipe(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("private") boolean isPrivate, @RequestParam("json") String json) {
+    public ResponseEntity addRecipe(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("public") boolean isPublic, @RequestParam("json") String json) {
         User user = userService.getLoggedUser();
         if (user != null) {
             Recipe recipe = new Recipe();
             recipe.setName(name);
             recipe.setDescription(description);
-            recipe.setIsPrivate(isPrivate);
+            recipe.setIsPublic(isPublic);
             recipe.setCreator(user.getId());
             recipe.setJson(json);
             recipe.setDate(new Date());
@@ -80,7 +80,7 @@ public class RecipeController {
             List<Recipe> recipeList = recipeService.getAllRecipes();
             List<Recipe> approvedList = new ArrayList();
             for (Recipe r : recipeList) {
-                if (!r.isIsPrivate() || r.getCreator() == user.getId()) {
+                if (r.isIsPublic()|| r.getCreator() == user.getId()) {
                     approvedList.add(r);
                 }
             }

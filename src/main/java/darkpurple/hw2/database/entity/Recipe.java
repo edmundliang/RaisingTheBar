@@ -21,7 +21,7 @@ public class Recipe {
 
     private String name;
     private String description;
-    private boolean isPrivate;
+    private boolean isPublic;
 
     private Date date;
 
@@ -53,12 +53,12 @@ public class Recipe {
         this.description = description;
     }
 
-    public boolean isIsPrivate() {
-        return isPrivate;
+    public boolean isIsPublic() {
+        return isPublic;
     }
 
-    public void setIsPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public String getCreator() {
