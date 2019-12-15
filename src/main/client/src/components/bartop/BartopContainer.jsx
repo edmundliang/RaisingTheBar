@@ -84,6 +84,7 @@ export default class SimulationContainer extends Component {
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
     this.submitGlassCallback = this.submitGlassCallback.bind(this);
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
+    this.handleChildClick = this.handleChildClick.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -259,6 +260,11 @@ export default class SimulationContainer extends Component {
   onSelectedIngredientChangeCallback(selectedIngredient) {
     this.setState({ selectedIngredient: selectedIngredient });
   }
+  handleChildClick(e) {
+    e.stopPropagation();
+    console.log('child');
+    }
+  
   onSelectedSlotChangeCallback(bar, slot, data) {
     this.setState({ selectedSlot: { bar: bar, slot: slot, data: data } });
   }
@@ -299,17 +305,34 @@ export default class SimulationContainer extends Component {
         quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" &&
-        this.state.dragged.category != null) {//if glass in there and if item being dragged is an ingredient
-        quickBar[index].actionStack.push(this.state.dragged);
-        this.setState({ quickBar: quickBar, dragged: null });
       }
-      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses") { //for quickbar to quickbar and actionbar to quickbar
+      else if (this.state.dragged == quickBar[index]) {
+          this.sendMessage("Please drag your glass to another glass");
+      }
+      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" ) { //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+        var glassVolume = quickBar[index].glass.volume;
+        var contents = 0;
+        for (var cont of quickBar[index].actionStack) {
+            if (cont.amount != null && cont.scale ==="ounces") {
+                contents += cont.amount;
+            }
+        }
+        glassVolume = glassVolume - contents;
+        var draggedVolume = 0;
+        for (var toAdd of this.state.dragged.actionStack) {
+            if (toAdd.amount != null && toAdd.scale ==="ounces") {
+                draggedVolume += toAdd.amount;
+            }
+        }
+        if (draggedVolume > glassVolume) {
+            this.sendMessage("This would overfill that glass!")
+        }
+        else{
         for (var element of this.state.dragged.actionStack) {
           quickBar[index].actionStack.push(element);
         }
         this.setState({ quickBar: quickBar, dragged: null });
-      }
+      }}
     } else {
       this.setState({ dragged: null });
     }
@@ -396,9 +419,9 @@ export default class SimulationContainer extends Component {
 
   renderGlass(glass, actionStack) {
     if (glass != null) {
-      return <div id="tooltip">
+      return <div id="tooltip" >
         <img className="top-img" draggable="false" src={"/images/glasses/" + (glass.name).toLowerCase() + ".png"} alt={"Missing Image: " + glass.name} />
-        <span className="tooltiptext" >
+        <span className="tooltiptext" onDrop = {this.handleChildClick.bind(this)} >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
@@ -411,9 +434,9 @@ export default class SimulationContainer extends Component {
         </span>
       </div>
     } else {
-      return <div id="tooltip">
+      return <div id="tooltip"  >
         <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
-        <span className="tooltiptext">There's nothing in this space!</span>
+        <span className="tooltiptext" >There's nothing in this space!</span>
       </div>
     }
   }
