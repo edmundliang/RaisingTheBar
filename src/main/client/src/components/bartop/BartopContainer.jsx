@@ -85,6 +85,7 @@ export default class SimulationContainer extends Component {
     this.submitGlassCallback = this.submitGlassCallback.bind(this);
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     this.handleChildClick = this.handleChildClick.bind(this);
+    this.handleGarbage = this.handleGarbage.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -418,7 +419,12 @@ export default class SimulationContainer extends Component {
     };
     xhr.send(formData);
   }
-
+  handleGarbage() {
+      if (this.state.dragged != null) {
+          this.state.dragged.actionStack = [];
+      }
+      this.setState({dragged:null});
+  }
   renderGlass(glass, actionStack) {
     if (glass != null) {
       return <div id="tooltip" >
@@ -447,6 +453,7 @@ export default class SimulationContainer extends Component {
       </div>
     }
   }
+  
   renderActionBarItem(index) {
     
     var image = null;
@@ -484,11 +491,13 @@ export default class SimulationContainer extends Component {
               <div id="top">
                 <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
               </div>
-
+             
               <div id="bottom">
                 <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
               </div>
+               <div className ="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}> <img src="/images/actions/garbage.png"/></div>
             </div>
+            
             <div id="main">
               <div id="top">
                 <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
@@ -497,6 +506,7 @@ export default class SimulationContainer extends Component {
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+                
                 <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
               </div>
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
