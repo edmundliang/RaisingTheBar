@@ -9,6 +9,7 @@ export default class QuickBar extends Component {
 		this.getImage = this.getImage.bind(this);
 		this.onClick = this.onClick.bind(this);
 		this.hilightSlot = this.hilightSlot.bind(this);
+      
 	}
 	onClick(index) {
 		var callback = this.props.onSelectedSlotChangeCallback;
@@ -19,6 +20,7 @@ export default class QuickBar extends Component {
 		callback(index);
 		event.preventDefault()
 	}
+     
 	handleDragStart(item, e) {
 		var callback = this.props.onDragStartCallback;
 		callback(item);

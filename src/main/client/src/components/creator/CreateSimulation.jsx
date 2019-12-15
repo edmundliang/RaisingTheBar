@@ -10,32 +10,41 @@ export default class CreateSimulation extends Component {
         super();
         this.state = {
             recipes: [],
-            jsonBodies: []
+            selectedRecipes: []
         };
         var globalThis = this;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/recipe/list', true);
-        xhr.onload = function () {
-            // do something to response
-            var responseObject = null;
-            try {
-                responseObject = JSON.parse(this.responseText)
-                console.log(responseObject);
-                var rec = responseObject.recipes;
-                var jsonBod = [];
-                var x;
-                for (x of rec) {
-                    if (x.json != null) {
-                        jsonBod.push(JSON.parse(x.json));
-                    }
-                }
-                console.log(jsonBod);
-                globalThis.setState({ recipes: rec, jsonBodies: jsonBod });
-            } catch (e) {
-                console.error("Got Non JSON response from server");
+        // var xhr = new XMLHttpRequest();
+        // xhr.open('GET', '/recipe/list', true);
+        // xhr.onload = function () {
+        //     // do something to response
+        //     var responseObject = null;
+        //     try {
+        //         responseObject = JSON.parse(this.responseText)
+        //         globalThis.setState({ recipes: responseObject.recipes });
+        //     } catch (e) {
+        //         console.error("Got Non JSON response from server");
+        //     }
+        // };
+        // xhr.send();
+        this.state.recipes = [
+            {
+                "id": "5df5b1de30778238e06d6b2e",
+                "name": "Whisky Tonic",
+                "description": "A classic drink for a classic person",
+                "isPublic": true,
+                "date": 1576382942151,
+                "creator": "5df0fcd730778234fc4656fd",
+                "json": "{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}"
             }
-        };
-        xhr.send();
+        ];
+        this.addRecipeToSimulation = this.addRecipeToSimulation.bind(this);
+        this.createSimulation = this.createSimulation.bind(this);
+    }
+    addRecipeToSimulation(data) {
+        console.log(data);
+    }
+    createSimulation(data) {
+        console.log(data);
     }
     /*getSimulations() {
         var data = new FormData();
@@ -48,8 +57,8 @@ export default class CreateSimulation extends Component {
             xhr.send(data);
     }*/
     render() {
-        let recipeCards = this.state.recipes.map(recipe => {
-            return (<div className="col" ><RecipeCard key={recipe.name} recipe={recipe} /> </div>)
+        let recipeCards = this.state.recipes.map((recipe, index) => {
+            return (<div className="col" ><RecipeCard key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)
         });
 
         return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >
@@ -70,12 +79,12 @@ export default class CreateSimulation extends Component {
                         <div className="right-container" >
                             <Row>
                                 <Col>
-                                    <CreateSimulationRecipeTable />
+                                    <CreateSimulationRecipeTable selected={this.state.selectedRecipes} />
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <CreateSimulationInputForm />
+                                    <CreateSimulationInputForm createSimulation={this.createSimulation} />
                                 </Col>
                             </Row >
                         </div>

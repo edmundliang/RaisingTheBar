@@ -80,7 +80,7 @@ public class RecipeController {
             List<Recipe> recipeList = recipeService.getAllRecipes();
             List<Recipe> approvedList = new ArrayList();
             for (Recipe r : recipeList) {
-                if (!r.isIsPublic()|| r.getCreator() == user.getId()) {
+                if (r.isIsPublic()|| r.getCreator() == user.getId()) {
                     approvedList.add(r);
                 }
             }

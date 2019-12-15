@@ -71,14 +71,18 @@ export default class RecipeRightPanel extends Component {
                                                                 return <p key ={item+index}> {item === "shake" ? item: item.name + " " + item.amount + " ct"}</p>
                                                             }
 								
+								if (item.scale === "ounces") {
+									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
+								} else {
+									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
+								}
 							}) : "None"}
                                                         </div>
 						</div>
 						<div>Log:</div>
 						<div className="scroll">
-
 							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
-								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{item}</p>
+								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 							})}
 						</div>
 					</div>
