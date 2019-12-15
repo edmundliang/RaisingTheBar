@@ -74,7 +74,7 @@ export default class RecipeRightPanel extends Component {
 						<div className="scroll">
 
 							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
-								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{item}</p>
+								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 							})}
 						</div>
 					</div>
