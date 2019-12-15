@@ -41,7 +41,10 @@ export default class CreateSimulation extends Component {
         this.createSimulation = this.createSimulation.bind(this);
     }
     addRecipeToSimulation(data) {
-        console.log(data);
+        let selectedList = this.state.selectedRecipes;
+        selectedList.push(data);
+        this.setState({ selectedRecipes: selectedList });
+        // console.log(data);
     }
     createSimulation(data) {
         console.log(data);
