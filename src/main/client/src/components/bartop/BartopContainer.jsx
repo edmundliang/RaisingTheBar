@@ -324,6 +324,7 @@ export default class SimulationContainer extends Component {
     this.setState({ messageLog: messageLog });
   }
   submitRecipeCallback(data) {
+    // console.log(data);
     if (data.name.length <= 0) {
       this.sendMessage("Can't submit, you must input a name");
       return;
@@ -369,19 +370,20 @@ export default class SimulationContainer extends Component {
     let outputJson = {
       name: data.name,
       description: data.description,
-      private: data.private,
+      public: data.public,
       actionStack: prunedActionStack,
       glass: this.state.selectedSlot.data.glass
     }
-    console.log(outputJson)
-    var data = new FormData();
-    data.append('name', data.name);
-    data.append('description', data.description);
-    data.append('private', data.private);
-    data.append('json', JSON.stringify(outputJson));
+    // console.log(outputJson);
+    var formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('public', data.public);
+    formData.append('json', JSON.stringify(outputJson));
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/recipe/add', true);
+    xhr.open('POST', '/recipe/add');
     var parent = this
+    console.log(formData.entries());
     xhr.onload = function () {
       // console.log(this)
       if (this.status == 201) {
@@ -389,9 +391,9 @@ export default class SimulationContainer extends Component {
       } else {
         parent.sendMessage("Error: " + this.status + " when sending recipe to server");
       }
-      // console.log(this.responseText);
+      // console.log(this);
     };
-    xhr.send(data);
+    xhr.send(formData);
   }
 
   renderGlass(glass, actionStack) {

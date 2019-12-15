@@ -62,12 +62,6 @@
         },
         {
 
-            "name": "151 RUM",
-            "category": "liquors",
-            "scale": "ounces"
-        },
-        {
-
             "name": "BRANDY",
             "category": "liquors",
             "scale": "ounces"
@@ -80,13 +74,13 @@
         },
         {
 
-            "name": "CANADIAN WHISKEY",
+            "name": "CANADIAN WHISKY",
             "category": "liquors",
             "scale": "ounces"
         },
         {
 
-            "name": "CACHACA",
+            "name": "Cachaça",
             "category": "liquors",
             "scale": "ounces"
         },
@@ -104,8 +98,8 @@
         },
         {
 
-            "name": "DRY VERMOUTH",
-            "category": "liquors",
+            "name": "Dry Vermouth",
+            "category": "wine",
             "scale": "ounces"
         },
         {
@@ -116,7 +110,13 @@
         },
         {
 
-            "name": "IRISH WHISKEY",
+            "name": "WHISKY",
+            "category": "liquors",
+            "scale": "ounces"
+        },
+        {
+
+            "name": "IRISH WHISKY",
             "category": "liquors",
             "scale": "ounces"
         },
@@ -152,14 +152,14 @@
         },
         {
 
-            "name": "SPICED RUM",
+            "name": "Spiced Rum",
             "category": "liquors",
             "scale": "ounces"
         },
         {
 
-            "name": "SWEET VERMOUTH",
-            "category": "liquors",
+            "name": "Sweet Vermouth",
+            "category": "wine",
             "scale": "ounces"
         },
         {
