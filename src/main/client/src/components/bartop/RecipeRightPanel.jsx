@@ -60,25 +60,19 @@ export default class RecipeRightPanel extends Component {
 						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
 						<div>
 							<div>Cup Contents</div>
+                                                        <div className="scroll">
 							{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
-<<<<<<< HEAD
                                                             
                                                             if (item.scale === "ounces") {
-                                                                return <div key={item + index}> <p>{item.name + " " + (item.amount/100) + " oz"}</p></div>
+                                                                
+                                                                return <p key ={item+index}>{item.name + " " + (item.amount/100) + " oz"}</p>
                                                             } else {
-                                                                return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
+                                                                
+                                                                return <p key ={item+index}> {item === "shake" ? item: item.name + " " + item.amount + " ct"}</p>
                                                             }
 								
-=======
-
-								if (item.scale === "ounces") {
-									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
-								} else {
-									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
-								}
-
->>>>>>> 4914486b0ca5d30ff3cffb3f5010c4b78cbe20cf
 							}) : "None"}
+                                                        </div>
 						</div>
 						<div>Log:</div>
 						<div className="scroll">
