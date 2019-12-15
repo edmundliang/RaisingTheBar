@@ -61,15 +61,6 @@ export default class RecipeRightPanel extends Component {
 						<div>
 							<div>Cup Contents</div>
 							{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
-<<<<<<< HEAD
-                                                            
-                                                            if (item.scale === "ounces") {
-                                                                return <div key={item + index}> <p>{item.name + " " + (item.amount/100) + " oz"}</p></div>
-                                                            } else {
-                                                                return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
-                                                            }
-								
-=======
 
 								if (item.scale === "ounces") {
 									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
@@ -77,7 +68,6 @@ export default class RecipeRightPanel extends Component {
 									return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
 								}
 
->>>>>>> 4914486b0ca5d30ff3cffb3f5010c4b78cbe20cf
 							}) : "None"}
 						</div>
 						<div>Log:</div>
