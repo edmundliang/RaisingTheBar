@@ -6,6 +6,7 @@ export default class SimulationRightPanel extends Component {
 		super();
 		this.state = {
 			name: ""
+                       
 		};
 		this.submit = this.submit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -36,12 +37,14 @@ export default class SimulationRightPanel extends Component {
 			<Tabs defaultActiveKey={"Tasks"}>
 				<Tab key={"Tasks"} eventKey={"Tasks"} title={"Tasks"}>
 					<div>
-						<div>Required Recipies</div>
+						<div>Required Recipes</div>
 						{this.props.recipeQueue.map((recipe) => { return <p>{recipe.name}</p> })}
 					</div>
 					<div>
-						<div>Completed Recipies</div>
+						<div>Completed Recipes</div>
+                                               
 						{this.props.completedRecipes.map((recipe) => { return <p>{recipe.name}</p> })}
+                                                        
 					</div>
 					{this.constructMessage()}
 					<div>

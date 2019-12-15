@@ -40,7 +40,10 @@ export default class SimulationContainer extends Component {
       glasses: glasses,
       alcohol: alcohol,
       dragged: null,
+      recipeQueue: [],
+      completedRecipes: [],
       messageLog: [],
+      
       mode: {
         mode: null
       },
@@ -130,7 +133,7 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-      if (this.props.match.params.var2 != null) {
+     /* if (this.props.match.params.var2 != null) {
         var data = new FormData();
         data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
@@ -168,11 +171,19 @@ export default class SimulationContainer extends Component {
         };
         xhr.send(data);
       }
-    }
+    }*/
+    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"Whisky Tonic","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"Testingg","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    this.addRecipeToQueue(rec1);
+    this.addRecipeToQueue(rec2);
     this.state.mode = mode;
   }
-  submitGlassCallback() {
-
+  }
+  
+  onSubmitCallback() {
+      var index = this.state.completedRecipes.length; //how many recipes have been submitted tell u which recipe to check against
+      
+      
   }
   addRecipeToQueue(recipe) {
     let tempRecipeQueue = this.state.recipeQueue;
@@ -515,7 +526,7 @@ export default class SimulationContainer extends Component {
               <Router>
                 <Switch>
                   <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.submitGlassCallback} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.submitGlassCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
