@@ -312,63 +312,65 @@ export default class SimulationContainer extends Component {
       var pointsForEachRecipe = (100 / this.state.recipeQueue.length);
       var totalRecipesCorrect = 0;
       
-      console.log(recipesCompletedList)
-      console.log(recipeQueueList)
+      
+      
       // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
-      
-      for(var i = 0; i < recipesCompletedLength; i++) {
+      for(var i = 0; i< recipesCompletedLength;i++) {
+          
           var match = true;
-      
+          
+          var recipeJsonParsed = JSON.parse(recipeQueueList[i].json);
           console.log(recipesCompletedList[i].glass.name)
-          for(var j = 0; j < recipeQueueLength; j++) {
-              console.log(JSON.parse(recipeQueueList[j].json).glass.name)
-              
-              // check if glass is correct
-              if(recipesCompletedList[i].glass.name === JSON.parse(recipeQueueList[j].json).glass.name) {
+          console.log(recipeJsonParsed.glass.name)
+          
+          // check if glass is correct
+              if(recipesCompletedList[i].glass.name === recipeJsonParsed.glass.name) {
                 console.log(recipesCompletedList[i].actionStack.length)
-                console.log(JSON.parse(recipeQueueList[j].json).actionStack.length)
+                console.log(JSON.parse(recipeQueueList[i].json).actionStack.length)
                 // check if both action stack length match
-                if(recipesCompletedList[i].actionStack.length === JSON.parse(recipeQueueList[j].json).actionStack.length) {
+                if(recipesCompletedList[i].actionStack.length === recipeJsonParsed.actionStack.length) {
                     
                     //if action stack lengths match start comparing the items in both action stacks
-                    for(var k = 0; k <recipesCompletedList[i].actionStack.length; k++) {
+                    for(var j = 0; j <recipesCompletedList[i].actionStack.length; j++) {
                         
-                        console.log(recipesCompletedList[i].actionStack[k].name)
-                        console.log(JSON.parse(recipeQueueList[j].json).actionStack[k].name)
+                        console.log(recipesCompletedList[i].actionStack[j].name)
+                        console.log(JSON.parse(recipeQueueList[i].json).actionStack[j].name)
                         
                         // if actionstack item is not an action
-                        if (recipesCompletedList[i].actionStack[k].name !== null && JSON.parse(recipeQueueList[j].json).actionStack[k].name !== null) {
+                        if (recipesCompletedList[i].actionStack[j].name !== null && recipeJsonParsed.actionStack[j].name !== null) {
                             
                             console.log("actionstack item is not an action")
-                            if (recipesCompletedList[i].actionStack[k].name !== JSON.parse(recipeQueueList[j].json).actionStack[k].name  
-                                || recipesCompletedList[i].actionStack[k].amount !== JSON.parse(recipeQueueList[j].json).actionStack[k].amount  ) {
+                            if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name  
+                                || recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount  ) {
                                 match = false;
-                                
-                                
                             }  
                         } else {
                             // if actionstack item is an action compare action
-                            if (recipesCompletedList[i].actionStack[k] !== JSON.parse(recipeQueueList[j].json).actionStack[k]) {
+                            if (recipesCompletedList[i].actionStack[j] !== recipeJsonParsed.actionStack[j]) {
                                 match = false;
-                                
                                 
                             }
                         }
                     }
                     
-                }     
- 
-
-              } 
-          }
-          if (match === true) {
+                } else {
+                    match = false;
+                     
+                }    
+              } else {
+                  match = false;
+                   
+              }
+          
+        if (match === true) {
               console.log("match = true")
               totalRecipesCorrect = totalRecipesCorrect +1;
-          }
-
+        }  
       }
       
       console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+      
+
  
       // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
       //GOTTA IMPLEMENT THIS
