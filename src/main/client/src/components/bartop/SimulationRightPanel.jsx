@@ -18,6 +18,7 @@ export default class SimulationRightPanel extends Component {
             
 		
 	}
+       
         
         submitSimulation() {
             this.props.onSubmitSimulationCallback();
@@ -67,7 +68,7 @@ export default class SimulationRightPanel extends Component {
 					</div>
                                         <div>
 						<form>
-							<Button onClick={this.submitSimulation} bsstyle="primary">Submit Simulation</Button>
+							<Button onClick={this.submitSimulation} bsstyle="primary" >Submit Simulation</Button>
                                                  
 						</form>
 						<div>
