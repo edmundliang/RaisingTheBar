@@ -41,18 +41,17 @@ public class SimulationController {
     }
 
     @RequestMapping(value = "/simulation/complete", method = RequestMethod.GET)
-    public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade") int grade) {
+    public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade") String jsonGrade) {
         SimulationGrade simGrade = new SimulationGrade();
         simGrade.setDateCompleted(new Date());
         User user = userService.getLoggedUser();
         simGrade.setUserId(user.getId());
         simGrade.setSimulationId(simulationId);
-        simGrade.setGrade(grade);
+        simGrade.setJsonGrades(jsonGrade);
 
         simulationService.submitSimulationGrade(simGrade);
 
         return simGrade;
-
     }
 
     @RequestMapping(value = "/simulation/add", method = RequestMethod.POST)
@@ -96,6 +95,22 @@ public class SimulationController {
                 }
             }
             outputMap.put("simulations", approvedList);
+            String output = mapper.writeValueAsString(outputMap);
+            return ResponseEntity.status(HttpStatus.OK).body(output);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    
+    @RequestMapping(value = "/simulation/listUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity allUserSimulations(@RequestBody String userId) {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = userService.getLoggedUser();
+        try {
+            Map outputMap = new HashMap();
+            List<SimulationGrade> simulationList = simulationService.getUserSimGrades(userId);
+            outputMap.put("userSimGrades", simulationList);
             String output = mapper.writeValueAsString(outputMap);
             return ResponseEntity.status(HttpStatus.OK).body(output);
         } catch (JsonProcessingException e) {

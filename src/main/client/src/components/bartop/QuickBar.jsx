@@ -36,17 +36,17 @@ export default class QuickBar extends Component {
 	render() {
 		return (
 			<div className="quick-bar">
-				<div className={"quickbar-item" + (this.hilightSlot(0) ? " highight" : "")} onClick={this.onClick.bind(this, 0)} onDrop={this.handleDrop.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"quickbar-item" + (this.hilightSlot(0) ? " highight" : "")} onClick={this.onClick.bind(this, 0)} onDrop={this.handleDrop.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDragOver={(e) => e.preventDefault()} draggable="false">
 					{
 						this.getImage(0)
 					}
 				</div>
-				<div className={"quickbar-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDrop={this.handleDrop.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[1])}  onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"quickbar-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDrop={this.handleDrop.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[1])}  onDragOver={(e) => e.preventDefault()} draggable="false">
 					{
 						this.getImage(1)
 					}
 				</div>
-				<div className={"quickbar-item" + (this.hilightSlot(2) ? " highight" : "")} onClick={this.onClick.bind(this, 2)} onDrop={this.handleDrop.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[2])} onDragOver={(e) => e.preventDefault()} draggable>
+				<div className={"quickbar-item" + (this.hilightSlot(2) ? " highight" : "")} onClick={this.onClick.bind(this, 2)} onDrop={this.handleDrop.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[2])} onDragOver={(e) => e.preventDefault()} draggable="false">
 					{
 						this.getImage(2)
 					}

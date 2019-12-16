@@ -46,5 +46,9 @@ public class SimulationService {
    public List<SimulationGrade> getSimGrades(String simulationId) {
        return simGradeRepository.findAll().stream().filter(grade -> grade.getSimulationId().equals(simulationId)).collect(Collectors.toList());
    }
+   
+   public List<SimulationGrade> getUserSimGrades(String userId) {
+       return simGradeRepository.findAll().stream().filter(grade -> grade.getUserId().equals(userId)).collect(Collectors.toList());
+   }
     
 }
