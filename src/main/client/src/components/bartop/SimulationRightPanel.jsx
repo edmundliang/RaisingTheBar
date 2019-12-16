@@ -59,6 +59,7 @@ export default class SimulationRightPanel extends Component {
 					<div>
 						<form>
 							<Button onClick={this.submitRecipe} bsstyle="primary">Submit Recipe</Button>
+                                                       
 						</form>
 						<div>
 							{/* Put error here */}
@@ -67,6 +68,7 @@ export default class SimulationRightPanel extends Component {
                                         <div>
 						<form>
 							<Button onClick={this.submitSimulation} bsstyle="primary">Submit Simulation</Button>
+                                                 
 						</form>
 						<div>
 							{/* Put error here */}
