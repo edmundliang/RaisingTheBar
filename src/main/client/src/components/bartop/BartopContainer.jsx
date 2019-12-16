@@ -43,7 +43,11 @@ export default class SimulationContainer extends Component {
       recipeQueue: [],
       completedRecipes: [],
       messageLog: [],
+      open: false,
       simulationLog:[],
+      finished: false,
+      grade: null,
+           
       
       mode: {
         mode: null
@@ -92,6 +96,7 @@ export default class SimulationContainer extends Component {
     this.handleGarbage = this.handleGarbage.bind(this);
     this.submitRecipeGradingCallback = this.submitRecipeGradingCallback.bind(this);
     this.submitSimulationGradingCallback = this.submitSimulationGradingCallback.bind(this);
+
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -185,7 +190,6 @@ export default class SimulationContainer extends Component {
     this.state.mode = mode;
   }
   }
-  
   
   
   addRecipeToQueue(recipe) {
@@ -368,7 +372,8 @@ export default class SimulationContainer extends Component {
       }
       
       console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
-      
+      this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
+      this.setState({finished: true});
 
  
       // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
@@ -485,7 +490,10 @@ export default class SimulationContainer extends Component {
     if (this.state.dragged == actionBar[index]) {
           this.sendMessage("Please drag your glass to another glass");
       }
-    else if (this.state.dragged.category == null) { //means is an actionbar item or quickbar item
+      else if (this.state.dragged.glass != null) {
+          
+      }
+    else if (this.state.dragged.category == null ) { //means is an actionbar item or quickbar item
       for (element of this.state.dragged.actionStack) {
         actionBar[index].actionStack.push(element);
       }
@@ -517,7 +525,7 @@ export default class SimulationContainer extends Component {
       else if (this.state.dragged == quickBar[index]) {
           this.sendMessage("Please drag your glass to another glass");
       }
-      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" ) { //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) { //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
         var glassVolume = quickBar[index].glass.volume;
         var contents = 0;
         for (var cont of quickBar[index].actionStack) {
@@ -623,7 +631,19 @@ export default class SimulationContainer extends Component {
     }</span></div>)
 
   }
+      
+   
   render() {
+    if (this.state.finished){
+        return(
+        <React.Fragment>
+        <NavigationBar />
+        <div id="grade">
+        <span className="gradeReturned" >The grade you have received is... {this.state.grade}</span>
+      </div>
+      </React.Fragment>
+    )}
+    else {
     return (
       <React.Fragment>
         <NavigationBar />
@@ -653,11 +673,12 @@ export default class SimulationContainer extends Component {
               </div>
               {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
             </div>
+ 
             <div id="sidebar-right">
               <Router>
                 <Switch>
                   <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>
@@ -668,3 +689,5 @@ export default class SimulationContainer extends Component {
     )
   }
 }
+        }
+        
