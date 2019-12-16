@@ -43,6 +43,7 @@ export default class SimulationContainer extends Component {
       recipeQueue: [],
       completedRecipes: [],
       messageLog: [],
+      simulationLog:[],
       
       mode: {
         mode: null
@@ -81,15 +82,16 @@ export default class SimulationContainer extends Component {
     this.onDragEndActionBarCallback = this.onDragEndActionBarCallback.bind(this);
     this.onDragEndQuickBarCallback = this.onDragEndQuickBarCallback.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.sendSimulationMessage = this.sendSimulationMessage.bind(this);
     this.submitRecipeCallback = this.submitRecipeCallback.bind(this);
     this.renderGlass = this.renderGlass.bind(this);
     this.renderActionBarItem = this.renderActionBarItem.bind(this);
     this.addRecipeToQueue = this.addRecipeToQueue.bind(this);
-    this.onSubmitCallback = this.onSubmitCallback.bind(this);
     this.convertTimeToAmount = this.convertTimeToAmount.bind(this);
     this.handleChildClick = this.handleChildClick.bind(this);
     this.handleGarbage = this.handleGarbage.bind(this);
-    this.submitRecipe = this.submitRecipe.bind(this);
+    this.submitRecipeGradingCallback = this.submitRecipeGradingCallback.bind(this);
+    this.submitSimulationGradingCallback = this.submitSimulationGradingCallback.bind(this);
     var mode = {
       mode: this.props.match.params.var1,
       submode: this.props.match.params.var2,
@@ -173,26 +175,18 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     }*/
-    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"Whisky Tonic","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
-    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"Testingg","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd","json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"WHISKY\",\"amount\":100},{\"name\":\"TONIC WATER\",\"amount\":103}],\"glass\":{\"name\":\"ROCKS\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 1","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    
+    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1},\"shake\"],\"glass\":{\"name\":\"CHAMPAGNE\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
     this.addRecipeToQueue(rec1);
     this.addRecipeToQueue(rec2);
     this.state.mode = mode;
   }
   }
   
-  onSubmitCallback() {
-      var index = this.state.completedRecipes.length; //how many recipes have been submitted tell u which recipe to check against
-      if (index == this.state.recipeQueue.length) { //finished w simulation
-          
-      }
-      else {
-            //if theres something to be submitted
-            if (this.state.selectedSlot != null && this.state.selectedSlot.bar === "quick") {
-                this.submitRecipe(this.state.selectedSlot.data);
-          }
-      }  
-  }
+  
   
   addRecipeToQueue(recipe) {
     let tempRecipeQueue = this.state.recipeQueue;
@@ -200,10 +194,182 @@ export default class SimulationContainer extends Component {
     this.setState({ recipeQueue: tempRecipeQueue })
   }
   
-  submitRecipe(recipe) {
-    let tempRecipeQueue = this.state.completedRecipes;
-    tempRecipeQueue.push(recipe);
-    this.setState({ completedRecipes: tempRecipeQueue })
+  submitRecipeCallback(data) {
+    // console.log(data);
+    if (data.name.length <= 0) {
+      this.sendMessage("Can't submit, you must input a name");
+      return;
+    }
+    if (data.description.length <= 0) {
+      this.sendMessage("Can't submit, you must input a description");
+      return;
+    }
+    if (data.name.length > 50) {
+      this.sendMessage("Can't submit, the recipe name cant be longer than 50 characters");
+      return;
+    }
+    if (data.description.length > 500) {
+      this.sendMessage("Can't submit, the recipe description cant be longer than 500 characters");
+      return;
+    }
+    if (this.state.selectedSlot == null || this.state.selectedSlot.bar != "quick") {
+      this.sendMessage("Can't submit, a quick bar item must be selected");
+      return;
+    }
+    if (this.state.selectedSlot.data.glass == null) {
+      this.sendMessage("Can't submit, you must select a glass");
+      return;
+    }
+    if (this.state.selectedSlot.data.actionStack.length < 1) {
+      this.sendMessage("Can't submit, the glass cannot be empty");
+      return;
+    }
+    let prunedActionStack = []
+    for (var i = 0; i < this.state.selectedSlot.data.actionStack.length; i++) {
+      let current = this.state.selectedSlot.data.actionStack[i];
+      if (current instanceof Object) {
+
+        let newObject = {
+          name: current.name,
+          amount: current.amount
+        }
+        prunedActionStack.push(newObject)
+      } else if (current === "shake") {
+        prunedActionStack.push(current);
+      }
+    }
+    let outputJson = {
+      name: data.name,
+      description: data.description,
+      public: data.public,
+      actionStack: prunedActionStack,
+      glass: this.state.selectedSlot.data.glass
+    }
+    // console.log(outputJson);
+    var formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('public', data.public);
+    formData.append('json', JSON.stringify(outputJson));
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/recipe/add');
+    var parent = this
+    console.log(formData.entries());
+    xhr.onload = function () {
+      // console.log(this)
+      if (this.status == 201) {
+        parent.props.history.push("/results/recipe/add/success");
+      } else {
+        parent.sendMessage("Error: " + this.status + " when sending recipe to server");
+      }
+      // console.log(this);
+    };
+    xhr.send(formData);
+  }
+  
+  submitRecipeGradingCallback() {
+    if (this.state.selectedSlot == null || this.state.selectedSlot.bar != "quick") {
+      this.sendSimulationMessage("Can't submit recipe for grading, a quick bar item must be selected");
+      return;
+    }
+    if (this.state.selectedSlot.data.glass == null) {
+      this.sendSimulationMessage("Can't submit recipe for grading, you must select a glass");
+      return;
+    }
+    if (this.state.selectedSlot.data.actionStack.length < 1) {
+      this.sendSimulationMessage("Can't submit recipe for grading, the glass cannot be empty");
+      return;
+    }
+  
+   let recipe = this.state.completedRecipes;
+   recipe.push(this.state.selectedSlot.data);
+
+   
+   this.setState({ completedRecipes: recipe })
+   
+   // if user has submitted the number of recipes in the simulation, automatically submit simulation for grading
+   if (this.state.recipeQueue.length == this.state.completedRecipes.length) {
+       this.submitSimulationGradingCallback();
+       
+   }
+   
+   // CLEAR SELECTED GLASS AFTER SUBMITTING RECIPE STILL TO BE IMPLEMENTED
+   //GOTTA IMPLEMENT THIS
+ 
+ 
+  }
+  
+  submitSimulationGradingCallback() {
+      
+      var recipesCompletedList = this.state.completedRecipes;
+      var recipeQueueList = this.state.recipeQueue;
+      
+      var recipesCompletedLength = recipesCompletedList.length;
+      var recipeQueueLength = recipeQueueList.length
+      var pointsForEachRecipe = (100 / this.state.recipeQueue.length);
+      var totalRecipesCorrect = 0;
+      
+      console.log(recipesCompletedList)
+      console.log(recipeQueueList)
+      // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
+      
+      for(var i = 0; i < recipesCompletedLength; i++) {
+          var match = true;
+      
+          console.log(recipesCompletedList[i].glass.name)
+          for(var j = 0; j < recipeQueueLength; j++) {
+              console.log(JSON.parse(recipeQueueList[j].json).glass.name)
+              
+              // check if glass is correct
+              if(recipesCompletedList[i].glass.name === JSON.parse(recipeQueueList[j].json).glass.name) {
+                console.log(recipesCompletedList[i].actionStack.length)
+                console.log(JSON.parse(recipeQueueList[j].json).actionStack.length)
+                // check if both action stack length match
+                if(recipesCompletedList[i].actionStack.length === JSON.parse(recipeQueueList[j].json).actionStack.length) {
+                    
+                    //if action stack lengths match start comparing the items in both action stacks
+                    for(var k = 0; k <recipesCompletedList[i].actionStack.length; k++) {
+                        
+                        console.log(recipesCompletedList[i].actionStack[k].name)
+                        console.log(JSON.parse(recipeQueueList[j].json).actionStack[k].name)
+                        
+                        // if actionstack item is not an action
+                        if (recipesCompletedList[i].actionStack[k].name !== null && JSON.parse(recipeQueueList[j].json).actionStack[k].name !== null) {
+                            
+                            console.log("actionstack item is not an action")
+                            if (recipesCompletedList[i].actionStack[k].name !== JSON.parse(recipeQueueList[j].json).actionStack[k].name  
+                                || recipesCompletedList[i].actionStack[k].amount !== JSON.parse(recipeQueueList[j].json).actionStack[k].amount  ) {
+                                match = false;
+                                
+                                
+                            }  
+                        } else {
+                            // if actionstack item is an action compare action
+                            if (recipesCompletedList[i].actionStack[k] !== JSON.parse(recipeQueueList[j].json).actionStack[k]) {
+                                match = false;
+                                
+                                
+                            }
+                        }
+                    }
+                    
+                }     
+ 
+
+              } 
+          }
+          if (match === true) {
+              console.log("match = true")
+              totalRecipesCorrect = totalRecipesCorrect +1;
+          }
+
+      }
+      
+      console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+ 
+      // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
+      //GOTTA IMPLEMENT THIS
+    
   }
   
   onActionEndCallback(index) {
@@ -238,8 +404,6 @@ export default class SimulationContainer extends Component {
       if ((this.state.selectedSlot.bar === "quick" && this.state.selectedSlot.data.glass != null) || (this.state.selectedSlot.bar === "action")) {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
-        //console.log(this.state.selectedSlot)
-        console.log(stack)
         let ingredient = Object.assign({}, this.state.selectedIngredient)
         //console.log(ingredient)
         if (elapsedTime > 0) {
@@ -374,78 +538,13 @@ export default class SimulationContainer extends Component {
     messageLog.push(message);
     this.setState({ messageLog: messageLog });
   }
-  submitRecipeCallback(data) {
-    // console.log(data);
-    if (data.name.length <= 0) {
-      this.sendMessage("Can't submit, you must input a name");
-      return;
-    }
-    if (data.description.length <= 0) {
-      this.sendMessage("Can't submit, you must input a description");
-      return;
-    }
-    if (data.name.length > 50) {
-      this.sendMessage("Can't submit, the recipe name cant be longer than 50 characters");
-      return;
-    }
-    if (data.description.length > 500) {
-      this.sendMessage("Can't submit, the recipe description cant be longer than 500 characters");
-      return;
-    }
-    if (this.state.selectedSlot == null || this.state.selectedSlot.bar != "quick") {
-      this.sendMessage("Can't submit, a quick bar item must be selected");
-      return;
-    }
-    if (this.state.selectedSlot.data.glass == null) {
-      this.sendMessage("Can't submit, you must select a glass");
-      return;
-    }
-    if (this.state.selectedSlot.data.actionStack.length < 1) {
-      this.sendMessage("Can't submit, the glass cannot be empty");
-      return;
-    }
-    let prunedActionStack = []
-    for (var i = 0; i < this.state.selectedSlot.data.actionStack.length; i++) {
-      let current = this.state.selectedSlot.data.actionStack[i];
-      if (current instanceof Object) {
-
-        let newObject = {
-          name: current.name,
-          amount: current.amount
-        }
-        prunedActionStack.push(newObject)
-      } else if (current === "shake") {
-        prunedActionStack.push(current);
-      }
-    }
-    let outputJson = {
-      name: data.name,
-      description: data.description,
-      public: data.public,
-      actionStack: prunedActionStack,
-      glass: this.state.selectedSlot.data.glass
-    }
-    // console.log(outputJson);
-    var formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('public', data.public);
-    formData.append('json', JSON.stringify(outputJson));
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/recipe/add');
-    var parent = this
-    console.log(formData.entries());
-    xhr.onload = function () {
-      // console.log(this)
-      if (this.status == 201) {
-        parent.props.history.push("/results/recipe/add/success");
-      } else {
-        parent.sendMessage("Error: " + this.status + " when sending recipe to server");
-      }
-      // console.log(this);
-    };
-    xhr.send(formData);
+  
+  sendSimulationMessage(message) {
+      let simulationLog = this.state.simulationLog;
+      simulationLog.push(message);
+      this.setState({simulationLog:simulationLog});
   }
+  
   handleGarbage() {
       if (this.state.dragged != null) {
           this.state.dragged.actionStack = [];
@@ -542,7 +641,7 @@ export default class SimulationContainer extends Component {
               <Router>
                 <Switch>
                   <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} onSubmitCallback={this.onSubmitCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes}/>} />
                   <Route component={NoMatch} />
                 </Switch>
               </Router>

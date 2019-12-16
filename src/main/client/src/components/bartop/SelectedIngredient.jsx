@@ -95,7 +95,11 @@ export default class SelectedIngredient extends Component {
             // console.log(this.props.selectedSlot)
 
             if (this.props.selectedSlot.bar != "action") {
-                if ((data.amount + amountToBePoured) < data.glass.volume) {
+                
+                if (this.props.selectedSlot.data.glass == null) {
+                    this.props.sendMessage("Cannot pour into empty slot!")
+                }
+                else if ((data.amount + amountToBePoured) < data.glass.volume) {
                     // add ingredient if there is enough room
                     this.props.addSelectedIngredientToSelectedSlotCallback(this.state.elapsedTime)
                 } else {
