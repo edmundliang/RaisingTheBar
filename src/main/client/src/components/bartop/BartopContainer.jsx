@@ -180,11 +180,13 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     }*/
-    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 1","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
-        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
     
-    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
-        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1},\"shake\"],\"glass\":{\"name\":\"CHAMPAGNE\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+    
+    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+             
+    var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 1","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
     this.addRecipeToQueue(rec1);
     this.addRecipeToQueue(rec2);
     this.state.mode = mode;
@@ -316,44 +318,89 @@ export default class SimulationContainer extends Component {
       var totalRecipesCorrect = 0;
       
       
-      
+     
       // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
       for(var i = 0; i< recipesCompletedLength;i++) {
-          
+             
           var match = true;
-          
+         
           var recipeJsonParsed = JSON.parse(recipeQueueList[i].json);
-          console.log(recipesCompletedList[i].glass.name)
-          console.log(recipeJsonParsed.glass.name)
           
+
           // check if glass is correct
               if(recipesCompletedList[i].glass.name === recipeJsonParsed.glass.name) {
-                console.log(recipesCompletedList[i].actionStack.length)
-                console.log(JSON.parse(recipeQueueList[i].json).actionStack.length)
+                  
                 // check if both action stack length match
                 if(recipesCompletedList[i].actionStack.length === recipeJsonParsed.actionStack.length) {
-                    
+                    console.log("action stack length is same")
                     //if action stack lengths match start comparing the items in both action stacks
                     for(var j = 0; j <recipesCompletedList[i].actionStack.length; j++) {
                         
-                        console.log(recipesCompletedList[i].actionStack[j].name)
-                        console.log(JSON.parse(recipeQueueList[i].json).actionStack[j].name)
+                        console.log(recipesCompletedList[i].actionStack[j])
+                        console.log(JSON.parse(recipeQueueList[i].json).actionStack[j])
                         
-                        // if actionstack item is not an action
-                        if (recipesCompletedList[i].actionStack[j].name !== null && recipeJsonParsed.actionStack[j].name !== null) {
+                        // if one actionstack item is of type array and another is of type object
+                        if ((recipesCompletedList[i].actionStack[j] instanceof Array && recipeJsonParsed.actionStack[j] instanceof Array)){
+                            console.log("both shaken array")
+                            // if both actionstack items are arrays compare the shaken array ingredients
                             
-                            console.log("actionstack item is not an action")
+                            // sort both arrays first
+                            recipesCompletedList[i].actionStack[j][1].sort(function(a,b) {
+                                var nameA=a.name.toLowerCase();
+                                var nameB=b.name.toLowerCase();
+                                if (nameA < nameB)
+                                    return -1;
+                                if (nameA > nameB)
+                                    return 1
+                                return 0
+                            })
+                            recipeJsonParsed.actionStack[j][1].sort(function(a,b) {
+                                var nameA=a.name.toLowerCase();
+                                var nameB=b.name.toLowerCase();
+                                if (nameA < nameB)
+                                    return -1;
+                                if (nameA > nameB)
+                                    return 1
+                                return 0
+                            })
+                            
+                            // merge duplicates
+                            
+
+                            // check if array length is the same (same number of ingredients shaken)
+                            if (recipesCompletedList[i].actionStack[j][1].length != recipeJsonParsed.actionStack[j][1].length) {
+                                console.log("number of ingredients shaken not equal")
+                            
+                                match = false;
+                            } else {
+                                // if same number of ingredients check for each ingredient and amount
+                                for (var k = 0; k < recipesCompletedList[i].actionStack[j][1].length; k++) {
+                                    if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name) ||
+                                        (recipesCompletedList[i].actionStack[j][1][k].amount !== recipeJsonParsed.actionStack[j][1][k].amount)) {
+                                        console.log("ingredients not the same");
+                                        match = false;
+                                    }
+                                }
+                            }
+                            
+
+                        } else if ((recipesCompletedList[i].actionStack[j] instanceof Array && !(recipeJsonParsed.actionStack[j] instanceof Array)) ||
+                            (!(recipesCompletedList[i].actionStack[j] instanceof Array) && recipeJsonParsed.actionStack[j] instanceof Array)) {
+                        
+                            // if one is shaken ingredients array and another is ingredient object
+                            console.log("one is shaken array other is just ingredient")
+                            match = false;
+                        } else {
+                            
+                            console.log("both are ingredients")
+                            // if both actionstack items are objects compare the ingredients
                             if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name  
                                 || recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount  ) {
                                 match = false;
-                            }  
-                        } else {
-                            // if actionstack item is an action compare action
-                            if (recipesCompletedList[i].actionStack[j] !== recipeJsonParsed.actionStack[j]) {
-                                match = false;
-                                
                             }
-                        }
+                          
+                            
+                        }              
                     }
                     
                 } else {
@@ -381,9 +428,7 @@ export default class SimulationContainer extends Component {
     
   }
   
-//  When you shake create an array first item is word shake second item is array of 
-//  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
-//  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
+
   
   onActionEndCallback(index) {
       
@@ -393,9 +438,12 @@ export default class SimulationContainer extends Component {
     
       let actionStack = this.state.actionBar[index].actionStack;
       console.log(actionStack)
-      if (actionStack[actionStack.length - 1] != "shake") {
+      if (actionStack[actionStack.length - 1] !==  "shake" && actionStack.length !== 1) {
         actionStack.push("shake");
+        
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
+      } else {
+          this.sendSimulationMessage("Only one ingredient in shaker!");
       }
     }
   }
@@ -521,11 +569,11 @@ export default class SimulationContainer extends Component {
         quickBar[index].glass = this.state.dragged;
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
-      }
-      else if (this.state.dragged == quickBar[index]) {
+      } else if (this.state.dragged == quickBar[index]) {
           this.sendMessage("Please drag your glass to another glass");
-      }
-      else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) { //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+      } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) {
+        //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+        
         var glassVolume = quickBar[index].glass.volume;
         var contents = 0;
         for (var cont of quickBar[index].actionStack) {
@@ -544,11 +592,46 @@ export default class SimulationContainer extends Component {
             this.sendMessage("This would overfill that glass!")
         }
         else{
-        for (var element of this.state.dragged.actionStack) {
-          quickBar[index].actionStack.push(element);
-        }
-        this.setState({ quickBar: quickBar, dragged: null });
-      }}
+            
+            //  When you shake create an array first item is word shake second item is array of 
+            //  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
+            //  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
+            
+            
+            var shaken = false;
+
+            // check if things in shaker have been shaken if not, just add the contents to glass
+            for (var elements of this.state.dragged.actionStack) {         
+                if (elements === "shake") {
+                    shaken = true;
+                }
+            }
+            if (shaken) {
+                let shakeJson = [];
+                shakeJson.push("shake");
+                let shakeContents = [];
+                for (var element of this.state.dragged.actionStack) {
+                    if(element !== "shake") {
+                        shakeContents.push(element);
+                    }
+                }
+                shakeJson.push(shakeContents);
+                quickBar[index].actionStack.push(shakeJson);
+            } else {
+                for (var element of this.state.dragged.actionStack) {
+                    quickBar[index].actionStack.push(element);
+                }
+            }
+            this.setState({ quickBar: quickBar, dragged: null });
+            console.log(quickBar[index].actionStack)
+            
+            // clear shaker after it is dragged into glass
+            // IMPLEMENT THIS
+            
+            
+        }  
+      
+      }
     } else {
       this.setState({ dragged: null });
     }
@@ -585,8 +668,11 @@ export default class SimulationContainer extends Component {
               if (item instanceof Object) {
                   if(item.scale === "ounces") {
                       return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
-                  } else {
+                  } else if (item.scale === "count") {
                     return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+                  } else {
+                    // if item is array ("shake" + shaken items)
+                    return (<p>array</p>);
                   }
   
               } else {
@@ -617,7 +703,7 @@ export default class SimulationContainer extends Component {
       image = "/images/actions/knife.png";
     }
     return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
-      this.state.actionBar[index].actionStack != null && this.state.actionBar[index].actionStack.length == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
+      this.state.actionBar[index].actionStack == 0  ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
         if (item instanceof Object) {
           if(item.scale === "ounces") {
                       return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
