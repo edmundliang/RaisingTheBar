@@ -10,6 +10,7 @@ import RecipeRightPanel from "./RecipeRightPanel.jsx";
 import SimulationRightPanel from "./SimulationRightPanel.jsx";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NoMatch from '../NoMatch';
+import Popup from "reactjs-popup";
 
 import './BartopContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
@@ -282,7 +283,7 @@ export default class SimulationContainer extends Component {
     }
   
    let recipe = this.state.completedRecipes;
-   recipe.push(this.state.selectedSlot.data);
+   recipe.push(Object.assign({},this.state.selectedSlot.data));
 
    
    this.setState({ completedRecipes: recipe })
@@ -294,8 +295,10 @@ export default class SimulationContainer extends Component {
    }
    
    // CLEAR SELECTED GLASS AFTER SUBMITTING RECIPE STILL TO BE IMPLEMENTED
-   //GOTTA IMPLEMENT THIS
- 
+   var qIndex = this.state.selectedSlot.slot;
+   this.state.quickBar[qIndex].actionStack = [];
+   this.state.quickBar[qIndex].glass = null;
+   this.setState({quickBar: this.state.quickBar});
  
   }
   
@@ -469,7 +472,10 @@ export default class SimulationContainer extends Component {
       actionBar[index].actionStack = [];
     }
     var element;
-    if (this.state.dragged.category == null) { //means is an actionbar item or quickbar item
+    if (this.state.dragged == actionBar[index]) {
+          this.sendMessage("Please drag your glass to another glass");
+      }
+    else if (this.state.dragged.category == null) { //means is an actionbar item or quickbar item
       for (element of this.state.dragged.actionStack) {
         actionBar[index].actionStack.push(element);
       }
