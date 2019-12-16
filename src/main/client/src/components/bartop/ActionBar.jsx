@@ -48,18 +48,7 @@ export default class ActionBar extends Component {
 					}
 				</div>
 				<button onClick={this.onShakeClick.bind(this, 0)}>Shake!</button>
-				<div className={"action-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
-					{
-						this.props.renderActionBarItem(1)
-					}
-				</div>
-				<button onClick={this.onHeatClick.bind(this, 0)}>Heat!</button>
-				<div className={"action-item" + (this.hilightSlot(2) ? " highight" : "")} onClick={this.onClick.bind(this, 2)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 2)} onDragOver={(e) => e.preventDefault()} draggable>
-					{
-						this.props.renderActionBarItem(2)
-					}
-				</div>
-				<button onClick={this.onCutClick.bind(this, 0)}>Cut!</button>
+				
 			</div>
 		);
 	}

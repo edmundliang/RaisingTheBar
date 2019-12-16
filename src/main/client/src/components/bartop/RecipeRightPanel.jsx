@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Tabs, Tab, Button } from 'react-bootstrap';
-import Popup from "reactjs-popup";
 import './RecipeRightPanel.scss';
 
 export default class RecipeRightPanel extends Component {

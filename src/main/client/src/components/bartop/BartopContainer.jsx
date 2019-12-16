@@ -10,7 +10,6 @@ import RecipeRightPanel from "./RecipeRightPanel.jsx";
 import SimulationRightPanel from "./SimulationRightPanel.jsx";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NoMatch from '../NoMatch';
-import Popup from "reactjs-popup";
 
 import './BartopContainer.scss';
 import ingredientsJsonFile from "../../assets/ingredients.json"
@@ -377,9 +376,18 @@ export default class SimulationContainer extends Component {
     
   }
   
+//  When you shake create an array first item is word shake second item is array of 
+//  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
+//  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
+  
   onActionEndCallback(index) {
+      
+    // if action is shake
     if (index === 0) {
+        
+    
       let actionStack = this.state.actionBar[index].actionStack;
+      console.log(actionStack)
       if (actionStack[actionStack.length - 1] != "shake") {
         actionStack.push("shake");
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
