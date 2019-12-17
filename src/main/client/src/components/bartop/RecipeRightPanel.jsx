@@ -37,8 +37,7 @@ export default class RecipeRightPanel extends Component {
 			if ((e.target.name == "name" && e.target.value.length <= 50)
 				||
 				(e.target.name == "description" && e.target.value.length <= 500)) {
-				this.setState({ [e.target.name]: e.target.value });
-				console.log(e.target.value);
+				this.setState({ [e.target.name]: e.target.value });			
 			}
 		}
 	}

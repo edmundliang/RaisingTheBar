@@ -233,15 +233,19 @@ export default class SimulationContainer extends Component {
     let prunedActionStack = []
     for (var i = 0; i < this.state.selectedSlot.data.actionStack.length; i++) {
       let current = this.state.selectedSlot.data.actionStack[i];
-      if (current instanceof Object) {
-
-        let newObject = {
-          name: current.name,
-          amount: current.amount
-        }
-        prunedActionStack.push(newObject)
-      } else if (current === "shake") {
-        prunedActionStack.push(current);
+      console.log(current)
+      if (current instanceof Array) {
+          console.log("shaken array")
+          // if shaken array
+          prunedActionStack.push(current)
+      } else {
+          console.log("regular ingredient")
+          // if regular ingredient
+          let newObject = {
+            name: current.name,
+            amount: current.amount
+          }
+          prunedActionStack.push(newObject)
       }
     }
     let outputJson = {
@@ -476,7 +480,7 @@ export default class SimulationContainer extends Component {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
         let ingredient = Object.assign({}, this.state.selectedIngredient)
-        console.log(stack)
+        //console.log(stack)
         if (elapsedTime > 0) {
           if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
             // if last item on the aciton stack and selected ingredient is the same merge them
@@ -624,7 +628,6 @@ export default class SimulationContainer extends Component {
             //  When you shake create an array first item is word shake second item is array of 
             //  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
             //  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
-            
             
             var shaken = false;
 
