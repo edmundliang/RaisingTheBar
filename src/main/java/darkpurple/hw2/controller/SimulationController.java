@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import darkpurple.hw2.database.CustomUserDetailsService;
 import darkpurple.hw2.database.SimulationService;
-import darkpurple.hw2.database.entity.Recipe;
 import darkpurple.hw2.database.entity.Simulation;
 import darkpurple.hw2.database.entity.SimulationGrade;
 import darkpurple.hw2.database.entity.User;
@@ -20,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
