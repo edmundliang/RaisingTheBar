@@ -365,6 +365,7 @@ export default class SimulationContainer extends Component {
                             })
                             
                             // merge duplicates MIGHT PLACE THIS CODE ELSEWHERE AS INGREDIENTS SHOULD BE MERGED ONCE ADDED
+                            // IMPLEMENTED ALREADY
                             
 
                             // check if array length is the same (same number of ingredients shaken)
@@ -619,6 +620,7 @@ export default class SimulationContainer extends Component {
         }
         else{
             
+            
             //  When you shake create an array first item is word shake second item is array of 
             //  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
             //  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
@@ -633,14 +635,33 @@ export default class SimulationContainer extends Component {
                 }
             }
             if (shaken) {
+                
+               
                 let shakeJson = [];
                 shakeJson.push("shake");
                 let shakeContents = [];
+                
                 for (var element of this.state.dragged.actionStack) {
                     if(element !== "shake") {
-                        shakeContents.push(element);
+                       
+
+                        // check for duplicates when before pushing shakecontents to shakeJson
+                        var duplicate = false;
+                        var duplicateIndex;
+                        for(var i = 0; i < shakeContents.length;i++) { 
+                            if (shakeContents[i].name === element.name) {
+                                shakeContents[i].amount = shakeContents[i].amount + element.amount;
+                                duplicate = true;
+                            }
+                        }
+                        // if no duplicate exists push ingredient
+                        if (duplicate === false) {
+                            shakeContents.push(element);
+                        }
                     }
                 }
+                
+
                 shakeJson.push(shakeContents);
                 quickBar[index].actionStack.push(shakeJson);
             } else {
