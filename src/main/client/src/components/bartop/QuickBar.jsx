@@ -35,7 +35,7 @@ export default class QuickBar extends Component {
 	}
 	render() {
 		return (
-			<div className="quick-bar">
+			<div className="quick-bar text-center container-fluid d-flex justify-content-center">
 				<div className={"quickbar-item" + (this.hilightSlot(0) ? " highight" : "")} onClick={this.onClick.bind(this, 0)} onDrop={this.handleDrop.bind(this, 0)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDragOver={(e) => e.preventDefault()} draggable="false">
 					{
 						this.getImage(0)

@@ -4,6 +4,8 @@
     flex-wrap: wrap;
     position: relative;
     font-weight: bold;
+    height: 100%;
+    font-family: 'Baloo Bhai', cursive;
 }
 
 .liquors-container {
@@ -25,14 +27,21 @@
     width: 25%;
     padding-top: 2%;
     display: inline-block;
+    vertical-align: top;
+    font-family: 'Prompt', sans-serif;
 }
 
 img {
     width: 40%;
     pointer-events: none;
+    margin-bottom: 5px;
+    vertical-align: bottom;
 }
 
 .selected {
-    background-color: yellow
+    background-color: yellow;
 }
 
+p {
+    line-height: 1.1;
+}

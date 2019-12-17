@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 import "./ActionBar.scss";
 
 export default class ActionBar extends Component {
@@ -47,7 +47,7 @@ export default class ActionBar extends Component {
 						this.props.renderActionBarItem(0)
 					}
 				</div>
-				<button onClick={this.onShakeClick.bind(this, 0)}>Shake!</button>
+				<Button onClick={this.onShakeClick.bind(this, 0)}>Shake!</Button>
                                 {/*
 				<div className={"action-item" + (this.hilightSlot(1) ? " highight" : "")} onClick={this.onClick.bind(this, 1)} onDragStart={this.handleDragStart.bind(this, this.props.inventory[0])} onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
 					{

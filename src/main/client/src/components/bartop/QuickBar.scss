@@ -25,11 +25,9 @@ li {
 
 .quick-bar img {
     width: 100%;
-    border-style: solid;
 }
 
 .quick-bar .highight {
-    border-style: solid;
     border-color: yellow;
 }
 
@@ -42,8 +40,6 @@ li {
 }
 
 #tooltip img {
-    border-style: solid;
-    object-fit: fill;
 }
 
 #tooltip {
@@ -53,14 +49,35 @@ li {
 #tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
-    background-color: black;
+    background-color: #303030;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-    /* Position the tooltip */
     position: absolute;
-    z-index: 4;
+    z-index: 1;
+    bottom: 102%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
+#tooltip:hover img {
+    background: #dddddd;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+}
+
+#tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
 }
 
 #tooltip:hover .tooltiptext {
