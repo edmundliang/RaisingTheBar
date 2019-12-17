@@ -57,8 +57,19 @@ public class LoginController {
         }
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ResponseEntity logoutGET(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity logoutAction(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity logoutPOST(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);

@@ -74,9 +74,16 @@ public class SimulationController {
     }
 
     @RequestMapping(value = "/simulation/delete", method = RequestMethod.POST)
-    public void deleteSim(@RequestBody String simulationId) {
-        Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
-        simulationService.deleteSimulation(toBeDeleted);
+    public ResponseEntity deleteSim(@RequestParam("id") String simulationId) {
+        User user = userService.getLoggedUser();
+        if (user != null) {
+            Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
+            if (toBeDeleted != null && toBeDeleted.getCreator() == user.getId()) {
+                simulationService.deleteSimulation(toBeDeleted);
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     @RequestMapping(value = "/simulation/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -100,20 +107,30 @@ public class SimulationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    
-    @RequestMapping(value = "/simulation/listUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity allUserSimulations(@RequestBody String userId) {
+
+    @RequestMapping(value = "/simulation/list/mine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity allUserSimulations() {
         ObjectMapper mapper = new ObjectMapper();
         User user = userService.getLoggedUser();
-        try {
-            Map outputMap = new HashMap();
-            List<SimulationGrade> simulationList = simulationService.getUserSimGrades(userId);
-            outputMap.put("userSimGrades", simulationList);
-            String output = mapper.writeValueAsString(outputMap);
-            return ResponseEntity.status(HttpStatus.OK).body(output);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (user != null) {
+            try {
+                Map outputMap = new HashMap();
+                List<Simulation> simulationList = simulationService.getAllSimulations();
+                List<Simulation> approvedList = new ArrayList();
+                for (Simulation r : simulationList) {
+                    if (r.getCreator() == user.getId()) {
+                        approvedList.add(r);
+                    }
+                }
+                outputMap.put("simulations", approvedList);
+                String output = mapper.writeValueAsString(outputMap);
+                return ResponseEntity.status(HttpStatus.OK).body(output);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 }

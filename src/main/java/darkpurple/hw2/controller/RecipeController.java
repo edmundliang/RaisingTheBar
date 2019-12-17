@@ -58,8 +58,8 @@ public class RecipeController {
     @RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
     public ResponseEntity deleteRecipe(@RequestParam("id") String recipeId) {
         User user = userService.getLoggedUser();
-        Recipe rec = recipeService.findRecipeById(recipeId);
         if (user != null) {
+            Recipe rec = recipeService.findRecipeById(recipeId);
             if (rec != null && rec.getCreator() == user.getId()) {
                 recipeService.deleteRecipe(recipeId);
                 return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -80,7 +80,7 @@ public class RecipeController {
             List<Recipe> recipeList = recipeService.getAllRecipes();
             List<Recipe> approvedList = new ArrayList();
             for (Recipe r : recipeList) {
-                if (r.isIsPublic()|| r.getCreator() == user.getId()) {
+                if (r.isIsPublic() || r.getCreator() == user.getId()) {
                     approvedList.add(r);
                 }
             }
