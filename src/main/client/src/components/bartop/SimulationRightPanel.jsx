@@ -36,6 +36,7 @@ export default class SimulationRightPanel extends Component {
 					</div>
 					<div>
 						<div>Completed Recipes</div>
+                                                <p>{this.props.completedRecipes.length}</p>
                                                 
                                                 
 					{/*	{this.props.completedRecipes.map((recipe) => { return <p>{recipe.name}</p> })} */}

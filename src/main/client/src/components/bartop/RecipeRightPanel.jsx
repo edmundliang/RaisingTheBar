@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Button } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import './RecipeRightPanel.scss';
 
 export default class RecipeRightPanel extends Component {
@@ -28,11 +32,13 @@ export default class RecipeRightPanel extends Component {
 	handleChange(e) {
 		if (e.target.type === "checkbox") {
 			this.setState({ [e.target.name]: e.target.checked });
+			console.log("1111");
 		} else {
 			if ((e.target.name == "name" && e.target.value.length <= 50)
 				||
 				(e.target.name == "description" && e.target.value.length <= 500)) {
 				this.setState({ [e.target.name]: e.target.value });
+				console.log(e.target.value);
 			}
 		}
 	}
@@ -41,53 +47,87 @@ export default class RecipeRightPanel extends Component {
 	}
 	render() {
 		return (
-			<Tabs defaultActiveKey={"Submit"}>
-				<Tab key={"Submit"} eventKey={"Submit"} title={"Submit"}>
+				<Tabs defaultActiveKey={"Submit"}>
+					<Tab key={"Submit"} eventKey={"Submit"} title={"Submit"}>
+						<div className="FormField">
+							<div id="textfield">
+								<div id="submit-title" className="MuiButton-root MuiButton-text">
+									Name of Recipe
+								</div>
+								<TextField
+										id="name"
+										type="text"
+										className="FormField__Input"
+										label="Enter The Name For This Recipe"
+										multiline
+										variant="outlined"
+										fullWidth="100%"
+										name="name"
+										size="small"
+										value={this.state.name}
+										onChange={this.handleChange}
+								/>
+							</div>
+							<div id="textfield">
+								<div id="submit-title" className="MuiButton-root MuiButton-text">
+									Description of Recipe
+								</div>
+								<TextField
+										id="description"
+										type="text"
+										className="FormField__Input"
+										label="Enter The Recipe Description"
+										multiline
+										variant="outlined"
+										fullWidth="100%"
+										name="description"
+										rows="4"
+										size="small"
+										value={this.state.description}
+										onChange={this.handleChange}
+								/>
+							</div>
 
-					<div className="FormField">
-						<div>
-							Enter A Name For This Recipe:
-						</div>
-						<input type="text" id="name" className="FormField__Input" placeholder="Enter The Recipe Name" name="name" value={this.state.name} onChange={this.handleChange} />
-						<div>
-							Enter A Description For This Recipe:
-						</div>
-						<input type="text" id="description" className="FormField__Input" placeholder="Enter The Recipe Description" name="description" value={this.state.description} onChange={this.handleChange} />
-						<div>
-							Public Recipe?
-						<input type="checkbox" id="public" name="public" checked={this.state.public} onChange={this.handleChange} />
-						</div>
-						<Button onClick={this.submit} bsstyle="primary">Submit Recipe</Button>
-						<div>
-							<div>Cup Contents</div>
-							<div className="scroll">
+							<div className="block1"></div>
+							<div id="submit-title" className="MuiButton-root MuiButton-text">Cup Contents</div>
+							<div className="log-box">
 								{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
 
 									if (item.scale === "ounces") {
 
-										return <p key={item + index}>{item.name + " " + (item.amount / 100) + " oz"}</p>
+										return <p id="log-text" key={item + index}>{item.name + " " + (item.amount / 100) + " oz"}</p>
 									} else {
 
-										return <p key={item + index}> {item === "shake" ? item : item.name + " " + item.amount + " ct"}</p>
+										return <p id="log-text" key={item + index}> {item === "shake" ? item : item.name + " " + item.amount + " ct"}</p>
 									}
 
 									if (item.scale === "ounces") {
-										return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
+										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
 									} else {
-										return <div key={item + index}> {item === "shake" ? <p>{item}</p> : <p>{item.name + " " + (item.amount) + " ct"}</p>}</div>
+										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount) + " ct"}</p>}</div>
 									}
 								}) : "None"}
 							</div>
+
+							<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
+								<FormControlLabel
+										className="MuiButtonBase-root MuiButton-root MuiButton-text"
+										control={<Checkbox type="checkbox" id="public" name="public" checked={this.state.public} onChange={this.handleChange} value="gilad" />}
+										label="Public Recipe?"
+								/>
+								<Button onClick={this.submit} size="medium" variant="contained" color="primary" disableElevation>Submit Recipe</Button>
+							</div>
+
+							<div className="block"></div>
+							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tip</div>
+							<div className="log-box">
+								{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
+									return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
+								})}
+							</div>
 						</div>
-						<div>Log:</div>
-						<div className="scroll">
-							{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
-								return <p key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
-							})}
-						</div>
-					</div>
-				</Tab>
-			</Tabs>
+					</Tab>
+				</Tabs>
 		);
 	}
 }

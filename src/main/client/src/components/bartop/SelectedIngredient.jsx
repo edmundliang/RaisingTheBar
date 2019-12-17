@@ -161,8 +161,8 @@ export default class SelectedIngredient extends Component {
                 <img style={{ transform: `rotate(${rotation}deg)` }} className="top-img" draggable="false" src={"/images/" + (this.props.selectedIngredient.category == "glasses" ? "glasses/" : "ingredients/") + (this.props.selectedIngredient.name).toLowerCase() + ".png"} alt={"Missing Image: " + this.props.selectedIngredient.name} />
             </div>
         } else {
-            return <div id="tooltip" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)}>
-                <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
+            return <div id="tooltip1" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)}>
+                <img className="bottom-img top-image-padding" src="/images/actions/empty_spot.png" alt="empty spot" />
                 <span className="tooltiptext">There's nothing in this space!</span>
             </div>
         }
@@ -179,27 +179,25 @@ export default class SelectedIngredient extends Component {
             }
 
         } else {
-            return <div id="tooltip">
-                <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
+            return <div id="tooltip1">
+                <img className="bottom-img top-image-padding" src="/images/actions/empty_spot.png" alt="empty spot" />
                 <span className="tooltiptext">There's nothing in this space!</span>
             </div>
         }
     }
     render() {
         return (
-            <div className="selectedIngredient">
-
-                <div className="right">
-                    <div onDrop={this.handleDrop.bind(this, 0)} onDragStart={(e) => e.preventDefault()} onDragOver={(e) => e.preventDefault()} draggable>
-                        {this.getIngredientImage()}
+            <div className="top-center-pane">
+                <div id="block"></div>
+                <div className="selected-ingredient" onDrop={this.handleDrop.bind(this, 0)} onDragStart={(e) => e.preventDefault()} onDragOver={(e) => e.preventDefault()} draggable>
+                    {this.getIngredientImage()}
+                    <div id="ingredient-volume">
                         {this.state.ounces ? (this.props.convertTimeToAmount(this.state.elapsedTime) / 100) + " oz" : ""}
                     </div>
-
-                    <div className="selected-slot" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
-                        {this.getSlotImage()}
-                    </div>
                 </div>
-
+                <div className="selected-glass" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+                    {this.getSlotImage()}
+                </div>
             </div>
         );
     }

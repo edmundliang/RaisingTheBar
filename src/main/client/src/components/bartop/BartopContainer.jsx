@@ -443,7 +443,8 @@ export default class SimulationContainer extends Component {
         
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
       } else {
-          this.sendSimulationMessage("Only one ingredient in shaker!");
+        this.sendMessage("Only one ingredient in shaker!"); 
+        this.sendSimulationMessage("Only one ingredient in shaker!");
       }
     }
   }
@@ -471,23 +472,44 @@ export default class SimulationContainer extends Component {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
         let ingredient = Object.assign({}, this.state.selectedIngredient)
-        //console.log(ingredient)
+        console.log(stack)
         if (elapsedTime > 0) {
           if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+            // if last item on the aciton stack and selected ingredient is the same merge them
             ingredient.amount = this.convertTimeToAmount(elapsedTime) + data.actionStack[data.actionStack.length - 1].amount;
             data.actionStack.pop();
+            
           } else {
+              
+            // else if it is a new ingredient
             ingredient.amount = this.convertTimeToAmount(elapsedTime);
           }
+          
+          data.actionStack.push(ingredient);
         } else {
-          if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-            ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
-            data.actionStack.pop();
+          // if added ingredient is of count only add 1 ct at a time
+          
+          // first check if selected slot is a shaker, if it is dont allow to add things of scale "count"
+          // if it is not a shaker and ingredient is scale of count
+          if (this.state.selectedSlot.bar !== "action"){
+                if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+                // if last item on the aciton stack and selected ingredient is the same merge them
+                ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
+                data.actionStack.pop();
+              } else {
+                // else if it is a new ingredient
+                ingredient.amount = 1;
+              }
+              
+              data.actionStack.push(ingredient);
           } else {
-            ingredient.amount = 1;
+            // if it is shaker and ingredient is scale of dont add ingredient to shaker
+            this.sendMessage("Cannot add solid items to shaker!");
+            this.sendSimulationMessage("Cannot add solid items to shaker!");
           }
-        }
-        data.actionStack.push(ingredient);
+ 
+        } 
+        
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
 
       }
@@ -572,7 +594,7 @@ export default class SimulationContainer extends Component {
       } else if (this.state.dragged == quickBar[index]) {
           this.sendMessage("Please drag your glass to another glass");
       } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) {
-        //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+        //when adding actionbar to quickbar, make sure the glass isnt being added to itself
         
         var glassVolume = quickBar[index].glass.volume;
         var contents = 0;
@@ -745,42 +767,46 @@ export default class SimulationContainer extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
-        <div>
-          <div id="wrapper" className="center">
-            <div id="sidebar-left">
-              <div id="top">
-                <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
-              </div>
-             
-              <div id="bottom">
-                <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
-              </div>
-               <div className ="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}> <img src="/images/actions/garbage.png"/></div>
+        <div id="wrapper" className="center">
+          <div id="sidebar-left">
+            <div id="top">
+              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
             </div>
-            
-            <div id="main">
-              <div id="top">
-                <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
-                  selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
-                  addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} sendSimulationMessage = {this.sendSimulationMessage}/>
-              </div>
-              <div id="bottom">
-                <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
-                
-                <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar} />
-              </div>
-              {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
+
+            <div id="bottom">
+              <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
             </div>
- 
-            <div id="sidebar-right">
-              <Router>
-                <Switch>
-                  <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
-                  <Route component={NoMatch} />
-                </Switch>
-              </Router>
+          </div>
+
+          <div id="main">
+            <div id="top">
+              <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
+                selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
+                addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} sendSimulationMessage = {this.sendSimulationMessage}
+              />
+              <div className="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}>
+                <img src="/images/actions/garbage.png"/>
+              </div>
+              <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem}
+                         selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback}
+                         dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback}
+                         onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar}
+              />
             </div>
+            <div id="bottom">
+              <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+            </div>
+            {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
+          </div>
+
+          <div id="sidebar-right">
+            <Router>
+              <Switch>
+                <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
+                <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
+                <Route component={NoMatch} />
+              </Switch>
+            </Router>
           </div>
         </div>
       </React.Fragment>
