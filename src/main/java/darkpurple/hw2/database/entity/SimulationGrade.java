@@ -25,7 +25,7 @@ public class SimulationGrade {
    
    private Date dateCompleted;
    
-   private int grade;
+   private String jsonGrades;
 
     public String getSimulationId() {
         return simulationId;
@@ -60,13 +60,14 @@ public class SimulationGrade {
         this.dateCompleted = dateCompleted;
     }
 
-    public int getGrade() {
-        return grade;
+    public String getJsonGrades() {
+        return jsonGrades;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setJsonGrades(String jsonGrades) {
+        this.jsonGrades = jsonGrades;
     }
+
    
    
    
