@@ -443,7 +443,8 @@ export default class SimulationContainer extends Component {
         
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
       } else {
-          this.sendSimulationMessage("Only one ingredient in shaker!");
+        this.sendMessage("Only one ingredient in shaker!"); 
+        this.sendSimulationMessage("Only one ingredient in shaker!");
       }
     }
   }
@@ -471,23 +472,44 @@ export default class SimulationContainer extends Component {
         let data = this.state.selectedSlot.data;
         let stack = data.actionStack;
         let ingredient = Object.assign({}, this.state.selectedIngredient)
-        //console.log(ingredient)
+        console.log(stack)
         if (elapsedTime > 0) {
           if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+            // if last item on the aciton stack and selected ingredient is the same merge them
             ingredient.amount = this.convertTimeToAmount(elapsedTime) + data.actionStack[data.actionStack.length - 1].amount;
             data.actionStack.pop();
+            
           } else {
+              
+            // else if it is a new ingredient
             ingredient.amount = this.convertTimeToAmount(elapsedTime);
           }
+          
+          data.actionStack.push(ingredient);
         } else {
-          if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-            ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
-            data.actionStack.pop();
+          // if added ingredient is of count only add 1 ct at a time
+          
+          // first check if selected slot is a shaker, if it is dont allow to add things of scale "count"
+          // if it is not a shaker and ingredient is scale of count
+          if (this.state.selectedSlot.bar !== "action"){
+                if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+                // if last item on the aciton stack and selected ingredient is the same merge them
+                ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
+                data.actionStack.pop();
+              } else {
+                // else if it is a new ingredient
+                ingredient.amount = 1;
+              }
+              
+              data.actionStack.push(ingredient);
           } else {
-            ingredient.amount = 1;
+            // if it is shaker and ingredient is scale of dont add ingredient to shaker
+            this.sendMessage("Cannot add solid items to shaker!");
+            this.sendSimulationMessage("Cannot add solid items to shaker!");
           }
-        }
-        data.actionStack.push(ingredient);
+ 
+        } 
+        
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
 
       }
@@ -572,7 +594,7 @@ export default class SimulationContainer extends Component {
       } else if (this.state.dragged == quickBar[index]) {
           this.sendMessage("Please drag your glass to another glass");
       } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) {
-        //for quickbar to quickbar and actionbar to quickbar, make sure the glass isnt being added to itself
+        //when adding actionbar to quickbar, make sure the glass isnt being added to itself
         
         var glassVolume = quickBar[index].glass.volume;
         var contents = 0;
