@@ -98,6 +98,7 @@ export default class SelectedIngredient extends Component {
                 
                 if (this.props.selectedSlot.data.glass == null) {
                     this.props.sendMessage("Cannot pour into empty slot!")
+                    this.props.sendSimulationMessage("Cannot pour into empty slot!")
                 }
                 else if ((data.amount + amountToBePoured) < data.glass.volume) {
                     // add ingredient if there is enough room
@@ -110,9 +111,11 @@ export default class SelectedIngredient extends Component {
                         // if there is remaining space add the remaining volume
                         this.props.addSelectedIngredientToSelectedSlotCallbackRemaining(remainingVolume)
                         this.props.sendMessage("Remaining glass volume exceeded. Filled with " + remainingVolume/100 +" oz of " + this.props.selectedIngredient.name)
+                        this.props.sendSimulationMessage("Remaining glass volume exceeded. Filled with " + remainingVolume/100 +" oz of " + this.props.selectedIngredient.name)
                     } else {
                         // if there is no remaining space add error message
                     this.props.sendMessage("Glass is full!")
+                    this.props.sendSimulationMessage("Glass is full!")
 
 
                     }
@@ -122,6 +125,7 @@ export default class SelectedIngredient extends Component {
             }
         } else {
             this.props.sendMessage("Select a glass from quick bar to add ingredients to!")
+            this.props.sendSimulationMessage("Select a glass from quick bar to add ingredients to!")
         }
         this.setState({ elapsedTime: 0 });
         this.rotateBack();
@@ -132,6 +136,7 @@ export default class SelectedIngredient extends Component {
             this.props.addSelectedIngredientToSelectedSlotCallback(0)
         } else {
             this.props.sendMessage("Select a glass from quick bar to add ingredients to!")
+            this.props.sendSimulationMessage("Select a glass from quick bar to add ingredients to!")
         }
     }
     pour() {
@@ -187,7 +192,7 @@ export default class SelectedIngredient extends Component {
                 <div className="right">
                     <div onDrop={this.handleDrop.bind(this, 0)} onDragStart={(e) => e.preventDefault()} onDragOver={(e) => e.preventDefault()} draggable>
                         {this.getIngredientImage()}
-                        {this.state.ounces ? (this.props.convertTimeToAmount(this.state.elapsedTime) / 100) + " Oz" : ""}
+                        {this.state.ounces ? (this.props.convertTimeToAmount(this.state.elapsedTime) / 100) + " oz" : ""}
                     </div>
 
                     <div className="selected-slot" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>

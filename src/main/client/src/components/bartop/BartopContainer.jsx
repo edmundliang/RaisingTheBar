@@ -364,7 +364,7 @@ export default class SimulationContainer extends Component {
                                 return 0
                             })
                             
-                            // merge duplicates
+                            // merge duplicates MIGHT PLACE THIS CODE ELSEWHERE AS INGREDIENTS SHOULD BE MERGED ONCE ADDED
                             
 
                             // check if array length is the same (same number of ingredients shaken)
@@ -590,6 +590,7 @@ export default class SimulationContainer extends Component {
         }
         if (draggedVolume > glassVolume) {
             this.sendMessage("This would overfill that glass!")
+            this.sendSimulationMessage("This would overfill that glass!")
         }
         else{
             
@@ -627,6 +628,10 @@ export default class SimulationContainer extends Component {
             
             // clear shaker after it is dragged into glass
             // IMPLEMENT THIS
+            if (this.state.dragged != null) {
+                this.state.dragged.actionStack = [];
+            }
+            this.setState({dragged:null});
             
             
         }  
@@ -660,19 +665,26 @@ export default class SimulationContainer extends Component {
   }
   renderGlass(glass, actionStack) {
     if (glass != null) {
+        
+      
       return <div id="tooltip" >
         <img className="top-img" draggable="false" src={"/images/glasses/" + (glass.name).toLowerCase() + ".png"} alt={"Missing Image: " + glass.name} />
         <span className="tooltiptext" onDrop = {this.handleChildClick.bind(this)} >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
+                  
                   if(item.scale === "ounces") {
                       return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
                   } else if (item.scale === "count") {
                     return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
                   } else {
                     // if item is array ("shake" + shaken items)
+                    console.log(item)
+                    console.log(index)
+                    console.log(item+index)
                     return (<p>array</p>);
+                    
                   }
   
               } else {
@@ -750,7 +762,7 @@ export default class SimulationContainer extends Component {
               <div id="top">
                 <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
                   selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
-                  addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} />
+                  addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} sendSimulationMessage = {this.sendSimulationMessage}/>
               </div>
               <div id="bottom">
                 <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
