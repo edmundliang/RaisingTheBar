@@ -438,7 +438,10 @@ export default class SimulationContainer extends Component {
     
       let actionStack = this.state.actionBar[index].actionStack;
       console.log(actionStack)
-      if (actionStack[actionStack.length - 1] !==  "shake" && actionStack.length !== 1) {
+      if (actionStack.length == 0) {
+        this.sendMessage("Only one ingredient in shaker!"); 
+        this.sendSimulationMessage("Only one ingredient in shaker!");
+      } else if (actionStack[actionStack.length - 1] !==  "shake" && actionStack.length !== 1) {
         actionStack.push("shake");
         
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
