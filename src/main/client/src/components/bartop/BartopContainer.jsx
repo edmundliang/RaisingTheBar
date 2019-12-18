@@ -814,7 +814,7 @@ export default class SimulationContainer extends Component {
 									
 			return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
 										
-                    });
+                      });
                     
                   }
   
