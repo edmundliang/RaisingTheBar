@@ -99,7 +99,14 @@ export default class RecipeRightPanel extends Component {
 
 										return <p id="log-text" key={item + index}> {item.name + " " + item.amount + " ct"}</p>
 									} else {
-                                                                                return <p>array</p>
+                                                                              
+                                                                                for (var i = 0; i<item[1].length;i++) {
+                                                                                   
+                                                                                   console.log(item[1][i].name)
+                                                                                   return <p id="log-text">{item[1][i].name + " " + (item[1][i].amount / 100) + " oz"}</p>
+                                               
+                                                                                }
+                                                                                  
                                                                         }
 
 								}) : <p>Empty</p>}

@@ -729,9 +729,7 @@ export default class SimulationContainer extends Component {
                     return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
                   } else {
                     // if item is array ("shake" + shaken items)
-                    console.log(item)
-                    console.log(index)
-                    console.log(item+index)
+    
                     return (<p>array</p>);
                     
                   }
