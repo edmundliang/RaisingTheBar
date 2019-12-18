@@ -472,9 +472,10 @@ export default class SimulationContainer extends Component {
       xhr.open('POST', '/simulation/complete');
       xhr.onload = function () {
       };
+      this.setState({finished: true});
       xhr.send(formData);
       this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
-      this.setState({finished: true});
+      
 
  
       // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
@@ -757,7 +758,7 @@ export default class SimulationContainer extends Component {
   getRecIngredients() {
       console.log("hello");
       var ings = [];
-      if (this.state.isPractice && this.state.recipeQueue.length > 0) {
+      if (this.state.isPractice && this.state.recipeQueue.length > 0 && this.state.completedRecipes.length != this.state.recipeQueue.length) {
           var index = this.state.completedRecipes.length;
           var item = this.state.recipeQueue[index];
           var item2 = JSON.parse(item.json).actionStack;
