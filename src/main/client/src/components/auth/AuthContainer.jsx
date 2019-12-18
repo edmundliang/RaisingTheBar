@@ -4,6 +4,7 @@ import SignUpForm from './SignUpForm';
 import LoginForm from './Login';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import Logo from "./../../assets/1.png";
 
 import './AuthContainer.scss';
 
@@ -23,6 +24,12 @@ export default class AuthContainer extends Component {
     return (
       <Router>
         <div className="App theme-secondary-color">
+        
+                
+                <div className="login-logo">  
+                    <img className="logo2" src={Logo} alt="" />
+                </div>
+
           <div className="App__Aside theme-secondary-color"></div>
           <div className="App__Form theme-primary-color">
             <div className="PageSwitcher">

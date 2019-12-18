@@ -58,7 +58,6 @@ export default class LoginForm extends Component {
     render() {
         return (
             <div className="FormCenter">
-
                 <div className="FormTitle">
                     <NavLink to="/user/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/user/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div>
