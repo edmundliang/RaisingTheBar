@@ -6,13 +6,13 @@ import Button from "@material-ui/core/Button";
 import './CreateSimulationInputForm.scss';
 
 export default class CreateSimulationInputForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: "",
-      description: "",
-      public: "",
-      practice: ""
+      name: props.name === null ? "" : props.name,
+      description: props.description === null ? "" : props.description,
+      public: props.public === null ? "" : props.public,
+      practice: props.practice === null ? "" : props.practice,
     }
     // this.useStyles = makeStyles(theme => ({
     //   root: {
@@ -63,8 +63,8 @@ export default class CreateSimulationInputForm extends Component {
     return (
       <div className="ml-4 mr-4 mt-1 mb-3">
         <form>
-          <TextField className="text-box-full" id="outlined-basic" label="Title" name="name" variant="outlined" onChange={this.handleChange} />
-          <TextField className="text-box-full" id="outlined-basic" label="Description" name="description" variant="outlined" onChange={this.handleChange} />
+          <TextField className="text-box-full" id="outlined-basic" label="Title" name="name" variant="outlined" value={this.state.name} onChange={this.handleChange} />
+          <TextField className="text-box-full" id="outlined-basic" label="Description" name="description" variant="outlined" value={this.state.description} onChange={this.handleChange} />
 
           <TextField className="text-box-short" id="outlined-select-currency" select label="Private or Public" name="public" variant="outlined" onChange={this.handleChange}>
             <MenuItem key={"public"} value={true}>Public</MenuItem>

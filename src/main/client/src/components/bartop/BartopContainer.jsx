@@ -744,6 +744,7 @@ export default class SimulationContainer extends Component {
     } else {
       return <div id="tooltip"  >
         <img className="bottom-img" src="/images/actions/empty_spot.png" alt="empty spot" />
+        <div className="MuiButton-root MuiButton-text" id="centered">Quick Bar</div>
         <span className="tooltiptext" >There's nothing in this space!</span>
       </div>
     }
