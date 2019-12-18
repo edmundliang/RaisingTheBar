@@ -73,6 +73,28 @@ public class SimulationController {
         }
     }
 
+    @RequestMapping(value = "/simulation/edit", method = RequestMethod.POST)
+    public ResponseEntity editSimulation(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("public") boolean isPublic, @RequestParam("practice") boolean isPractice, @RequestParam("recipes") String[] recipes, @RequestParam("json") String json) {
+
+        User user = userService.getLoggedUser();
+        if (user != null) {
+            Simulation simulation = new Simulation();
+            simulation.setId(id);
+            simulation.setCreator(user.getId());
+            simulation.setName(name);
+            simulation.setDescription(description);
+            simulation.setIsPublic(isPublic);
+            simulation.setIsPractice(isPractice);
+            simulation.setRecipes(recipes);
+            simulation.setDate(new Date());
+            simulation.setJson(json);
+            simulationService.saveSimulation(simulation);
+            return ResponseEntity.status(HttpStatus.OK).body(simulation);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
     @RequestMapping(value = "/simulation/delete", method = RequestMethod.POST)
     public ResponseEntity deleteSim(@RequestParam("id") String simulationId) {
         User user = userService.getLoggedUser();

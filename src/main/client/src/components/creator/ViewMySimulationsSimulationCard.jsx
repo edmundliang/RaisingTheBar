@@ -8,7 +8,8 @@ export default class ViewMySimulationsSimulationCard extends Component {
   }
 
   onDeleteClick() {
-    this.props.onDeleteCallback(this.props.simulation.id);
+    if (this.props.onDeleteCallback != null)
+      this.props.onDeleteCallback(this.props.simulation.id);
   }
   render() {
     let { id, name, description, creator } = this.props.simulation;
@@ -19,7 +20,7 @@ export default class ViewMySimulationsSimulationCard extends Component {
           <p className="card-text text-secondary">{description}</p>
           <div className="card-bottom container-fluid d-flex justify-content-around">
             <a href={"/bartop/simulation/" + id} className="mdl-button mdl-js-button mdl-button--raised">Start</a>
-            {this.props.user.id === creator ? <a onClick={this.onDeleteClick} className="mdl-button mdl-js-button mdl-button--raised">Delete</a> : ""}
+            {(this.props.user != null && this.props.user.id === creator) ? <a onClick={this.onDeleteClick} className="mdl-button mdl-js-button mdl-button--raised">Delete</a> : ""}
           </div>
         </div>
       </div>

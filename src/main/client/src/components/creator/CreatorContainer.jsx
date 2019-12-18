@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './CreatorContainer.scss';
 import CreateSimulation from "./CreateSimulation";
 import EditRecipe from "./EditRecipe";
-import EditSimulation from "./EditSimulation";
+import EditSimulationStepper from "./EditSimulationStepper";
 import CreateRecipe from "./CreateRecipe";
 import ViewMySimulations from "./ViewMySimulations";
 
@@ -14,39 +14,54 @@ export default class CreatorContainer extends Component {
     super();
     this.state = {
       selectedTab: "create",
-      recipes: [],
       user: null,
       simulations: [
-        //   {
-        //     id: "1",
-        //     name: "simmulation test 1",
-        //     description: "first best simulation",
-        //     "date": 1576382942151,
-        //     "creator": "5df0fcd730778234fc4656fd",
-        //     isPublic: true,
-        //     isPractice: true,
-        //     recipes: ["test recipe1", "test recipe2", "test recipe3", "test recipe4"],
-
-        //   },
-        //   {
-        //     id: "2",
-        //     name: "simulation test 2",
-        //     description: "second best simulation",
-        //     "date": 1576382942151,
-        //     "creator": "5df0fcd730778234fc4656fd",
-        //     isPublic: false,
-        //     isPractice: false,
-        //   },
-        //   {
-        //     id: "3",
-        //     name: "simmulation test 3",
-        //     description: "third best simulation",
-        //     "date": 1576382942151,
-        //     "creator": "5df0fcd730778234fc4656fd",
-        //     isPublic: true,
-        //     isPractice: true,
-        //   }
-      ]
+        {
+          id: "5df9747b3077821a54f61336",
+          creator: "5df93e963077821980b21180",
+          name: "Test SIm",
+          description: "Test Sim",
+          public: true,
+          practice: true,
+          recipes: [
+            "5df955aff68021c70a750e7c",
+            "5df97264f68021d2fbddbd1b"
+          ],
+          date: 1576629371743,
+        },
+        {
+          id: "5df975283077821a54f61337",
+          creator: "5df93e963077821980b21180",
+          name: "Tes sim",
+          description: "Test sim",
+          public: true,
+          practice: true,
+          recipes: [
+            "5df955aff68021c70a750e7c",
+            "5df97264f68021d2fbddbd1b"
+          ],
+          date: 1576629544640,
+          json: "{\"name\":\"Tes sim\",\"description\":\"Test sim\",\"public\":true,\"practice\":true,\"recipes\":[\"5df955aff68021c70a750e7c\",\"5df97264f68021d2fbddbd1b\"]}"
+        }
+      ],
+      recipes: [
+        {
+          id: "5df955aff68021c70a750e7c",
+          name: "shake json",
+          description: "shake json",
+          public: true,
+          date: 1576621487054,
+          creator: "5df95047f68021bf989758dd",
+        },
+        {
+          id: "5df97264f68021d2fbddbd1b",
+          name: "shot of brandy",
+          description: "shot",
+          public: true,
+          date: 1576628836113,
+          creator: "5df95047f68021bf989758dd"
+        }
+      ],
     };
     {
       var globalThis = this;
@@ -65,20 +80,20 @@ export default class CreatorContainer extends Component {
       xhr.send();
     }
     {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/simulation/list/mine');
-      var globalThis = this
-      xhr.onload = function () {
-        // do something to response
-        var responseObject = null;
-        try {
-          responseObject = JSON.parse(this.responseText)
-          globalThis.setState({ simulations: responseObject.simulations });
-        } catch (e) {
-          console.error("Got Non JSON response from server");
-        }
-      };
-      xhr.send();
+      // var xhr = new XMLHttpRequest();
+      // xhr.open('GET', '/simulation/list/mine');
+      // var globalThis = this
+      // xhr.onload = function () {
+      //   // do something to response
+      //   var responseObject = null;
+      //   try {
+      //     responseObject = JSON.parse(this.responseText)
+      //     globalThis.setState({ simulations: responseObject.simulations });
+      //   } catch (e) {
+      //     console.error("Got Non JSON response from server");
+      //   }
+      // };
+      // xhr.send();
     }
     {
       var globalThis = this;
@@ -170,7 +185,7 @@ export default class CreatorContainer extends Component {
           <Switch>
             <Route exact path="/creator/" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
             <Route exact path="/creator/create" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
-            <Route exact path="/creator/edit" render={(props) => <EditSimulation {...props} />} />
+            <Route exact path="/creator/edit" render={(props) => <EditSimulationStepper {...props} recipes={this.state.recipes} simulations={this.state.simulations} />} />
             <Route exact path="/creator/results" render={(props) => <ViewMySimulations {...props} user={this.state.user} simulations={this.state.simulations} deleteSimulationCallback={this.deleteSimulationCallback} />} />
           </Switch>
         </Router>

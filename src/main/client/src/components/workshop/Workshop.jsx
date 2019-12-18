@@ -68,7 +68,8 @@ export default class Workshop extends Component {
     return (
       <React.Fragment>
         <NavigationBar />
-
+        <div className ="center">
+          This is the workshop where you can see any other public simulation that people have put together. </div>
         <Jumbotron fluid className="jumbo p-0 m-5">
           <Col className="mt-2 mb-4">
             <div className="row p-1">
