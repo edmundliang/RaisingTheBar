@@ -176,18 +176,26 @@ export default class SimulationContainer extends Component {
           };
           xhrSim.send();
       }
+
+    }
+    
+    
+    /*var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":25},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":25},{\"name\":\"BOURBON\",\"amount\":25}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+
             
           
-   /* var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
         "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+
              
     var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 1","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
-        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
+        "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":25}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
     this.addRecipeToQueue(rec1);
     this.addRecipeToQueue(rec2);
     this.state.mode = mode;*/
   
-  }
+  
   }
   
   
@@ -370,16 +378,26 @@ export default class SimulationContainer extends Component {
                             
 
                             // check if array length is the same (same number of ingredients shaken)
-                            if (recipesCompletedList[i].actionStack[j][1].length != recipeJsonParsed.actionStack[j][1].length) {
+                            if (recipesCompletedList[i].actionStack[j][1].length !== recipeJsonParsed.actionStack[j][1].length) {
                                 console.log("number of ingredients shaken not equal")
                             
                                 match = false;
                             } else {
                                 // if same number of ingredients check for each ingredient and amount
                                 for (var k = 0; k < recipesCompletedList[i].actionStack[j][1].length; k++) {
-                                    if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name) ||
-                                        (recipesCompletedList[i].actionStack[j][1][k].amount !== recipeJsonParsed.actionStack[j][1][k].amount)) {
+                                    if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name)) {
                                         console.log("ingredients not the same");
+                                        match = false;
+                                    }
+                                   
+                                    // check ingredients amount 10 percentage leeway for shaken liquids
+                                    var tenPercentOfAmount = recipeJsonParsed.actionStack[j][1][k].amount * .10;
+                                    var bottomRange = (recipeJsonParsed.actionStack[j][1][k].amount) - tenPercentOfAmount;
+                                    var topRange = (recipeJsonParsed.actionStack[j][1][k].amount) + tenPercentOfAmount;
+                                    
+                                    // if amount doesnt fall in range
+                                    if (recipesCompletedList[i].actionStack[j][1][k].amount < bottomRange 
+                                            || recipesCompletedList[i].actionStack[j][1][k].amount > topRange) {
                                         match = false;
                                     }
                                 }
@@ -395,13 +413,31 @@ export default class SimulationContainer extends Component {
                         } else {
                             
                             console.log("both are ingredients")
-                            // if both actionstack items are objects compare the ingredients
-                            if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name  
-                                || recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount  ) {
+                            // if both actionstack items are objects check if ingredient is the same
+                            if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name) {
                                 match = false;
                             }
-                          
                             
+                            // thencheck ingredients amount 10 percentage leeway if it is liquid
+                            if (recipesCompletedList[i].actionStack[j].scale === "ounces") {
+                                
+                                
+                                var tenPercentOfAmount = recipeJsonParsed.actionStack[j].amount * .10;
+                                var bottomRange = (recipeJsonParsed.actionStack[j].amount) - tenPercentOfAmount;
+                                var topRange = (recipeJsonParsed.actionStack[j].amount) + tenPercentOfAmount;
+                                    
+                                // if amount doesnt fall in range
+                                if (recipesCompletedList[i].actionStack[j].amount < bottomRange 
+                                    || recipesCompletedList[i].actionStack[j].amount > topRange) {
+                                    match = false;
+                                }
+                            } else if (recipesCompletedList[i].actionStack[j].scale === "count") {
+                                // if ingredient is solid check straight up
+                                if (recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount) {
+                                    match = false;
+                                }
+                            }
+                              
                         }              
                     }
                     
