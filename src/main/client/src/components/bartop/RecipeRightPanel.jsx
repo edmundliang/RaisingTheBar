@@ -115,7 +115,7 @@ export default class RecipeRightPanel extends Component {
 							</div>
 
 							<div className="block"></div>
-							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tip</div>
+							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tips</div>
 							<div className="log-box">
 								{this.props.messageLog.map((item, index) => {
 									return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
