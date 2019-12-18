@@ -8,7 +8,7 @@ export default class ViewMySimulations extends Component {
     let simulationCards = this.props.simulations.map(simulation => {
       return (
         <div className="col-lg-4 col-md-3 col-sm-2 col-xs-1">
-          <ViewMySimulationsSimulationCard key={simulation.title} simulation={simulation} onDeleteCallback={this.props.deleteSimulationCallback} />
+          <ViewMySimulationsSimulationCard key={simulation.title} user={this.props.user} simulation={simulation} onDeleteCallback={this.props.deleteSimulationCallback} />
         </div>
       )
     });

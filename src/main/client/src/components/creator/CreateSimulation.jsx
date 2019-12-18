@@ -75,7 +75,7 @@ export default class CreateSimulation extends Component {
     }
     render() {
         let recipeCards = this.props.recipes.map((recipe, index) => {
-            return (<div className="col" ><RecipeCard onDeleteCallback={this.props.deleteRecipeCallback} key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)
+            return (<div className="col" ><RecipeCard user={this.props.user} onDeleteCallback={this.props.deleteRecipeCallback} key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)
         });
 
         return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >
@@ -96,7 +96,7 @@ export default class CreateSimulation extends Component {
                         <div className="right-container" >
                             <Row>
                                 <Col>
-                                    <CreateSimulationRecipeTable selected={this.state.selectedRecipes} />
+                                    <CreateSimulationRecipeTable user={this.props.user} selected={this.state.selectedRecipes} />
                                 </Col>
                             </Row>
                             <Row>
