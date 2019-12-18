@@ -31,7 +31,7 @@ export default class ForgotPassword extends Component {
 		var formData = new FormData();
 		formData.append("email", this.state["email"]);
 		xhr.addEventListener("load", this.formResults)
-		xhr.open("POST", '/forgot-password')
+		xhr.open("POST", '/user/forgot-password')
 	}
 
 	formResults(e) {
@@ -49,7 +49,7 @@ export default class ForgotPassword extends Component {
 		return (
 			<div className="FormCenter">
 				<div className="FormTitle">
-					<NavLink to="/forgot-password" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Forgot Password</NavLink>
+					<NavLink to="/user/forgot-password" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Forgot Password</NavLink>
 				</div>
 				<form onSubmit={this.handleSubmit} className="FormFields">
 					<div className="FormField">

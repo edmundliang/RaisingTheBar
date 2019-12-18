@@ -6,10 +6,15 @@ export default class RecipeCard extends Component {
   constructor(props) {
     super(props);
     this.onButtonClick = this.onButtonClick.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
   onButtonClick() {
     this.props.addRecipeToSimulation(this.props.recipe);
+  }
+
+  onDeleteClick() {
+    this.props.onDeleteCallback(this.props.recipe.id);
   }
 
   render() {
@@ -20,6 +25,9 @@ export default class RecipeCard extends Component {
           <p className="card-recipes text-secondary" id="card-recipes">{this.props.recipe.description}</p>
           <div onClick={this.onButtonClick} className="card-bottom container-fluid d-flex justify-content-around" id="card-bottom">
             <Button variant="contained">Add</Button>
+          </div>
+          <div onClick={this.onDeleteClick} className="card-bottom container-fluid d-flex justify-content-around" id="card-bottom">
+            <Button variant="contained">Delete</Button>
           </div>
         </div>
       </div>

@@ -22,9 +22,17 @@ public class LoginController {
     @Autowired
     protected CustomUserDetailsService userService;
 
-//    @Resource(name = "authenticationManager")
-//    private AuthenticationManager authManager;
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity getCurrentUser() {
+        User user = userService.getLoggedUser();
+        if(user != null) {
+            
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
+    @RequestMapping(value = "/user/login", method = RequestMethod.GET)
     public String loginPage() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -40,12 +48,12 @@ public class LoginController {
      *
      * @return
      */
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/signup", method = RequestMethod.GET)
     public String signupPage() {
         return "forward:index.html";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/signup", method = RequestMethod.POST)
     public ResponseEntity signupAction(@Valid User user) {
 
         User userExists = userService.findUserByEmail(user.getEmail());
@@ -57,7 +65,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/logout", method = RequestMethod.GET)
     public ResponseEntity logoutGET(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -68,7 +76,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
     public ResponseEntity logoutPOST(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {

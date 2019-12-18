@@ -78,7 +78,7 @@ public class SimulationController {
         User user = userService.getLoggedUser();
         if (user != null) {
             Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
-            if (toBeDeleted != null && toBeDeleted.getCreator() == user.getId()) {
+            if (toBeDeleted != null && toBeDeleted.getCreator().equals(user.getId())) {
                 simulationService.deleteSimulation(toBeDeleted);
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             }
@@ -95,7 +95,7 @@ public class SimulationController {
             List<Simulation> simulationList = simulationService.getAllSimulations();
             List<Simulation> approvedList = new ArrayList();
             for (Simulation r : simulationList) {
-                if (r.isIsPublic() || r.getCreator() == user.getId()) {
+                if (r.isIsPublic() || r.getCreator().equals(user.getId())) {
                     approvedList.add(r);
                 }
             }
@@ -118,7 +118,7 @@ public class SimulationController {
                 List<Simulation> simulationList = simulationService.getAllSimulations();
                 List<Simulation> approvedList = new ArrayList();
                 for (Simulation r : simulationList) {
-                    if (r.getCreator() == user.getId()) {
+                    if (r.getCreator().equals(user.getId())) {
                         approvedList.add(r);
                     }
                 }

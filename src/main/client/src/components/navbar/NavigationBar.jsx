@@ -16,7 +16,7 @@ export default class NavigationBar extends Component {
             <Nav.Item><Nav.Link href="/"> Home </Nav.Link></Nav.Item>
             <Nav.Item><Nav.Link href="/workshop"> Workshop </Nav.Link></Nav.Item>
             <Nav.Item><Nav.Link href="/creator"> Creation Suite </Nav.Link></Nav.Item>
-            <Nav.Item><Nav.Link href="/logout"> Logout </Nav.Link></Nav.Item>
+            <Nav.Item><Nav.Link href="/user/logout"> Logout </Nav.Link></Nav.Item>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

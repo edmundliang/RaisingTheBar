@@ -35,7 +35,7 @@ export default class LoginForm extends Component {
         formData.append("email", this.state.email);
         formData.append("password", this.state.password);
         xhr.addEventListener("load", this.formResults)
-        xhr.open("POST", '/login');
+        xhr.open("POST", '/user/login');
         xhr.send(formData);
     }
 
@@ -60,7 +60,7 @@ export default class LoginForm extends Component {
             <div className="FormCenter">
 
                 <div className="FormTitle">
-                    <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+                    <NavLink to="/user/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/user/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                 </div>
 
                 <form onSubmit={this.handleSubmit} className="FormFields center">
@@ -84,7 +84,7 @@ export default class LoginForm extends Component {
                         <button className="FormField__Button mr-20">Login</button>
                     </div>
                     <div className="FormField">
-                        <Link to="/forgot-password" className="FormField__Link">Need to reset your password?</Link>
+                        <Link to="/user/forgot-password" className="FormField__Link">Need to reset your password?</Link>
                     </div>
                 </form>
             </div>
