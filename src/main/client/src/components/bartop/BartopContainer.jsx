@@ -44,13 +44,13 @@ export default class SimulationContainer extends Component {
       completedRecipes: [],
       messageLog: [],
       open: false,
-      simulationLog:[],
+      simulationLog: [],
       finished: false,
       grade: null,
       isPractice: false,
-      
-           
-      
+
+
+
       mode: {
         mode: null
       },
@@ -145,48 +145,48 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-        var globalThis = this;
-        if (this.props.match.params.var2 != null) {
-          var xhrSim = new XMLHttpRequest();
-          xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2, true);
-          xhrSim.onload = function () {
-                let simulationJson = JSON.parse(this.responseText);
-                if (simulationJson.isPractice) {
-                    globalThis.setPractice();
-                }
-                if (simulationJson.recipes != null) {
-                for (var i = 0; i < simulationJson.recipes.length; i++) {
-                      var formData = new FormData();
-                      formData.append("id", simulationJson.recipes[i]);
-                      var xhr2 = new XMLHttpRequest();
-                      xhr2.open('POST', '/recipe/get');
-                      xhr2.onload = function () {
-                          if (this.status === 200) {
-                              try {
-                                  console.log(this.responseText)
-                                  console.log(JSON.parse(this.responseText));
-                                  globalThis.addRecipeToQueue(JSON.parse(this.responseText));
+      var globalThis = this;
+      if (this.props.match.params.var2 != null) {
+        var xhrSim = new XMLHttpRequest();
+        xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2, true);
+        xhrSim.onload = function () {
+          let simulationJson = JSON.parse(this.responseText);
+          if (simulationJson.isPractice) {
+            globalThis.setPractice();
+          }
+          if (simulationJson.recipes != null) {
+            for (var i = 0; i < simulationJson.recipes.length; i++) {
+              var formData = new FormData();
+              formData.append("id", simulationJson.recipes[i]);
+              var xhr2 = new XMLHttpRequest();
+              xhr2.open('POST', '/recipe/get');
+              xhr2.onload = function () {
+                if (this.status === 200) {
+                  try {
+                    console.log(this.responseText)
+                    console.log(JSON.parse(this.responseText));
+                    globalThis.addRecipeToQueue(JSON.parse(this.responseText));
 
-                              } catch (e) {
-                                  console.error(e);
-                              }
-                          } else {
-                              console.log("Got status code " + this.status)
-                          }
-                      };
-                      xhr2.send(formData);
+                  } catch (e) {
+                    console.error(e);
                   }
-              }
-              else {
-                console.log("Simulation does not contain any recipes");
+                } else {
+                  console.log("Got status code " + this.status)
                 }
-          };
-          xhrSim.send();
+              };
+              xhr2.send(formData);
+            }
+          }
+          else {
+            console.log("Simulation does not contain any recipes");
+          }
+        };
+        xhrSim.send();
       }
 
     }
-    
-    
+
+
     /*var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
         "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":25},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":25},{\"name\":\"BOURBON\",\"amount\":25}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
 
@@ -197,17 +197,17 @@ export default class SimulationContainer extends Component {
     this.addRecipeToQueue(rec1);
     this.addRecipeToQueue(rec2);
     this.state.mode = mode;*/
-  
-  
+
+
   }
-  
-  
+
+
   addRecipeToQueue(recipe) {
     let tempRecipeQueue = this.state.recipeQueue;
     tempRecipeQueue.push(recipe);
     this.setState({ recipeQueue: tempRecipeQueue })
   }
-  
+
   submitRecipeCallback(data) {
     // console.log(data);
     if (data.name.length <= 0) {
@@ -243,17 +243,17 @@ export default class SimulationContainer extends Component {
       let current = this.state.selectedSlot.data.actionStack[i];
       console.log(current)
       if (current instanceof Array) {
-          console.log("shaken array")
-          // if shaken array
-          prunedActionStack.push(current)
+        console.log("shaken array")
+        // if shaken array
+        prunedActionStack.push(current)
       } else {
-          console.log("regular ingredient")
-          // if regular ingredient
-          let newObject = {
-            name: current.name,
-            amount: current.amount
-          }
-          prunedActionStack.push(newObject)
+        console.log("regular ingredient")
+        // if regular ingredient
+        let newObject = {
+          name: current.name,
+          amount: current.amount
+        }
+        prunedActionStack.push(newObject)
       }
     }
     let outputJson = {
@@ -284,7 +284,7 @@ export default class SimulationContainer extends Component {
     };
     xhr.send(formData);
   }
-  
+
   submitRecipeGradingCallback() {
     if (this.state.selectedSlot == null || this.state.selectedSlot.bar != "quick") {
       this.sendSimulationMessage("Can't submit recipe for grading, a quick bar item must be selected");
@@ -298,173 +298,172 @@ export default class SimulationContainer extends Component {
       this.sendSimulationMessage("Can't submit recipe for grading, the glass cannot be empty");
       return;
     }
-  
-   let recipe = this.state.completedRecipes;
-   recipe.push(Object.assign({},this.state.selectedSlot.data));
 
-   
-   this.setState({ completedRecipes: recipe })
-   
-   // if user has submitted the number of recipes in the simulation, automatically submit simulation for grading
-   if (this.state.recipeQueue.length == this.state.completedRecipes.length) {
-       this.submitSimulationGradingCallback();
-       
-   }
-   
-   // CLEAR SELECTED GLASS AFTER SUBMITTING RECIPE STILL TO BE IMPLEMENTED
-   var qIndex = this.state.selectedSlot.slot;
-   this.state.quickBar[qIndex].actionStack = [];
-   this.state.quickBar[qIndex].glass = null;
-   this.setState({quickBar: this.state.quickBar});
- 
+    let recipe = this.state.completedRecipes;
+    recipe.push(Object.assign({}, this.state.selectedSlot.data));
+
+
+    this.setState({ completedRecipes: recipe })
+
+    // if user has submitted the number of recipes in the simulation, automatically submit simulation for grading
+    if (this.state.recipeQueue.length == this.state.completedRecipes.length) {
+      this.submitSimulationGradingCallback();
+
+    }
+
+    // CLEAR SELECTED GLASS AFTER SUBMITTING RECIPE STILL TO BE IMPLEMENTED
+    var qIndex = this.state.selectedSlot.slot;
+    this.state.quickBar[qIndex].actionStack = [];
+    this.state.quickBar[qIndex].glass = null;
+    this.setState({ quickBar: this.state.quickBar });
+
   }
-  
+
   setPractice() {
-      this.setState({isPractice: true});
-  
+    this.setState({ isPractice: true });
+
   }
-  
+
   submitSimulationGradingCallback() {
-      
-      var recipesCompletedList = this.state.completedRecipes;
-      var recipeQueueList = this.state.recipeQueue;
-      
-      var recipesCompletedLength = recipesCompletedList.length;
-      var recipeQueueLength = recipeQueueList.length
-      var pointsForEachRecipe = (100 / this.state.recipeQueue.length);
-      var totalRecipesCorrect = 0;
-      
-      
-     
-      // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
-      for(var i = 0; i< recipesCompletedLength;i++) {
-             
-          var match = true;
-         
-          var recipeJsonParsed = JSON.parse(recipeQueueList[i].json);
-          
 
-          // check if glass is correct
-              if(recipesCompletedList[i].glass.name === recipeJsonParsed.glass.name) {
-                  
-                // check if both action stack length match
-                if(recipesCompletedList[i].actionStack.length === recipeJsonParsed.actionStack.length) {
-                    console.log("action stack length is same")
-                    //if action stack lengths match start comparing the items in both action stacks
-                    for(var j = 0; j <recipesCompletedList[i].actionStack.length; j++) {
-                        
-                        console.log(recipesCompletedList[i].actionStack[j])
-                        console.log(JSON.parse(recipeQueueList[i].json).actionStack[j])
-                        
-                        // if one actionstack item is of type array and another is of type object
-                        if ((recipesCompletedList[i].actionStack[j] instanceof Array && recipeJsonParsed.actionStack[j] instanceof Array)){
-                            console.log("both shaken array")
-                            // if both actionstack items are arrays compare the shaken array ingredients
-                            
-                            // sort both arrays first
-                            recipesCompletedList[i].actionStack[j][1].sort(function(a,b) {
-                                var nameA=a.name.toLowerCase();
-                                var nameB=b.name.toLowerCase();
-                                if (nameA < nameB)
-                                    return -1;
-                                if (nameA > nameB)
-                                    return 1
-                                return 0
-                            })
-                            recipeJsonParsed.actionStack[j][1].sort(function(a,b) {
-                                var nameA=a.name.toLowerCase();
-                                var nameB=b.name.toLowerCase();
-                                if (nameA < nameB)
-                                    return -1;
-                                if (nameA > nameB)
-                                    return 1
-                                return 0
-                            })
-                            
-                            // merge duplicates MIGHT PLACE THIS CODE ELSEWHERE AS INGREDIENTS SHOULD BE MERGED ONCE ADDED
-                            // IMPLEMENTED ALREADY
-                            
+    var recipesCompletedList = this.state.completedRecipes;
+    var recipeQueueList = this.state.recipeQueue;
 
-                            // check if array length is the same (same number of ingredients shaken)
-                            if (recipesCompletedList[i].actionStack[j][1].length !== recipeJsonParsed.actionStack[j][1].length) {
-                                console.log("number of ingredients shaken not equal")
-                            
-                                match = false;
-                            } else {
-                                // if same number of ingredients check for each ingredient and amount
-                                for (var k = 0; k < recipesCompletedList[i].actionStack[j][1].length; k++) {
-                                    if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name)) {
-                                        console.log("ingredients not the same");
-                                        match = false;
-                                    }
-                                   
-                                    // check ingredients amount 10 percentage leeway for shaken liquids
-                                    var tenPercentOfAmount = recipeJsonParsed.actionStack[j][1][k].amount * .10;
-                                    var bottomRange = (recipeJsonParsed.actionStack[j][1][k].amount) - tenPercentOfAmount;
-                                    var topRange = (recipeJsonParsed.actionStack[j][1][k].amount) + tenPercentOfAmount;
-                                    
-                                    // if amount doesnt fall in range
-                                    if (recipesCompletedList[i].actionStack[j][1][k].amount < bottomRange 
-                                            || recipesCompletedList[i].actionStack[j][1][k].amount > topRange) {
-                                        match = false;
-                                    }
-                                }
-                            }
-                            
+    var recipesCompletedLength = recipesCompletedList.length;
+    var recipeQueueLength = recipeQueueList.length
+    var pointsForEachRecipe = (100 / this.state.recipeQueue.length);
+    var totalRecipesCorrect = 0;
 
-                        } else if ((recipesCompletedList[i].actionStack[j] instanceof Array && !(recipeJsonParsed.actionStack[j] instanceof Array)) ||
-                            (!(recipesCompletedList[i].actionStack[j] instanceof Array) && recipeJsonParsed.actionStack[j] instanceof Array)) {
-                        
-                            // if one is shaken ingredients array and another is ingredient object
-                            console.log("one is shaken array other is just ingredient")
-                            match = false;
-                        } else {
-                            
-                            console.log("both are ingredients")
-                            // if both actionstack items are objects check if ingredient is the same
-                            if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name) {
-                                match = false;
-                            }
-                            
-                            // thencheck ingredients amount 10 percentage leeway if it is liquid
-                            if (recipesCompletedList[i].actionStack[j].scale === "ounces") {
-                                
-                                
-                                var tenPercentOfAmount = recipeJsonParsed.actionStack[j].amount * .10;
-                                var bottomRange = (recipeJsonParsed.actionStack[j].amount) - tenPercentOfAmount;
-                                var topRange = (recipeJsonParsed.actionStack[j].amount) + tenPercentOfAmount;
-                                    
-                                // if amount doesnt fall in range
-                                if (recipesCompletedList[i].actionStack[j].amount < bottomRange 
-                                    || recipesCompletedList[i].actionStack[j].amount > topRange) {
-                                    match = false;
-                                }
-                            } else if (recipesCompletedList[i].actionStack[j].scale === "count") {
-                                // if ingredient is solid check straight up
-                                if (recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount) {
-                                    match = false;
-                                }
-                            }
-                              
-                        }              
-                    }
-                    
-                } else {
-                    match = false;
-                     
-                }    
+
+
+    // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
+    for (var i = 0; i < recipesCompletedLength; i++) {
+
+      var match = true;
+
+      var recipeJsonParsed = JSON.parse(recipeQueueList[i].json);
+
+
+      // check if glass is correct
+      if (recipesCompletedList[i].glass.name === recipeJsonParsed.glass.name) {
+
+        // check if both action stack length match
+        if (recipesCompletedList[i].actionStack.length === recipeJsonParsed.actionStack.length) {
+          console.log("action stack length is same")
+          //if action stack lengths match start comparing the items in both action stacks
+          for (var j = 0; j < recipesCompletedList[i].actionStack.length; j++) {
+
+            console.log(recipesCompletedList[i].actionStack[j])
+            console.log(JSON.parse(recipeQueueList[i].json).actionStack[j])
+
+            // if one actionstack item is of type array and another is of type object
+            if ((recipesCompletedList[i].actionStack[j] instanceof Array && recipeJsonParsed.actionStack[j] instanceof Array)) {
+              console.log("both shaken array")
+              // if both actionstack items are arrays compare the shaken array ingredients
+
+              // sort both arrays first
+              recipesCompletedList[i].actionStack[j][1].sort(function (a, b) {
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB)
+                  return -1;
+                if (nameA > nameB)
+                  return 1
+                return 0
+              })
+              recipeJsonParsed.actionStack[j][1].sort(function (a, b) {
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB)
+                  return -1;
+                if (nameA > nameB)
+                  return 1
+                return 0
+              })
+
+              // merge duplicates MIGHT PLACE THIS CODE ELSEWHERE AS INGREDIENTS SHOULD BE MERGED ONCE ADDED
+              // IMPLEMENTED ALREADY
+
+
+              // check if array length is the same (same number of ingredients shaken)
+              if (recipesCompletedList[i].actionStack[j][1].length !== recipeJsonParsed.actionStack[j][1].length) {
+                console.log("number of ingredients shaken not equal")
+
+                match = false;
               } else {
-                  match = false;
-                   
+                // if same number of ingredients check for each ingredient and amount
+                for (var k = 0; k < recipesCompletedList[i].actionStack[j][1].length; k++) {
+                  if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name)) {
+                    console.log("ingredients not the same");
+                    match = false;
+                  }
+
+                  // check ingredients amount 10 percentage leeway for shaken liquids
+                  var tenPercentOfAmount = recipeJsonParsed.actionStack[j][1][k].amount * .10;
+                  var bottomRange = (recipeJsonParsed.actionStack[j][1][k].amount) - tenPercentOfAmount;
+                  var topRange = (recipeJsonParsed.actionStack[j][1][k].amount) + tenPercentOfAmount;
+
+                  // if amount doesnt fall in range
+                  if (recipesCompletedList[i].actionStack[j][1][k].amount < bottomRange
+                    || recipesCompletedList[i].actionStack[j][1][k].amount > topRange) {
+                    match = false;
+                  }
+                }
               }
-          
-        if (match === true) {
-              console.log("match = true")
-              totalRecipesCorrect = totalRecipesCorrect +1;
-        }  
+
+
+            } else if ((recipesCompletedList[i].actionStack[j] instanceof Array && !(recipeJsonParsed.actionStack[j] instanceof Array)) ||
+              (!(recipesCompletedList[i].actionStack[j] instanceof Array) && recipeJsonParsed.actionStack[j] instanceof Array)) {
+
+              // if one is shaken ingredients array and another is ingredient object
+              console.log("one is shaken array other is just ingredient")
+              match = false;
+            } else {
+
+              console.log("both are ingredients")
+              // if both actionstack items are objects check if ingredient is the same
+              if (recipesCompletedList[i].actionStack[j].name !== recipeJsonParsed.actionStack[j].name) {
+                match = false;
+              }
+
+              // thencheck ingredients amount 10 percentage leeway if it is liquid
+              if (recipesCompletedList[i].actionStack[j].scale === "ounces") {
+
+
+                var tenPercentOfAmount = recipeJsonParsed.actionStack[j].amount * .10;
+                var bottomRange = (recipeJsonParsed.actionStack[j].amount) - tenPercentOfAmount;
+                var topRange = (recipeJsonParsed.actionStack[j].amount) + tenPercentOfAmount;
+
+                // if amount doesnt fall in range
+                if (recipesCompletedList[i].actionStack[j].amount < bottomRange
+                  || recipesCompletedList[i].actionStack[j].amount > topRange) {
+                  match = false;
+                }
+              } else if (recipesCompletedList[i].actionStack[j].scale === "count") {
+                // if ingredient is solid check straight up
+                if (recipesCompletedList[i].actionStack[j].amount !== recipeJsonParsed.actionStack[j].amount) {
+                  match = false;
+                }
+              }
+
+            }
+          }
+
+        } else {
+          match = false;
+
+        }
+      } else {
+        match = false;
+
+      }
+
+      if (match === true) {
+        console.log("match = true")
+        totalRecipesCorrect = totalRecipesCorrect + 1;
       }
       
-      console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+     /* console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
       var formData = new FormData();
       formData.append("id", this.props.simulation.id);
       formData.append("grade",(totalRecipesCorrect * pointsForEachRecipe));
@@ -473,7 +472,7 @@ export default class SimulationContainer extends Component {
       xhr.onload = function () {
       };
       this.setState({finished: true});
-      xhr.send(formData);
+      xhr.send(formData);*/
       this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
       
 
@@ -482,26 +481,26 @@ export default class SimulationContainer extends Component {
       //GOTTA IMPLEMENT THIS
     
   }
-  
 
-  
+
+
   onActionEndCallback(index) {
-      
+
     // if action is shake
     if (index === 0) {
-        
-    
+
+
       let actionStack = this.state.actionBar[index].actionStack;
       console.log(actionStack)
       if (actionStack.length == 0) {
-        this.sendMessage("Only one ingredient in shaker!"); 
+        this.sendMessage("Only one ingredient in shaker!");
         this.sendSimulationMessage("Only one ingredient in shaker!");
-      } else if (actionStack[actionStack.length - 1] !==  "shake" && actionStack.length !== 1) {
+      } else if (actionStack[actionStack.length - 1] !== "shake" && actionStack.length !== 1) {
         actionStack.push("shake");
-        
+
         this.setState({ actionBar: [{ actionStack: actionStack }, this.state.actionBar[1], this.state.actionBar[2]] });
       } else {
-        this.sendMessage("Only one ingredient in shaker!"); 
+        this.sendMessage("Only one ingredient in shaker!");
         this.sendSimulationMessage("Only one ingredient in shaker!");
       }
     }
@@ -509,7 +508,7 @@ export default class SimulationContainer extends Component {
   convertTimeToAmount(time) {
     //amount is the amount of time that has passed in 1/10 second chunks. So amount = 10 means that 1 second has passed
 
-    return time < 20 ? time : time * 2;
+    return time;
     // if (time >= 15) {
     //   return elapsedTime * 10;
     // }
@@ -536,38 +535,38 @@ export default class SimulationContainer extends Component {
             // if last item on the aciton stack and selected ingredient is the same merge them
             ingredient.amount = this.convertTimeToAmount(elapsedTime) + data.actionStack[data.actionStack.length - 1].amount;
             data.actionStack.pop();
-            
+
           } else {
-              
+
             // else if it is a new ingredient
             ingredient.amount = this.convertTimeToAmount(elapsedTime);
           }
-          
+
           data.actionStack.push(ingredient);
         } else {
           // if added ingredient is of count only add 1 ct at a time
-          
+
           // first check if selected slot is a shaker, if it is dont allow to add things of scale "count"
           // if it is not a shaker and ingredient is scale of count
-          if (this.state.selectedSlot.bar !== "action"){
-                if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
-                // if last item on the aciton stack and selected ingredient is the same merge them
-                ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
-                data.actionStack.pop();
-              } else {
-                // else if it is a new ingredient
-                ingredient.amount = 1;
-              }
-              
-              data.actionStack.push(ingredient);
+          if (this.state.selectedSlot.bar !== "action") {
+            if (data.actionStack.length > 0 && data.actionStack[data.actionStack.length - 1].name == this.state.selectedIngredient.name && data.actionStack[data.actionStack.length - 1].amount != null) {
+              // if last item on the aciton stack and selected ingredient is the same merge them
+              ingredient.amount = 1 + data.actionStack[data.actionStack.length - 1].amount;
+              data.actionStack.pop();
+            } else {
+              // else if it is a new ingredient
+              ingredient.amount = 1;
+            }
+
+            data.actionStack.push(ingredient);
           } else {
             // if it is shaker and ingredient is scale of dont add ingredient to shaker
             this.sendMessage("Cannot add solid items to shaker!");
             this.sendSimulationMessage("Cannot add solid items to shaker!");
           }
- 
-        } 
-        
+
+        }
+
         this.setState({ selectedSlot: { bar: this.state.selectedSlot.bar, slot: this.state.selectedSlot.slot, data: data } });
 
       }
@@ -601,8 +600,8 @@ export default class SimulationContainer extends Component {
   handleChildClick(e) {
     e.stopPropagation();
     console.log('child');
-    }
-  
+  }
+
   onSelectedSlotChangeCallback(bar, slot, data) {
     this.setState({ selectedSlot: { bar: bar, slot: slot, data: data } });
   }
@@ -616,12 +615,12 @@ export default class SimulationContainer extends Component {
     }
     var element;
     if (this.state.dragged == actionBar[index]) {
-          this.sendMessage("Please drag your glass to another glass");
-      }
-      else if (this.state.dragged.glass != null) {
-          
-      }
-    else if (this.state.dragged.category == null ) { //means is an actionbar item or quickbar item
+      this.sendMessage("Please drag your glass to another glass");
+    }
+    else if (this.state.dragged.glass != null) {
+
+    }
+    else if (this.state.dragged.category == null) { //means is an actionbar item or quickbar item
       for (element of this.state.dragged.actionStack) {
         actionBar[index].actionStack.push(element);
       }
@@ -650,91 +649,91 @@ export default class SimulationContainer extends Component {
         quickBar[index].actionStack = [];
         this.setState({ quickBar: quickBar, dragged: null });
       } else if (this.state.dragged == quickBar[index]) {
-          this.sendMessage("Please drag your glass to another glass");
+        this.sendMessage("Please drag your glass to another glass");
       } else if (quickBar[index].glass != null && quickBar[index].glass.category === "glasses" && this.state.dragged.glass == null) {
         //when adding actionbar to quickbar, make sure the glass isnt being added to itself
-        
+
         var glassVolume = quickBar[index].glass.volume;
         var contents = 0;
         for (var cont of quickBar[index].actionStack) {
-            if (cont.amount != null && cont.scale ==="ounces") {
-                contents += cont.amount;
-            }
+          if (cont.amount != null && cont.scale === "ounces") {
+            contents += cont.amount;
+          }
         }
         glassVolume = glassVolume - contents;
         var draggedVolume = 0;
         for (var toAdd of this.state.dragged.actionStack) {
-            if (toAdd.amount != null && toAdd.scale ==="ounces") {
-                draggedVolume += toAdd.amount;
-            }
+          if (toAdd.amount != null && toAdd.scale === "ounces") {
+            draggedVolume += toAdd.amount;
+          }
         }
         if (draggedVolume > glassVolume) {
-            this.sendMessage("This would overfill that glass!")
-            this.sendSimulationMessage("This would overfill that glass!")
+          this.sendMessage("This would overfill that glass!")
+          this.sendSimulationMessage("This would overfill that glass!")
         }
-        else{
-            
-            
-            //  When you shake create an array first item is word shake second item is array of 
-            //  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
-            //  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
-            
-            var shaken = false;
+        else {
 
-            // check if things in shaker have been shaken if not, just add the contents to glass
-            for (var elements of this.state.dragged.actionStack) {         
-                if (elements === "shake") {
-                    shaken = true;
-                }
-            }
-            if (shaken) {
-                
-               
-                let shakeJson = [];
-                shakeJson.push("shake");
-                let shakeContents = [];
-                
-                for (var element of this.state.dragged.actionStack) {
-                    if(element !== "shake") {
-                       
 
-                        // check for duplicates when before pushing shakecontents to shakeJson
-                        var duplicate = false;
-                        var duplicateIndex;
-                        for(var i = 0; i < shakeContents.length;i++) { 
-                            if (shakeContents[i].name === element.name) {
-                                shakeContents[i].amount = shakeContents[i].amount + element.amount;
-                                duplicate = true;
-                            }
-                        }
-                        // if no duplicate exists push ingredient
-                        if (duplicate === false) {
-                            shakeContents.push(element);
-                        }
-                    }
-                }
-                
+          //  When you shake create an array first item is word shake second item is array of 
+          //  things being shaken instanceofobject = ingredient instanceofarray = shaken list 
+          //  of ingredients WORRY ABOUT SHAKING SOMETHING THAT ALREADY HAS BEEN SHAKEN
 
-                shakeJson.push(shakeContents);
-                quickBar[index].actionStack.push(shakeJson);
-            } else {
-                for (var element of this.state.dragged.actionStack) {
-                    quickBar[index].actionStack.push(element);
+          var shaken = false;
+
+          // check if things in shaker have been shaken if not, just add the contents to glass
+          for (var elements of this.state.dragged.actionStack) {
+            if (elements === "shake") {
+              shaken = true;
+            }
+          }
+          if (shaken) {
+
+
+            let shakeJson = [];
+            shakeJson.push("shake");
+            let shakeContents = [];
+
+            for (var element of this.state.dragged.actionStack) {
+              if (element !== "shake") {
+
+
+                // check for duplicates when before pushing shakecontents to shakeJson
+                var duplicate = false;
+                var duplicateIndex;
+                for (var i = 0; i < shakeContents.length; i++) {
+                  if (shakeContents[i].name === element.name) {
+                    shakeContents[i].amount = shakeContents[i].amount + element.amount;
+                    duplicate = true;
+                  }
                 }
+                // if no duplicate exists push ingredient
+                if (duplicate === false) {
+                  shakeContents.push(element);
+                }
+              }
             }
-            this.setState({ quickBar: quickBar, dragged: null });
-            console.log(quickBar[index].actionStack)
-            
-            // clear shaker after it is dragged into glass
-            // IMPLEMENT THIS
-            if (this.state.dragged != null) {
-                this.state.dragged.actionStack = [];
+
+
+            shakeJson.push(shakeContents);
+            quickBar[index].actionStack.push(shakeJson);
+          } else {
+            for (var element of this.state.dragged.actionStack) {
+              quickBar[index].actionStack.push(element);
             }
-            this.setState({dragged:null});
-            
-            
-        }  
-      
+          }
+          this.setState({ quickBar: quickBar, dragged: null });
+          console.log(quickBar[index].actionStack)
+
+          // clear shaker after it is dragged into glass
+          // IMPLEMENT THIS
+          if (this.state.dragged != null) {
+            this.state.dragged.actionStack = [];
+          }
+          this.setState({ dragged: null });
+
+
+        }
+
       }
     } else {
       this.setState({ dragged: null });
@@ -749,11 +748,11 @@ export default class SimulationContainer extends Component {
     messageLog.push(message);
     this.setState({ messageLog: messageLog });
   }
-  
+
   sendSimulationMessage(message) {
-      let simulationLog = this.state.simulationLog;
-      simulationLog.push(message);
-      this.setState({simulationLog:simulationLog});
+    let simulationLog = this.state.simulationLog;
+    simulationLog.push(message);
+    this.setState({ simulationLog: simulationLog });
   }
   getRecIngredients() {
       console.log("hello");
@@ -776,27 +775,28 @@ export default class SimulationContainer extends Component {
                       ings.push(<p> {element.name +  "-"  + element.amount / 100}</p>);
               }
           }
-          return <span className="text"> {ings} </span>;
+        }
+        return <span className="text"> {ings} </span>;
       }
       else {
-         return <span className="text" >No Cheating!</span>
+        return <span className="text" >No Cheating!</span>
       }
   }
-  
-  
+
+
   handleGarbage() {
-      if (this.state.dragged != null) {
-          this.state.dragged.actionStack = [];
-      }
-      this.setState({dragged:null});
+    if (this.state.dragged != null) {
+      this.state.dragged.actionStack = [];
+    }
+    this.setState({ dragged: null });
   }
   renderGlass(glass, actionStack) {
     if (glass != null) {
-        
-      
+
+
       return <div id="tooltip" >
         <img className="top-img" draggable="false" src={"/images/glasses/" + (glass.name).toLowerCase() + ".png"} alt={"Missing Image: " + glass.name} />
-        <span className="tooltiptext" onDrop = {this.handleChildClick.bind(this)} >
+        <span className="tooltiptext" onDrop={this.handleChildClick.bind(this)} >
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
@@ -830,9 +830,9 @@ export default class SimulationContainer extends Component {
       </div>
     }
   }
-  
+
   renderActionBarItem(index) {
-    
+
     var image = null;
 
     if (index == 0) {
@@ -844,13 +844,13 @@ export default class SimulationContainer extends Component {
       image = "/images/actions/knife.png";
     }
     return (<div id="tooltip"><img src={image} alt={"actionBar index " + index + " not found"} /><span className="tooltiptext">{
-      this.state.actionBar[index].actionStack == 0  ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
+      this.state.actionBar[index].actionStack == 0 ? "Empty" : this.state.actionBar[index].actionStack.map((item, index) => {
         if (item instanceof Object) {
-          if(item.scale === "ounces") {
-                      return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
-                  } else {
-                    return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
-                  }
+          if (item.scale === "ounces") {
+            return (<p key={item.name + index}>{item.name} {item.amount / 100} oz</p>);
+          } else {
+            return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+          }
         } else {
           return (<p key={item + index}>{item} {item.amount}</p>);
         }
@@ -858,67 +858,67 @@ export default class SimulationContainer extends Component {
     }</span></div>)
 
   }
-      
-   
+
+
   render() {
-    if (this.state.finished){
-        return(
+    if (this.state.finished) {
+      return (
         <React.Fragment>
-        <NavigationBar />
-        <div id="grade">
-        <span className="gradeReturned" >The grade you have received is... {this.state.grade}</span>
-      </div>
-      </React.Fragment>
-    )}
+          <NavigationBar />
+          <div id="grade">
+            <span className="gradeReturned" >The grade you have received is... {this.state.grade}</span>
+          </div>
+        </React.Fragment>
+      )
+    }
     else {
-    return (
-      <React.Fragment>
-        <NavigationBar />
-        <div id="wrapper" className="center">
-          <div id="sidebar-left">
-            <div id="top">
-              <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
-            </div>
-
-            <div id="bottom">
-              <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
-            </div>
-          </div>
-
-          <div id="main">
-            <div id="top">
-              <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
-                selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
-                addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} sendSimulationMessage = {this.sendSimulationMessage}
-              />
-              <div className="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}>
-                <img src="/images/actions/garbage.png"/>
+      return (
+        <React.Fragment>
+          <NavigationBar />
+          <div id="wrapper" className="center">
+            <div id="sidebar-left">
+              <div id="top">
+                <IngredientsTable ingredients={this.state.otherIngredients} onSelectedIngredientChangeCallback={this.onSelectedIngredientChangeCallback} selected={this.state.selectedIngredient} scrolling="vert" />
               </div>
-              <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem}
-                         selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback}
-                         dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback}
-                         onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar}
-              />
-            </div>
-            <div id="bottom">
-              <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
-            </div>
-            {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
-          </div>
 
-          <div id="sidebar-right">
-            <Router>
-              <Switch>
-                <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} getRecIngredients = {this.getRecIngredients} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
-                <Route component={NoMatch} />
-              </Switch>
-            </Router>
+              <div id="bottom">
+                <IngredientsTable ingredients={this.state.glasses} selected={this.state.selectedIngredient} scrolling="vert" onDragStartCallback={this.onDragStartCallback} />
+              </div>
+            </div>
+
+            <div id="main">
+              <div id="top">
+                <SelectedIngredient convertTimeToAmount={this.convertTimeToAmount} addSelectedIngredientToSelectedSlotCallback={this.addSelectedIngredientToSelectedSlotCallback} renderGlass={this.renderGlass} renderActionBarItem={this.renderActionBarItem}
+                  selectedIngredient={this.state.selectedIngredient} selectedSlot={this.state.selectedSlot} onDragEndSelectedIngredientCallback={this.onDragEndActionBarCallback}
+                  addSelectedIngredientToSelectedSlotCallbackRemaining={this.addSelectedIngredientToSelectedSlotCallbackRemaining} sendMessage={this.sendMessage} sendSimulationMessage={this.sendSimulationMessage}
+                />
+                <div className="garbage" onDrop={this.handleGarbage.bind(this)} onDragOver={(e) => e.preventDefault()}>
+                  <img src="/images/actions/garbage.png" />
+                </div>
+                <ActionBar onActionEndCallback={this.onActionEndCallback} renderActionBarItem={this.renderActionBarItem}
+                  selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback}
+                  dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback}
+                  onDragEndActionBarCallback={this.onDragEndActionBarCallback} inventory={this.state.actionBar}
+                />
+              </div>
+              <div id="bottom">
+                <QuickBar renderGlass={this.renderGlass} selectedSlot={this.state.selectedSlot} onSelectedSlotChangeCallback={this.onSelectedSlotChangeCallback} dragged={this.state.dragged} onDragStartCallback={this.onDragStartCallback} onDragEndQuickBarCallback={this.onDragEndQuickBarCallback} inventory={this.state.quickBar} />
+              </div>
+              {/* <Controls selected={this.state.selected} parent={this} action_stack={this.state.action_stack} /> */}
+            </div>
+
+            <div id="sidebar-right">
+              <Router>
+                <Switch>
+                  <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
+                  <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback={this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} getRecIngredients={this.getRecIngredients} globalState={this.state} recipeQueue={this.state.recipeQueue} completedRecipes={this.state.completedRecipes} />} />
+                  <Route component={NoMatch} />
+                </Switch>
+              </Router>
+            </div>
           </div>
-        </div>
-      </React.Fragment>
-    )
+        </React.Fragment>
+      )
+    }
   }
 }
-        }
-        
