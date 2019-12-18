@@ -91,21 +91,18 @@ export default class RecipeRightPanel extends Component {
 							<div id="submit-title" className="MuiButton-root MuiButton-text">Cup Contents</div>
 							<div className="log-box">
 								{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
-
+                    
 									if (item.scale === "ounces") {
-
 										return <p id="log-text" key={item + index}>{item.name + " " + (item.amount / 100) + " oz"}</p>
+									} else if (item.scale==="count") {
+										return <p id="log-text" key={item + index}> {item.name + " " + item.amount + " ct"}</p>
 									} else {
+                                                                            return <p>array</p>
+                                                                            // if item is array("shake" + shaken items)
+                                                                        }
 
-										return <p id="log-text" key={item + index}> {item === "shake" ? item : item.name + " " + item.amount + " ct"}</p>
-									}
-
-									if (item.scale === "ounces") {
-										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
-									} else {
-										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount) + " ct"}</p>}</div>
-									}
-								}) : "None"}
+									
+								}) : "Empty"}
 							</div>
 
 							<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
@@ -118,9 +115,10 @@ export default class RecipeRightPanel extends Component {
 							</div>
 
 							<div className="block"></div>
-							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tip</div>
+							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tips</div>
 							<div className="log-box">
-								{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
+								{this.props.messageLog.map((item, index) => {
+                                                                   
 									return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 								})}
 							</div>
