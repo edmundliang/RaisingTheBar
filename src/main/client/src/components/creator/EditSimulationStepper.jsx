@@ -85,10 +85,12 @@ export default class EditSimulationStepper extends Component {
                         <CreateSimulation simulation={this.state.selectedSimulation} recipes={this.props.recipes} />
                       </div>
                     )}
-                    <Button disabled={this.state.activeStep === 0} onClick={this.handleBack} className={"button"}>
-                      Back
+                    <div onClick={this.handleBack}>
+                      <Button disabled={this.state.activeStep === 0} className={"button"}>
+                        Back
                   </Button>
-                    {this.state.activeStep === steps.length - 1 ? <Button variant="contained" color="primary" onClick={this.handleNext} className={"button"}>Finish</Button> : ''}
+                    </div>
+                    {this.state.activeStep === steps.length - 1 ? <div onClick={this.handleNext}><Button variant="contained" color="primary" className={"button"}>Finish</Button> </div> : ''}
                   </div>
                 </div>
               </StepContent>

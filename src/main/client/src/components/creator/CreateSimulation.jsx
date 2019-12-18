@@ -6,12 +6,38 @@ import CreateSimulationInputForm from "./CreateSimulationInputForm";
 import './CreateSimulation.scss';
 
 export default class CreateSimulation extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             selectedRecipes: []
         };
 
+        if (props.simulation != null) {
+            for (var x of props.simulation.recipes) {
+                console.log(x)
+                var formData = new FormData();
+                formData.append("id", x);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/recipe/get');
+                var globalThis = this;
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        try {
+                            console.log(this.responseText)
+                            console.log(JSON.parse(this.responseText));
+                            var existingSims = globalThis.state.selectedRecipes;
+                            existingSims.push(JSON.parse(this.responseText));
+                            globalThis.setState({ selectedRecipes: existingSims });
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    } else {
+                        console.log("Got status code " + this.status)
+                    }
+                };
+                xhr.send(formData);
+            }
+        }
         // this.state.recipes = [
         //     {
         //         "id": "5df5b1de30778238e06d6b2e",

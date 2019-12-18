@@ -29,11 +29,11 @@ public class RecipeController {
     @Autowired
     private CustomUserDetailsService userService;
 
-    @RequestMapping(value = "/recipe/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/recipe/get", method = RequestMethod.POST)
     public ResponseEntity getRecipe(@RequestParam("id") String recipeId) {
         Recipe rec = recipeService.findRecipeById(recipeId);
         if (rec != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(rec.getJson());
+            return ResponseEntity.status(HttpStatus.OK).body(rec);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
