@@ -1,6 +1,7 @@
 @import "../Theme.scss";
 .navbar {
     background-color: black;
+    height: 6%;
 }
 
 .nav-item a {
@@ -8,6 +9,10 @@
 }
 
 .logo {
-    width: 35px;
-    height: 32px;
+    width: calc(10vh * 1.6);
+    margin: 0;
+}
+
+.custom-navbar {
+    padding: 0 2.3vw 0 2.3vw;
 }

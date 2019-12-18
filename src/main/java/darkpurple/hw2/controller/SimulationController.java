@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import darkpurple.hw2.database.CustomUserDetailsService;
 import darkpurple.hw2.database.SimulationService;
-import darkpurple.hw2.database.entity.Recipe;
 import darkpurple.hw2.database.entity.Simulation;
 import darkpurple.hw2.database.entity.SimulationGrade;
 import darkpurple.hw2.database.entity.User;
@@ -20,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,10 +73,39 @@ public class SimulationController {
         }
     }
 
+    @RequestMapping(value = "/simulation/edit", method = RequestMethod.POST)
+    public ResponseEntity editSimulation(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("public") boolean isPublic, @RequestParam("practice") boolean isPractice, @RequestParam("recipes") String[] recipes, @RequestParam("json") String json) {
+
+        User user = userService.getLoggedUser();
+        if (user != null) {
+            Simulation simulation = new Simulation();
+            simulation.setId(id);
+            simulation.setCreator(user.getId());
+            simulation.setName(name);
+            simulation.setDescription(description);
+            simulation.setIsPublic(isPublic);
+            simulation.setIsPractice(isPractice);
+            simulation.setRecipes(recipes);
+            simulation.setDate(new Date());
+            simulation.setJson(json);
+            simulationService.saveSimulation(simulation);
+            return ResponseEntity.status(HttpStatus.OK).body(simulation);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
     @RequestMapping(value = "/simulation/delete", method = RequestMethod.POST)
-    public void deleteSim(@RequestBody String simulationId) {
-        Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
-        simulationService.deleteSimulation(toBeDeleted);
+    public ResponseEntity deleteSim(@RequestParam("id") String simulationId) {
+        User user = userService.getLoggedUser();
+        if (user != null) {
+            Simulation toBeDeleted = simulationService.findSimulationById(simulationId);
+            if (toBeDeleted != null && toBeDeleted.getCreator().equals(user.getId())) {
+                simulationService.deleteSimulation(toBeDeleted);
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     @RequestMapping(value = "/simulation/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +117,7 @@ public class SimulationController {
             List<Simulation> simulationList = simulationService.getAllSimulations();
             List<Simulation> approvedList = new ArrayList();
             for (Simulation r : simulationList) {
-                if (r.isIsPublic() || r.getCreator() == user.getId()) {
+                if (r.isIsPublic() || r.getCreator().equals(user.getId())) {
                     approvedList.add(r);
                 }
             }
@@ -102,20 +129,30 @@ public class SimulationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    
-    @RequestMapping(value = "/simulation/listUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity allUserSimulations(@RequestBody String userId) {
+
+    @RequestMapping(value = "/simulation/list/mine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity allUserSimulations() {
         ObjectMapper mapper = new ObjectMapper();
         User user = userService.getLoggedUser();
-        try {
-            Map outputMap = new HashMap();
-            List<SimulationGrade> simulationList = simulationService.getUserSimGrades(userId);
-            outputMap.put("userSimGrades", simulationList);
-            String output = mapper.writeValueAsString(outputMap);
-            return ResponseEntity.status(HttpStatus.OK).body(output);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (user != null) {
+            try {
+                Map outputMap = new HashMap();
+                List<Simulation> simulationList = simulationService.getAllSimulations();
+                List<Simulation> approvedList = new ArrayList();
+                for (Simulation r : simulationList) {
+                    if (r.getCreator().equals(user.getId())) {
+                        approvedList.add(r);
+                    }
+                }
+                outputMap.put("simulations", approvedList);
+                String output = mapper.writeValueAsString(outputMap);
+                return ResponseEntity.status(HttpStatus.OK).body(output);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 }

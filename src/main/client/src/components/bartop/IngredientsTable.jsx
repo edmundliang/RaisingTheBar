@@ -41,33 +41,31 @@ export default class IngredientsTabs extends Component {
 			ingredientsList.forEach((value, key, map) => { categoryList.push(key) })
 		}
 		return (
-			<div>
-				<div className={this.props.container === "liquor" ? "liquors-container" : "ingredients-container"}>
-					<Tabs defaultActiveKey={categoryList[0]}>
-						{
-							categoryList.map((item) => (
-								<Tab key={item} eventKey={item} title={item}>
-									<div className={this.props.scrolling === "vert" ? "vert-table " : "hori-table"}>
-										{(() => {
-											var output = [];
-											var elements = ingredientsList.get(item)
-											for (var x of elements) {
-												let boundFunctionCall = this.onIngredientClick.bind(this, x);
-												output.push(
-													<div draggable={this.isDraggable()} onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
-														<img draggable="false" src={"/images/" + ((x["category"] == "glasses") ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
-														<p>{x["name"]}</p>
-													</div>
-												);
-											}
-											return output;
-										}).call()
+			<div className={this.props.container === "liquor" ? "liquors-container" : "ingredients-container"}>
+				<Tabs defaultActiveKey={categoryList[0]}>
+					{
+						categoryList.map((item) => (
+							<Tab key={item} eventKey={item} title={item}>
+								<div className={this.props.scrolling === "vert" ? "vert-table " : "hori-table"}>
+									{(() => {
+										var output = [];
+										var elements = ingredientsList.get(item)
+										for (var x of elements) {
+											let boundFunctionCall = this.onIngredientClick.bind(this, x);
+											output.push(
+												<div draggable={this.isDraggable()} onDragStart={this.handleDragStart.bind(gloablThis, x)} className={this.props.selected === x ? "list_element selected" : "list_element"} key={x["name"]} onClick={boundFunctionCall}>
+													<img draggable="false" src={"/images/" + ((x["category"] == "glasses") ? "glasses/" : "ingredients/") + x["name"].toLowerCase() + ".png"} alt={"Missing Image: " + x["name"]} />
+													<p>{x["name"]}</p>
+												</div>
+											);
 										}
-									</div>
-								</Tab>
-							))}
-					</Tabs>
-				</div>
+										return output;
+									}).call()
+									}
+								</div>
+							</Tab>
+						))}
+				</Tabs>
 			</div>
 		);
 	}

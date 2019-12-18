@@ -35,7 +35,7 @@ export default class SignUpForm extends Component {
     formData.append("email", this.state.email);
     formData.append("password", this.state.password);
     xhr.addEventListener("load", this.formResults);
-    xhr.open("POST", '/signup');
+    xhr.open("POST", '/user/signup');
     xhr.send(formData);
     console.log("Attempting Signup")
   }
@@ -61,7 +61,7 @@ export default class SignUpForm extends Component {
     return (
       <div className="FormCenter">
         <div className="FormTitle">
-          <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+          <NavLink to="/user/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or <NavLink exact to="/user/signup" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
         </div>
         <form onSubmit={this.handleSubmit} className="FormFields">
           <div className="FormField">

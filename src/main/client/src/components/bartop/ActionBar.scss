@@ -8,32 +8,28 @@
 // }
 .action-bar {
     display: flex;
-    flex-direction: row;
     margin-bottom: 3%;
     margin-left: auto;
     margin-right: auto;
-     :hover {
+    position: absolute;
+    top: 40%;
+    width: 8.1%;
+    left: 28%;
+    :hover {
         color: green;
     }
 }
 
-.action-item {
-    width: 20%;
-}
 
 .action-bar img {
     width: 100%;
-    border-style: solid;
+    vertical-align: bottom;
 }
 
 .action-bar .hilight {
-    border-style: solid;
-    border-color: yellow;
 }
 
 #tooltip img {
-    border-style: solid;
-    object-fit: fill;
 }
 
 #tooltip {
@@ -43,14 +39,34 @@
 #tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
-    background-color: black;
+    background-color: #303030;
     color: #fff;
     text-align: center;
-    border-radius: 6px;
     padding: 5px 0;
+    margin-left: 6px;
+    opacity: 0.85;
+    filter: alpha(opacity=85);
     /* Position the tooltip */
     position: absolute;
     z-index: 4;
+    pointer-events:none;
+}
+
+#tooltip:hover img {
+    background: #dddddd;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+}
+
+#tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
 }
 
 #tooltip:hover .tooltiptext {

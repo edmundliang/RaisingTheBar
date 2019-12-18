@@ -1,21 +1,42 @@
 @import "../Theme.scss";
 @import "./QuickBar.scss";
 @import "./ActionBar.scss";
-.selected-ingredient {
-    display: block;
+.top-center-pane {
+    position: relative;
+    vertical-align: bottom;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
+    width: 30%;
+    height: 100%;
 }
 
-.selected-slot {
+#block {
+    height: 5%;
+}
+
+.selected-ingredient{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    height: 46%;
+}
+
+.selected-glass {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 30%;
 }
 
 .rotImg {
     -webkit-transform: rotate(20deg);
     transform: rotate(45deg);
+}
+
+.top-image-padding {
+    padding: 8rem 0 0 0;
+}
+
+#ingredient-volume {
+    line-height: 0.8;
 }

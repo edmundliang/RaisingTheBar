@@ -26,15 +26,15 @@ export default class AuthContainer extends Component {
           <div className="App__Aside theme-secondary-color"></div>
           <div className="App__Form theme-primary-color">
             <div className="PageSwitcher">
-              <NavLink to="/login" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Login</NavLink>
-              <NavLink exact to="/signup" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+              <NavLink to="/user/login" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Login</NavLink>
+              <NavLink exact to="/user/signup" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
             </div>
 
             <div className="center">
-              <Route exact path="/signup" render={()=><SignUpForm redirectCallback={this.redirectCallback} />}></Route>
-              <Route exact path="/login" render={()=><LoginForm redirectCallback={this.redirectCallback} />}></Route>
-              <Route exact path="/forgot-password" component={ForgotPassword}></Route>
-              <Route exact path="/reset-password" component={ResetPassword}></Route>
+              <Route exact path="/user/signup" render={()=><SignUpForm redirectCallback={this.redirectCallback} />}></Route>
+              <Route exact path="/user/login" render={()=><LoginForm redirectCallback={this.redirectCallback} />}></Route>
+              <Route exact path="/user/forgot-password" component={ForgotPassword}></Route>
+              <Route exact path="/user/reset-password" component={ResetPassword}></Route>
             </div>
           </div>
         </div>

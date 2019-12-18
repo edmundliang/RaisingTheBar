@@ -1,44 +1,25 @@
 import { Component } from "react";
 import React from "react";
 import ViewMySimulationsSimulationCard from "./ViewMySimulationsSimulationCard";
+import { Col, Jumbotron } from "react-bootstrap";
 
 export default class ViewMySimulations extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      simulations: []
-    }
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/simulation/list', true);
-    var globalThis = this
-    xhr.onload = function () {
-      // do something to response
-      var responseObject = null;
-      try {
-        responseObject = JSON.parse(this.responseText)
-        globalThis.setState({ simulations: responseObject.simulations });
-      } catch (e) {
-        console.error("Got Non JSON response from server");
-      }
-    };
-    xhr.send();
-  }
-
   render() {
-    let simulationCards = this.state.simulations.map(simulation => {
+    let simulationCards = this.props.simulations.map(simulation => {
       return (
-        <div className="col-md-3">
-          <ViewMySimulationsSimulationCard key={simulation.title} simulation={simulation} />
+        <div className="col-lg-4 col-md-3 col-sm-2 col-xs-1">
+          <ViewMySimulationsSimulationCard key={simulation.title} user={this.props.user} simulation={simulation} onDeleteCallback={this.props.deleteSimulationCallback} />
         </div>
       )
     });
-
     return (
-      <div className="container-fluid d-flex justify-content-center">
-        <div className="row">
-          {simulationCards}
-        </div>
-      </div>
+      <Jumbotron fluid className="jumbo p-0 m-5">
+        <Col className="mt-2 mb-4">
+          <div className="row p-1">
+            {simulationCards}
+          </div>
+        </Col>
+      </Jumbotron>
     );
   }
 }

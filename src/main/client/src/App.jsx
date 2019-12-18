@@ -15,12 +15,12 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/login" component={AuthContainer} />
-              <Route path="/signup" component={AuthContainer} />
-              <Route path="/forgot-password" component={AuthContainer} />
-              <Route path="/reset-password" component={AuthContainer} />
+              <Route path="/user/login" component={AuthContainer} />
+              <Route path="/user/signup" component={AuthContainer} />
+              <Route path="/user/forgot-password" component={AuthContainer} />
+              <Route path="/user/reset-password" component={AuthContainer} />
               <Route path="/bartop/:var1/:var2?/:var3?" component={BartopContainer} />
-              <Route path="/creator" component={CreatorContainer} />
+              <Route path="/creator/:var1?" component={CreatorContainer} />
               <Route path="/workshop" component={Workshop} />
               <Route path="/results/:var1/:var2?/:var3?" component={Results} />
               <Route component={NoMatch} />

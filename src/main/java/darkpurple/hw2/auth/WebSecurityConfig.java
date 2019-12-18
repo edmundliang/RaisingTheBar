@@ -49,17 +49,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/bartop/**", "/workshop", "/creator/**","/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
-                .antMatchers("/").hasAuthority("USER")
+                .antMatchers("/user/**", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
+                .antMatchers("/", "/bartop/**", "/workshop", "/creator/**").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated().and().csrf().disable()
                 .formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)
-                .loginPage("/login")
+                .loginPage("/user/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/user/login")
                 .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 .logoutSuccessUrl("/").and().exceptionHandling();
 
     }

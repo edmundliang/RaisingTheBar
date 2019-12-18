@@ -9,23 +9,9 @@ export default class CreateSimulation extends Component {
     constructor() {
         super();
         this.state = {
-            recipes: [],
             selectedRecipes: []
         };
-        var globalThis = this;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/recipe/list', true);
-        xhr.onload = function () {
-            // do something to response
-            var responseObject = null;
-            try {
-                responseObject = JSON.parse(this.responseText)
-                globalThis.setState({ recipes: responseObject.recipes });
-            } catch (e) {
-                console.error("Got Non JSON response from server");
-            }
-        };
-        xhr.send();
+
         // this.state.recipes = [
         //     {
         //         "id": "5df5b1de30778238e06d6b2e",
@@ -62,34 +48,61 @@ export default class CreateSimulation extends Component {
         if (this.state.selectedRecipes.length <= 0) {
             return;
         }
-        var formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("description", data.description);
-        formData.append("public", data.public);
-        formData.append("practice", data.practice);
-        let recipeIds = [];
-        for (var i = 0; i < this.state.selectedRecipes.length; i++) {
-            recipeIds.push(this.state.selectedRecipes[i].id);
-        }
-        formData.append("recipes", recipeIds);
-        formData.append("json", JSON.stringify({
-            name: data.name,
-            description: data.description,
-            public: data.public,
-            practice: data.practice,
-            recipes: recipeIds
-        }));
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/simulation/add');
-        xhr.onload = function () {
-            console.log(this);
-        };
-        xhr.send(formData);
+        if (this.props.simulation != null) {
+            var formData = new FormData();
+            formData.append("id", this.props.simulation.id);
+            formData.append("name", data.name);
+            formData.append("description", data.description);
+            formData.append("public", data.public);
+            formData.append("practice", data.practice);
+            let recipeIds = [];
+            for (var i = 0; i < this.state.selectedRecipes.length; i++) {
+                recipeIds.push(this.state.selectedRecipes[i].id);
+            }
+            formData.append("recipes", recipeIds);
+            formData.append("json", JSON.stringify({
+                name: data.name,
+                description: data.description,
+                public: data.public,
+                practice: data.practice,
+                recipes: recipeIds
+            }));
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/simulation/edit');
+            xhr.onload = function () {
+                console.log(this);
+            };
+            xhr.send(formData);
+        } else {
 
+            var formData = new FormData();
+            formData.append("name", data.name);
+            formData.append("description", data.description);
+            formData.append("public", data.public);
+            formData.append("practice", data.practice);
+            let recipeIds = [];
+            for (var i = 0; i < this.state.selectedRecipes.length; i++) {
+                recipeIds.push(this.state.selectedRecipes[i].id);
+            }
+            formData.append("recipes", recipeIds);
+            formData.append("json", JSON.stringify({
+                name: data.name,
+                description: data.description,
+                public: data.public,
+                practice: data.practice,
+                recipes: recipeIds
+            }));
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/simulation/add');
+            xhr.onload = function () {
+                console.log(this);
+            };
+            xhr.send(formData);
+        }
     }
     render() {
-        let recipeCards = this.state.recipes.map((recipe, index) => {
-            return (<div className="col" ><RecipeCard key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)
+        let recipeCards = this.props.recipes.map((recipe, index) => {
+            return (<div className="col" ><RecipeCard user={this.props.user} onDeleteCallback={this.props.deleteRecipeCallback} key={recipe.name + index} recipe={recipe} addRecipeToSimulation={this.addRecipeToSimulation} /> </div>)
         });
 
         return (<div className="mt-4 text-center container-fluid d-flex justify-content-center" >
@@ -110,12 +123,16 @@ export default class CreateSimulation extends Component {
                         <div className="right-container" >
                             <Row>
                                 <Col>
-                                    <CreateSimulationRecipeTable selected={this.state.selectedRecipes} />
+                                    <CreateSimulationRecipeTable user={this.props.user} selected={this.state.selectedRecipes} />
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <CreateSimulationInputForm createSimulation={this.createSimulation} />
+                                    <CreateSimulationInputForm name={this.props.simulation != null ? this.props.simulation.name : ""}
+                                        description={this.props.simulation != null ? this.props.simulation.description : ""}
+                                        public={this.props.simulation != null ? this.props.simulation.public : ""}
+                                        practice={this.props.simulation != null ? this.props.simulation.practice : ""}
+                                        createSimulation={this.createSimulation} />
                                 </Col>
                             </Row >
                         </div>
