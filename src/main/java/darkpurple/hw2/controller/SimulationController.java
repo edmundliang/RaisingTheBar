@@ -53,7 +53,7 @@ public class SimulationController {
         }
     }
 
-    @RequestMapping(value = "/simulation/complete", method = RequestMethod.GET)
+    @RequestMapping(value = "/simulation/complete", method = RequestMethod.POST)
     public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade") String jsonGrade) {
         SimulationGrade simGrade = new SimulationGrade();
         simGrade.setDateCompleted(new Date());

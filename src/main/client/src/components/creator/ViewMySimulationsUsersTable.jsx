@@ -16,15 +16,13 @@ export default class VuewMySimulationsUsersTable extends Component {
       // var globalThis = this
       // xhr.onload = function () {
       //   if (this.status === 200) {
-
       //     var simulationResults = this.state.simulationResults;
       //     var gottenResults = JSON.parse(this.responseText).grades;
       //     for (var x of gottenResults) {
-
       //       var xhr = new XMLHttpRequest();
-      //       xhr.open('POST', '/simulation/grade');
+      //       xhr.open('POST', '/user/get');
       //       var secondFormData = new FormData()
-      //       secondFormData.append("id", props.selected.id);
+      //       secondFormData.append("id", gottenResults.);
       //       var globalThis = this
       //       xhr.onload = function () {
       //         if (this.status === 200) {
@@ -53,7 +51,7 @@ export default class VuewMySimulationsUsersTable extends Component {
         <MaterialTable
           title="Who Complete the Simulation?"
           columns={columns}
-          data={this.state.simulationResults }
+          data={this.state.simulationResults}
           options={{
             headerStyle: {
               fontWeight: 'bold',

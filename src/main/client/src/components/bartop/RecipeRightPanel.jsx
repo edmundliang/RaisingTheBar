@@ -128,7 +128,36 @@ export default class RecipeRightPanel extends Component {
 				</Tab>
 				<Tab key={"Tips"} eventKey={"Tips"} title={"Tips"}>
 					<div>
-						To start, drag a glass from the bottom left 
+						To start, drag a glass from the bottom left of the UI to one of the 3 black circles at the bottom of the page
+						<hr></hr>
+					</div>
+					<div>
+						Click on the glass to select it and it'll appear in the middle
+						<hr></hr>
+					</div>
+					<div>
+						Next click on an ingredient from the left hand side to select the ingredient<hr></hr>
+
+					</div>
+					<div>
+						You add the ingredient to the glass by clicking on it's image in the center of the screen. If the ingredient is a liquid you can change how much you add by holding down the mouse button
+						<hr></hr>
+					</div>
+					<div>
+						You can shake ingredients together by selecting the shaker from the left, adding ingredients to it as you would a cup, then pressing the shake button
+						<hr></hr>
+					</div>
+					<div>
+						You can then drag the shaker to a glass to add its contents to the glass
+						<hr></hr>
+					</div>
+					<div>
+						If you'd like to delete the contents of a cup drag the cup from the quick bar(at the bottom) to the x on the bottom left
+						<hr></hr>
+					</div>
+					<div>
+						When youre ready to submit your glass, make sure it's selected add a title, descritpion and scope then press submit.
+						<hr></hr>
 					</div>
 				</Tab>
 			</Tabs>
