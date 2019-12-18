@@ -141,54 +141,52 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-    /*  if (this.props.match.params.var2 != null) {
-        var data = new FormData();
-        data.append('id', this.props.match.params.var3);
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/simulation/get', true);
-        xhr.onload = function (e) {
-          let simulationJson = JSON.parse(e.target.response);
-          for (var i = 0; i < simulationJson.recipes.length; i++) {
-            var data = new FormData();
-            data.append('id', simulationJson.recipes[i]);
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/recipe/get', true);
-            xhr.onload = function (e) {
+        var globalThis = this;
+        if (this.props.match.params.var2 != null) {
+          var xhrSim = new XMLHttpRequest();
+          xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2, true);
+          xhrSim.onload = function () {
+                let simulationJson = JSON.parse(this.responseText);
+                if (simulationJson.recipes != null) {
+                for (var i = 0; i < simulationJson.recipes.length; i++) {
+                      var formData = new FormData();
+                      formData.append("id", simulationJson.recipes[i]);
+                      var xhr2 = new XMLHttpRequest();
+                      xhr2.open('POST', '/recipe/get');
+                      xhr2.onload = function () {
+                          if (this.status === 200) {
+                              try {
+                                  console.log(this.responseText)
+                                  console.log(JSON.parse(this.responseText));
+                                  globalThis.addRecipeToQueue(JSON.parse(this.responseText));
 
-              this.addRecipeToQueue(JSON.parse(e.target.response))
-            };
-            xhr.send(data);
-          }
-          // console.log(JSON.parse(e.target.response));
-          // this.setState({
-          //   name: recipeJson.name, quickBar: [
-          //     {
-          //       glass: recipeJson.glass,
-          //       actionStack: recipeJson.actionStack
-          //     },
-          //     {
-          //       glass: null,
-          //       actionStack: []
-          //     },
-          //     {
-          //       glass: null,
-          //       actionStack: []
-          //     }
-          //   ]
-          // });
-        };
-        xhr.send(data);
+                              } catch (e) {
+                                  console.error(e);
+                              }
+                          } else {
+                              console.log("Got status code " + this.status)
+                          }
+                      };
+                      xhr2.send(formData);
+                  }
+              }
+              else {
+                console.log("Simulation does not contain any recipes");
+                }
+          };
+          xhrSim.send();
       }
-    }
-    */
-    var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
+            
+          
+   /* var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
         "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
              
     var rec2 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 1","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
         "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1}],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":1200}}","_class":"darkpurple.hw2.database.entity.Recipe"};
     this.addRecipeToQueue(rec1);
     this.addRecipeToQueue(rec2);
-    this.state.mode = mode;
+    this.state.mode = mode;*/
+  
   }
   }
   
