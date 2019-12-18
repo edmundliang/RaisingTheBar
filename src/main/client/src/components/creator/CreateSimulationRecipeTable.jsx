@@ -10,7 +10,7 @@ export default class CreateSimulationRecipeTable extends Component {
     var parent = this;
     let columns = [
       { title: 'Name', field: 'name' }
-    ]
+    ];
     return (
       <div className="ml-4 mr-4 mt-3 mb-0">
         <MaterialTable
@@ -33,6 +33,7 @@ export default class CreateSimulationRecipeTable extends Component {
               fontWeight: 'bold',
               padding: '1rem',
               fontSize: '1rem',
+              backgroundColor: "#f0f0f0",
             },
             rowStyle: {
               padding: '1rem',
