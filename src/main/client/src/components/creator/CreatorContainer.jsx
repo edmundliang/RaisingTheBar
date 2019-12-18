@@ -4,7 +4,6 @@ import NavigationBar from "./../navbar/NavigationBar";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './CreatorContainer.scss';
 import CreateSimulation from "./CreateSimulation";
-import EditRecipe from "./EditRecipe";
 import EditSimulationStepper from "./EditSimulationStepper";
 import ViewMySimulations from "./ViewMySimulations";
 

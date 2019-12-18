@@ -53,7 +53,7 @@ export default class VuewMySimulationsUsersTable extends Component {
         <MaterialTable
           title="Who Complete the Simulation?"
           columns={columns}
-          data={this.props.selected}
+          data={this.state.simulationResults }
           options={{
             headerStyle: {
               fontWeight: 'bold',

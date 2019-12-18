@@ -14,7 +14,7 @@ export default class CreateSimulation extends Component {
 
         if (props.simulation != null) {
             for (var x of props.simulation.recipes) {
-                console.log(x)
+                // console.log(x)
                 var formData = new FormData();
                 formData.append("id", x);
                 var xhr = new XMLHttpRequest();
@@ -23,8 +23,8 @@ export default class CreateSimulation extends Component {
                 xhr.onload = function () {
                     if (this.status === 200) {
                         try {
-                            console.log(this.responseText)
-                            console.log(JSON.parse(this.responseText));
+                            // console.log(this.responseText)
+                            // console.log(JSON.parse(this.responseText));
                             var existingSims = globalThis.state.selectedRecipes;
                             existingSims.push(JSON.parse(this.responseText));
                             globalThis.setState({ selectedRecipes: existingSims });
@@ -64,7 +64,8 @@ export default class CreateSimulation extends Component {
         // console.log(data);
     }
     createSimulation(data) {
-        // console.log(data);
+        // console.log(data);    
+        var globalThis = this;
         if (data.name <= 0 || data.name > 50) {
             return;
         }
@@ -96,11 +97,15 @@ export default class CreateSimulation extends Component {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/simulation/edit');
             xhr.onload = function () {
-                console.log(this);
+                // console.log(this);
+                if (this.status == 200) {
+                    var simulation = JSON.parse(this.responseText);
+                    globalThis.props.history.push("/bartop/simulation/" + simulation.id);
+                    window.location.reload(true);
+                }
             };
             xhr.send(formData);
         } else {
-
             var formData = new FormData();
             formData.append("name", data.name);
             formData.append("description", data.description);
@@ -121,7 +126,12 @@ export default class CreateSimulation extends Component {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/simulation/add');
             xhr.onload = function () {
-                console.log(this);
+                // console.log(this);
+                if (this.status == 200) {
+                    var simulation = JSON.parse(this.responseText);
+                    globalThis.props.history.push("/bartop/simulation/" + simulation.id);
+                    window.location.reload(true);
+                }
             };
             xhr.send(formData);
         }

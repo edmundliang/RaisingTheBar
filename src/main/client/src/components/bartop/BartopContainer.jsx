@@ -469,6 +469,14 @@ export default class SimulationContainer extends Component {
       }
       
       console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+      var formData = new FormData();
+      formData.append("id", this.props.simulation.id);
+      formData.append("grade",(totalRecipesCorrect * pointsForEachRecipe));
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/simulation/complete');
+      xhr.onload = function () {
+      };
+      xhr.send(formData);
       this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
       this.setState({finished: true});
 
