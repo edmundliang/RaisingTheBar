@@ -99,8 +99,8 @@ export default class RecipeRightPanel extends Component {
 								} else {
 									return item[1].map((ingredient, index) => { 
 										
-											console.log(ingredient.name)
-											return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz"}</p>
+						
+											return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
 										
 									});
 								}
