@@ -23,7 +23,7 @@ export default class EditSimulationStepper extends Component {
     this.state = {
       activeStep: 0,
       selectedSimulation: null
-    }
+    };
     this.numSteps = 2;
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);

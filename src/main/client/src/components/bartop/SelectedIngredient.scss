@@ -40,3 +40,15 @@
 #ingredient-volume {
     line-height: 0.8;
 }
+
+#center-tooltip {
+    position: absolute;
+    width: 10rem;
+    top: 20%;
+    left: 105%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fredoka One', cursive;
+    font-weight: lighter;
+    color: #707C8B;
+    pointer-events:none;
+}

@@ -6,7 +6,6 @@ import './CreatorContainer.scss';
 import CreateSimulation from "./CreateSimulation";
 import EditRecipe from "./EditRecipe";
 import EditSimulationStepper from "./EditSimulationStepper";
-import CreateRecipe from "./CreateRecipe";
 import ViewMySimulations from "./ViewMySimulations";
 
 export default class CreatorContainer extends Component {

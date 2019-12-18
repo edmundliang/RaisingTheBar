@@ -1,9 +1,18 @@
 import { Component } from "react";
 import React from "react";
 import ViewMySimulationsSimulationCard from "./ViewMySimulationsSimulationCard";
-import { Col, Jumbotron } from "react-bootstrap";
+import {Col, Jumbotron, Row} from "react-bootstrap";
+import ViewMySimulationsUsersTable from "./ViewMySimulationsUsersTable";
+import CreateSimulationInputForm from "./CreateSimulationInputForm";
 
 export default class ViewMySimulations extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedSimulation: []
+    };
+  }
+
   render() {
     let simulationCards = this.props.simulations.map(simulation => {
       return (
@@ -13,13 +22,32 @@ export default class ViewMySimulations extends Component {
       )
     });
     return (
-      <Jumbotron fluid className="jumbo p-0 m-5">
-        <Col className="mt-2 mb-4">
-          <div className="row p-1">
-            {simulationCards}
-          </div>
-        </Col>
-      </Jumbotron>
+        <div className="mt-4 text-center container-fluid d-flex justify-content-center" >
+          <Row className="custom-row" >
+            <Col xs={12} md={8} >
+              <Jumbotron fluid className="jumbo p-0" >
+                <div className="left-container" >
+                  <Col className="mt-2" >
+                    <div className="row p-1" >
+                      {simulationCards}
+                    </div>
+                  </Col >
+                </div>
+              </Jumbotron >
+            </Col>
+            <Col xs={6} md={4} >
+              <Jumbotron fluid className="jumbo p-0" >
+                <div className="right-container" >
+                  <Row>
+                    <Col>
+                      <ViewMySimulationsUsersTable user={this.props.user} selected={this.state.selectedSimulation} />
+                    </Col>
+                  </Row>
+                </div>
+              </Jumbotron >
+            </Col>
+          </Row >
+        </div>
     );
   }
 }
