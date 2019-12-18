@@ -70,13 +70,13 @@ export default class CreateSimulationInputForm extends Component {
             <MenuItem key={"public"} value={true}>Public</MenuItem>
             <MenuItem key={"private"} value={false}>Private</MenuItem>
           </TextField>
-
+          
           <TextField className="text-box-short" id="outlined-select-currency" select label="Practice or Test" name="practice" variant="outlined" onChange={this.handleChange}>
             <MenuItem key={"practice"} value={true}>Practice</MenuItem>
             <MenuItem key={"test"} value={false}>Test</MenuItem>
           </TextField>
           <Button className="create-button" type="submit" variant="contained" color="primary" component="span" onClick={this.onSubmit}>
-            Create
+            Submit
         </Button>
         </form>
       </div>
