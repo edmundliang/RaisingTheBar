@@ -97,11 +97,11 @@ export default class RecipeRightPanel extends Component {
 								} else if (item.scale === "count") {
 									return <p id="log-text" key={item + index}> {item.name + " " + item.amount + " ct"}</p>
 								} else {
-									return item[1].map((ingredient, index) => { 
-										
-						
-											return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
-										
+									return item[1].map((ingredient, index) => {
+
+
+										return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
+
 									});
 								}
 
@@ -124,6 +124,11 @@ export default class RecipeRightPanel extends Component {
 								return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 							})}
 						</div>
+					</div>
+				</Tab>
+				<Tab key={"Tips"} eventKey={"Tips"} title={"Tips"}>
+					<div>
+						To start, drag a glass from the bottom left 
 					</div>
 				</Tab>
 			</Tabs>

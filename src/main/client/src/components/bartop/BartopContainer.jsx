@@ -47,6 +47,8 @@ export default class SimulationContainer extends Component {
       simulationLog:[],
       finished: false,
       grade: null,
+      isPractice: false,
+      
            
       
       mode: {
@@ -96,6 +98,8 @@ export default class SimulationContainer extends Component {
     this.handleGarbage = this.handleGarbage.bind(this);
     this.submitRecipeGradingCallback = this.submitRecipeGradingCallback.bind(this);
     this.submitSimulationGradingCallback = this.submitSimulationGradingCallback.bind(this);
+    this.getRecIngredients = this.getRecIngredients.bind(this);
+    this.setPractice = this.setPractice.bind(this);
 
     var mode = {
       mode: this.props.match.params.var1,
@@ -147,6 +151,9 @@ export default class SimulationContainer extends Component {
           xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2, true);
           xhrSim.onload = function () {
                 let simulationJson = JSON.parse(this.responseText);
+                if (simulationJson.isPractice) {
+                    globalThis.setPractice();
+                }
                 if (simulationJson.recipes != null) {
                 for (var i = 0; i < simulationJson.recipes.length; i++) {
                       var formData = new FormData();
@@ -312,6 +319,11 @@ export default class SimulationContainer extends Component {
  
   }
   
+  setPractice() {
+      this.setState({isPractice: true});
+  
+  }
+  
   submitSimulationGradingCallback() {
       
       var recipesCompletedList = this.state.completedRecipes;
@@ -453,6 +465,14 @@ export default class SimulationContainer extends Component {
       }
       
       console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+      var formData = new FormData();
+      formData.append("id", this.props.simulation.id);
+      formData.append("grade",(totalRecipesCorrect * pointsForEachRecipe));
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/simulation/complete');
+      xhr.onload = function () {
+      };
+      xhr.send(formData);
       this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
       this.setState({finished: true});
 
@@ -734,6 +754,34 @@ export default class SimulationContainer extends Component {
       simulationLog.push(message);
       this.setState({simulationLog:simulationLog});
   }
+  getRecIngredients() {
+      console.log("hello");
+      var ings = [];
+      if (this.state.isPractice && this.state.recipeQueue.length > 0) {
+          var index = this.state.completedRecipes.length;
+          var item = this.state.recipeQueue[index];
+          var item2 = JSON.parse(item.json).actionStack;
+          ings.push(<p> {JSON.parse(item.json).glass.name} </p>);
+          for (var element of item2 ) {
+              if (element instanceof Array) {//shaken
+                  ings.push(<hr/>);
+                  for (var each of element[1]) {
+                      ings.push( <p> {each.name +  "-"  + each.amount / 100 + " (shaken)"} </p>  );
+                  }
+                  ings.push(<hr/>);
+              }
+              else {
+                  
+                      ings.push(<p> {element.name +  "-"  + element.amount / 100}</p>);
+              }
+          }
+          return <span className="text"> {ings} </span>;
+      }
+      else {
+         return <span className="text" >No Cheating!</span>
+      }
+  }
+  
   
   handleGarbage() {
       if (this.state.dragged != null) {
@@ -861,7 +909,7 @@ export default class SimulationContainer extends Component {
             <Router>
               <Switch>
                 <Route path="*/recipe" render={() => <RecipeRightPanel selectedSlot={this.state.selectedSlot} messageLog={this.state.messageLog} onSubmitCallback={this.submitRecipeCallback} mode={this.state.mode} />} />
-                <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
+                <Route path="*/simulation" render={() => <SimulationRightPanel mode={this.state.mode} simulationLog={this.state.simulationLog} onSubmitRecipeCallback = {this.submitRecipeGradingCallback} onSubmitSimulationCallback={this.submitSimulationGradingCallback} getRecIngredients = {this.getRecIngredients} globalState = {this.state} recipeQueue = {this.state.recipeQueue} completedRecipes = {this.state.completedRecipes} />} />
                 <Route component={NoMatch} />
               </Switch>
             </Router>
