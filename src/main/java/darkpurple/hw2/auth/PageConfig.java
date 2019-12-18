@@ -26,6 +26,7 @@ public class PageConfig implements WebMvcConfigurer {
         registry.addViewController("/workshop").setViewName("forward:/index.html");
         registry.addViewController("/creator/**").setViewName("forward:/index.html");
         registry.addViewController("/bartop/**").setViewName("forward:/index.html");
+        registry.addViewController("/user/**").setViewName("forward:/index.html");
 //        registry.addViewController("/signin").setViewName("forward:/index.html");
     }
 
