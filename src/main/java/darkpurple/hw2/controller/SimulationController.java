@@ -38,6 +38,21 @@ public class SimulationController {
 
     }
 
+    //TODO add proper security checking to this
+    @RequestMapping(value = "/simulation/grade", method = RequestMethod.POST)
+    public ResponseEntity getSimulationGrade(@RequestParam("id") String simulationId) {
+        List gradeList = simulationService.getSimGrades(simulationId);
+        ObjectMapper mapper = new ObjectMapper();
+        Map outputMap = new HashMap();
+        outputMap.put("grades", gradeList);
+        try {
+            String output = mapper.writeValueAsString(outputMap);
+            return ResponseEntity.status(HttpStatus.OK).body(output);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @RequestMapping(value = "/simulation/complete", method = RequestMethod.GET)
     public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade") String jsonGrade) {
         SimulationGrade simGrade = new SimulationGrade();

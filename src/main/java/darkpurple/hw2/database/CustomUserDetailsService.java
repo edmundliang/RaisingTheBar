@@ -38,6 +38,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByResetToken(resetToken);
     }
 
+    public User findUserById(String id) {
+        return userRepository.findById(id).get();
+    }
+
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);

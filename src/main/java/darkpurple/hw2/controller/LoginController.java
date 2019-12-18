@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
@@ -48,6 +49,26 @@ public class LoginController {
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
+    @RequestMapping(value = "/user/get", method = RequestMethod.POST)
+    public ResponseEntity getUser(@RequestParam("id") String id) {
+        User user = userService.findUserById(id);
+        if (user != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map outputMap = new HashMap();
+            Map userMap = new HashMap();
+            userMap.put("id", user.getId());
+            userMap.put("email", user.getEmail());
+            outputMap.put("user", userMap);
+            try {
+                String output = mapper.writeValueAsString(outputMap);
+                return ResponseEntity.status(HttpStatus.OK).body(output);
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.GET)

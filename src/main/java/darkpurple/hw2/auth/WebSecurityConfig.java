@@ -34,18 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/*", "/home", "/simulation", "/workshop", "/recipe", "/login", "/signup", "/forgot-password", "/reset-password", "/static/**").permitAll()
-//                .antMatchers("/creator/**").hasAuthority("USER")
-//                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-//                .authenticated().and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler).failureHandler(customizeAuthenticationSuccessHandler)
-//                .loginPage("/login")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/").and().exceptionHandling();
 
         http
                 .authorizeRequests()
@@ -71,11 +59,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
-//    @Bean("authenticationManager")
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
     @Bean
     public UserDetailsService mongoUserDetails() {
         return new CustomUserDetailsService();
