@@ -26,9 +26,12 @@ export default class RecipeCard extends Component {
           <div onClick={this.onButtonClick} className="card-bottom container-fluid d-flex justify-content-around" id="card-bottom">
             <Button variant="contained">Add</Button>
           </div>
+          
+          {this.props.user.id === this.props.recipe.creator ?
           <div onClick={this.onDeleteClick} className="card-bottom container-fluid d-flex justify-content-around" id="card-bottom">
             <Button variant="contained">Delete</Button>
           </div>
+           : ""}
         </div>
       </div>
     );

@@ -15,6 +15,7 @@ export default class CreatorContainer extends Component {
     this.state = {
       selectedTab: "create",
       recipes: [],
+      user: null,
       simulations: [
         //   {
         //     id: "1",
@@ -50,7 +51,7 @@ export default class CreatorContainer extends Component {
     {
       var globalThis = this;
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/recipe/list', true);
+      xhr.open('GET', '/recipe/list');
       xhr.onload = function () {
         // do something to response
         var responseObject = null;
@@ -65,7 +66,7 @@ export default class CreatorContainer extends Component {
     }
     {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/simulation/list/mine', true);
+      xhr.open('GET', '/simulation/list/mine');
       var globalThis = this
       xhr.onload = function () {
         // do something to response
@@ -79,7 +80,24 @@ export default class CreatorContainer extends Component {
       };
       xhr.send();
     }
+    {
+      var globalThis = this;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/user');
+      xhr.onload = function () {
+        // do something to response
+        var responseObject = null;
+        try {
+          responseObject = JSON.parse(this.responseText)
+          globalThis.setState({ user: responseObject.user });
+        } catch (e) {
+          console.error("Got Non JSON response from server");
+        }
+      };
+      xhr.send();
+    }
     this.deleteRecipeCallback = this.deleteRecipeCallback.bind(this);
+    this.deleteSimulationCallback = this.deleteSimulationCallback.bind(this);
     this.redirect = this.redirect.bind(this);
   }
   deleteRecipeCallback(id) {
@@ -144,10 +162,10 @@ export default class CreatorContainer extends Component {
 
         <Router>
           <Switch>
-            <Route exact path="/creator/" render={(props) => <CreateSimulation {...props} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
-            <Route exact path="/creator/create" render={(props) => <CreateSimulation {...props} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
+            <Route exact path="/creator/" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
+            <Route exact path="/creator/create" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
             <Route exact path="/creator/edit" render={(props) => <EditSimulation {...props} />} />
-            <Route exact path="/creator/results" render={(props) => <ViewMySimulations {...props} simulations={this.state.recipes} deleteSimulationCallback={this.deleteSimulationCallback} />} />
+            <Route exact path="/creator/results" render={(props) => <ViewMySimulations {...props} user={this.state.user} simulations={this.state.simulations} deleteSimulationCallback={this.deleteSimulationCallback} />} />
           </Switch>
         </Router>
       </React.Fragment>

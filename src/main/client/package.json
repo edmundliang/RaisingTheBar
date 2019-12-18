@@ -15,6 +15,7 @@
     "react-bootstrap": "^1.0.0-beta.14",
     "react-click-n-hold": "^1.0.7",
     "react-dom": "^16.11.0",
+    "react-icons": "^3.8.0",
     "react-native": "^0.61.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",

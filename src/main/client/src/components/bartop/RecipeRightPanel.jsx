@@ -62,6 +62,7 @@ export default class RecipeRightPanel extends Component {
 										variant="outlined"
 										fullWidth="100%"
 										name="name"
+										rows="1"
 										size="small"
 										value={this.state.name}
 										onChange={this.handleChange}
@@ -87,22 +88,20 @@ export default class RecipeRightPanel extends Component {
 								/>
 							</div>
 
-							<div className="block1"></div>
-							<div id="submit-title" className="MuiButton-root MuiButton-text">Cup Contents</div>
+							<div id="submit-title" className="MuiButton-root MuiButton-tex block1t">Cup Contents</div>
 							<div className="log-box">
 								{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
                     
-									if (item.scale === "ounces") {
-										return <p id="log-text" key={item + index}>{item.name + " " + (item.amount / 100) + " oz"}</p>
-									} else if (item.scale==="count") {
-										return <p id="log-text" key={item + index}> {item.name + " " + item.amount + " ct"}</p>
-									} else {
-                                                                            return <p>array</p>
-                                                                            // if item is array("shake" + shaken items)
-                                                                        }
 
-									
-								}) : "Empty"}
+									if (item.scale === "ounces") {
+										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount / 100) + " oz"}</p>}</div>
+									} else if (item.scale==="count") {
+										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount) + " ct"}</p>}</div>
+									} else {
+                                                                        return <p>array</p>
+                                                                        }
+								}) : <p>Empty</p>}
+
 							</div>
 
 							<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
@@ -119,6 +118,7 @@ export default class RecipeRightPanel extends Component {
 							<div className="log-box">
 								{this.props.messageLog.map((item, index) => {
                                                                    
+								{this.props.messageLog.length == 0 ? <p>Helpful Tips Will Appear Here</p> : this.props.messageLog.map((item, index) => {
 									return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 								})}
 							</div>
