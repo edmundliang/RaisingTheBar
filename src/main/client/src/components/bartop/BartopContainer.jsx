@@ -141,7 +141,7 @@ export default class SimulationContainer extends Component {
         xhr.send(data);
       }
     } else if (this.props.match.params.var1 === "simulation") {
-     /* if (this.props.match.params.var2 != null) {
+    /*  if (this.props.match.params.var2 != null) {
         var data = new FormData();
         data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
@@ -179,9 +179,8 @@ export default class SimulationContainer extends Component {
         };
         xhr.send(data);
       }
-    }*/
-    
-    
+    }
+    */
     var rec1 = {"_id":"5df5b1de30778238e06d6b2e","name":"recipe 2","description":"A classic drink for a classic person","isPublic":true,"date":"2019-12-15T04:09:02.151Z","creator":"5df0fcd730778234fc4656fd",
         "json":"{\"name\":\"Whisky Tonic\",\"description\":\"A classic drink for a classic person\",\"public\":true,\"actionStack\":[{\"name\":\"BRANDY\",\"amount\":1},[\"shake\",[{\"name\":\"BRANDY\",\"amount\":1},{\"name\":\"BOURBON\",\"amount\":1}]]],\"glass\":{\"name\":\"SHOT\",\"category\":\"glasses\",\"volume\":100}}","_class":"darkpurple.hw2.database.entity.Recipe"};
              
