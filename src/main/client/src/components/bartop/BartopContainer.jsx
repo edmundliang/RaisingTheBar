@@ -466,7 +466,7 @@ export default class SimulationContainer extends Component {
 
     console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
     var formData = new FormData();
-    formData.append("id", this.props.simulation.id);
+    formData.append("id", this.props.match.params.var2);
     formData.append("grade", (totalRecipesCorrect * pointsForEachRecipe));
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/simulation/complete');
@@ -757,7 +757,7 @@ export default class SimulationContainer extends Component {
   getRecIngredients() {
     console.log("hello");
     var ings = [];
-    if (this.state.isPractice && this.state.recipeQueue.length > 0) {
+    if (this.state.isPractice && this.state.recipeQueue.length > 0 && this.state.completedRecipes.length != this.state.recipeQueue.length) {
       var index = this.state.completedRecipes.length;
       var item = this.state.recipeQueue[index];
         var item2 = JSON.parse(item.json).actionStack;
