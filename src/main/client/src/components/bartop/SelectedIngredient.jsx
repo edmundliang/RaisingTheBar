@@ -208,7 +208,7 @@ export default class SelectedIngredient extends Component {
                         {this.state.ounces ? (this.props.convertTimeToAmount(this.state.elapsedTime) / 100) + " oz" : ""}
                     </div>
                 </div>
-                <div className="selected-glass" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable>
+                <div className="selected-glass" onDrop={this.handleDrop.bind(this, 1)} onDragOver={(e) => e.preventDefault()} draggable="false">
                     {this.getSlotImage()}
                 </div>
             </div>

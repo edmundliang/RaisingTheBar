@@ -799,21 +799,21 @@ export default class SimulationContainer extends Component {
           {
             actionStack.length == 0 ? "Empty" : actionStack.map((item, index) => {
               if (item instanceof Object) {
-
-                if (item.scale === "ounces") {
-                  return (<p key={item.name + index}>{item.name} {item.amount / 100} oz</p>);
-                } else if (item.scale === "count") {
-                  return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
-                } else {
-                  // if item is array ("shake" + shaken items)
-                  return item[1].map((ingredient, index) => {
-
-                    return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
-
-                  });
-
-                }
-
+                  
+                  if(item.scale === "ounces") {
+                      return (<p key={item.name + index}>{item.name} {item.amount/100} oz</p>);
+                  } else if (item.scale === "count") {
+                    return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
+                  } else {
+                    // if item is array ("shake" + shaken items)
+                    return item[1].map((ingredient, index) => { 
+									
+			return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz (shaken)"}</p>
+										
+                      });
+                    
+                  }
+  
               } else {
                 return (<p key={item + index}>{item} {item.amount}</p>);
               }
