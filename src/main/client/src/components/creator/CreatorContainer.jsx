@@ -16,51 +16,51 @@ export default class CreatorContainer extends Component {
       selectedTab: "create",
       user: null,
       simulations: [
-        {
-          id: "5df9747b3077821a54f61336",
-          creator: "5df93e963077821980b21180",
-          name: "Test SIm",
-          description: "Test Sim",
-          public: true,
-          practice: true,
-          recipes: [
-            "5df955aff68021c70a750e7c",
-            "5df97264f68021d2fbddbd1b"
-          ],
-          date: 1576629371743,
-        },
-        {
-          id: "5df975283077821a54f61337",
-          creator: "5df93e963077821980b21180",
-          name: "Tes sim",
-          description: "Test sim",
-          public: true,
-          practice: true,
-          recipes: [
-            "5df955aff68021c70a750e7c",
-            "5df97264f68021d2fbddbd1b"
-          ],
-          date: 1576629544640,
-          json: "{\"name\":\"Tes sim\",\"description\":\"Test sim\",\"public\":true,\"practice\":true,\"recipes\":[\"5df955aff68021c70a750e7c\",\"5df97264f68021d2fbddbd1b\"]}"
-        }
+        // {
+        //   id: "5df9747b3077821a54f61336",
+        //   creator: "5df93e963077821980b21180",
+        //   name: "Test SIm",
+        //   description: "Test Sim",
+        //   public: true,
+        //   practice: true,
+        //   recipes: [
+        //     "5df955aff68021c70a750e7c",
+        //     "5df97264f68021d2fbddbd1b"
+        //   ],
+        //   date: 1576629371743,
+        // },
+        // {
+        //   id: "5df975283077821a54f61337",
+        //   creator: "5df93e963077821980b21180",
+        //   name: "Tes sim",
+        //   description: "Test sim",
+        //   public: true,
+        //   practice: true,
+        //   recipes: [
+        //     "5df955aff68021c70a750e7c",
+        //     "5df97264f68021d2fbddbd1b"
+        //   ],
+        //   date: 1576629544640,
+        //   json: "{\"name\":\"Tes sim\",\"description\":\"Test sim\",\"public\":true,\"practice\":true,\"recipes\":[\"5df955aff68021c70a750e7c\",\"5df97264f68021d2fbddbd1b\"]}"
+        // }
       ],
       recipes: [
-        {
-          id: "5df955aff68021c70a750e7c",
-          name: "shake json",
-          description: "shake json",
-          public: true,
-          date: 1576621487054,
-          creator: "5df95047f68021bf989758dd",
-        },
-        {
-          id: "5df97264f68021d2fbddbd1b",
-          name: "shot of brandy",
-          description: "shot",
-          public: true,
-          date: 1576628836113,
-          creator: "5df95047f68021bf989758dd"
-        }
+        // {
+        //   id: "5df955aff68021c70a750e7c",
+        //   name: "shake json",
+        //   description: "shake json",
+        //   public: true,
+        //   date: 1576621487054,
+        //   creator: "5df95047f68021bf989758dd",
+        // },
+        // {
+        //   id: "5df97264f68021d2fbddbd1b",
+        //   name: "shot of brandy",
+        //   description: "shot",
+        //   public: true,
+        //   date: 1576628836113,
+        //   creator: "5df95047f68021bf989758dd"
+        // }
       ],
     };
     {
@@ -80,20 +80,20 @@ export default class CreatorContainer extends Component {
       xhr.send();
     }
     {
-      // var xhr = new XMLHttpRequest();
-      // xhr.open('GET', '/simulation/list/mine');
-      // var globalThis = this
-      // xhr.onload = function () {
-      //   // do something to response
-      //   var responseObject = null;
-      //   try {
-      //     responseObject = JSON.parse(this.responseText)
-      //     globalThis.setState({ simulations: responseObject.simulations });
-      //   } catch (e) {
-      //     console.error("Got Non JSON response from server");
-      //   }
-      // };
-      // xhr.send();
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/simulation/list/mine');
+      var globalThis = this
+      xhr.onload = function () {
+        // do something to response
+        var responseObject = null;
+        try {
+          responseObject = JSON.parse(this.responseText)
+          globalThis.setState({ simulations: responseObject.simulations });
+        } catch (e) {
+          console.error("Got Non JSON response from server");
+        }
+      };
+      xhr.send();
     }
     {
       var globalThis = this;
