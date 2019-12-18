@@ -15,10 +15,17 @@ export default class SimulationRightPanel extends Component {
 		this.submitRecipe = this.submitRecipe.bind(this);
                 this.submitSimulation = this.submitSimulation.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+                this.getText = this.getText.bind(this);
+               
 	}
 	submitRecipe() {
             this.props.onSubmitRecipeCallback();
 	}
+        
+        getText() {
+            var callback = this.props.getRecIngredients;
+            return callback();
+        }
        
         
         submitSimulation() {
@@ -41,7 +48,7 @@ export default class SimulationRightPanel extends Component {
 
 					<div id="submit-title" className="MuiButton-root MuiButton-text block1 ">Completed Recipes
 						<p id="completed-recipes"><span id="center"><i className="material-icons">arrow_forward_ios</i></span> {this.props.completedRecipes.length}</p></div>
-					{/*{this.props.completedRecipes.map((recipe) => { return <p>{recipe.name}</p> })}*/}
+					
 
 					<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
 						<Button id="button" onClick={this.submitRecipe} size="large" variant="contained" color="default" disableElevation >Submit Recipe</Button>
@@ -56,6 +63,10 @@ export default class SimulationRightPanel extends Component {
 						})}
 					</div>
 				</Tab>
+                                <Tab key = {"Tasks"} eventKey={"recipeIng"} title={"Recipe Ingredients"}  >
+                                <div> {this.getText()} </div>
+                                
+                                </Tab>
 			</Tabs>
 
 		);
