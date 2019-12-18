@@ -23,8 +23,8 @@ export default class CreateSimulationRecipeTable extends Component {
                 setTimeout(() => {
                   let newList = parent.props.selected;
                   newList.splice(newList.indexOf(oldData), 1);
-                  parent.setState({selected : newList});                  
-                  resolve();                  
+                  parent.setState({selected : newList});
+                  resolve();
                 }, 600);
               }),
           }}

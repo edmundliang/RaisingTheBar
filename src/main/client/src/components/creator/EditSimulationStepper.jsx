@@ -31,11 +31,15 @@ export default class EditSimulationStepper extends Component {
     this.selectedSimulation = this.selectedSimulation.bind(this);
   }
   handleNext() {
+    console.log(this.state.activeStep);
     this.setState({ activeStep: this.state.activeStep + 1 < this.numSteps ? this.state.activeStep + 1 : 0 })
+    console.log(this.state.activeStep);
   }
 
   handleBack() {
-    this.setState({ activeStep: this.state.activeStep - 1 > 0 ? this.state.activeStep - 1 : this.numSteps - 1 })
+    console.log(this.state.activeStep);
+    this.setState({ activeStep: this.state.activeStep - 1 > 0 ? this.state.activeStep - 1 : 0 })
+    console.log(this.state.activeStep);
   }
 
   handleReset() {
@@ -89,8 +93,7 @@ export default class EditSimulationStepper extends Component {
                       <Button disabled={this.state.activeStep === 0} className={"button"}>
                         Back
                   </Button>
-                    </div>
-                    {this.state.activeStep === steps.length - 1 ? <div onClick={this.handleNext}><Button variant="contained" color="primary" className={"button"}>Finish</Button> </div> : ''}
+                  </div>                  
                   </div>
                 </div>
               </StepContent>
