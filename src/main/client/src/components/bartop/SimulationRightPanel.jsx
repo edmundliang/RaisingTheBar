@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Button } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
 import './SimulationRightPanel.scss';
+import Button from '@material-ui/core/Button';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 export default class SimulationRightPanel extends Component {
 	constructor() {
@@ -30,44 +33,28 @@ export default class SimulationRightPanel extends Component {
 
 			<Tabs defaultActiveKey={"Tasks"}>
 				<Tab key={"Tasks"} eventKey={"Tasks"} title={"Tasks"}>
-					<div>
-						<div>Required Recipes</div>
+					<div id="submit-title" className="MuiButton-root MuiButton-text block1 ">Required Recipes</div>
+					<div className="log-box-simulation">
 						{this.props.recipeQueue.map((recipe) => { return <p>{recipe.name}</p> })}
 					</div>
-					<div>
-						<div>Completed Recipes</div>
-                                                <p>{this.props.completedRecipes.length}</p>
-                                                
-                                                
-					{/*	{this.props.completedRecipes.map((recipe) => { return <p>{recipe.name}</p> })} */}
-                                                        
+
+
+					<div id="submit-title" className="MuiButton-root MuiButton-text block1 ">Completed Recipes
+						<p id="completed-recipes"><span id="center"><i className="material-icons">arrow_forward_ios</i></span> {this.props.completedRecipes.length}</p></div>
+					{/*{this.props.completedRecipes.map((recipe) => { return <p>{recipe.name}</p> })}*/}
+
+					<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
+						<Button id="button" onClick={this.submitRecipe} size="large" variant="contained" color="default" disableElevation >Submit Recipe</Button>
+						<Button id="button" onClick={this.submitSimulation} size="large" variant="contained" color="secondary" disableElevation >Submit Simulation</Button>
 					</div>
-					
-					<div>
-						<form>
-							<Button onClick={this.submitRecipe} bsstyle="primary">Submit Recipe</Button>
-                                                       
-						</form>
-						<div>
-							{/* Put error here */}
-						</div>
+
+					<div className="block"></div>
+					<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tip</div>
+					<div className="log-box-simulation">
+						{this.props.simulationLog.length == 0 ? <p>Helpful Tips Will Appear Here</p> : this.props.simulationLog.map((item, index) => {
+							return <p key={this.props.simulationLog[this.props.simulationLog.length - index] + index}>{this.props.simulationLog[this.props.simulationLog.length - index]}</p>
+						})}
 					</div>
-                                        <div>
-						<form>
-							<Button onClick={this.submitSimulation} bsstyle="primary" >Submit Simulation</Button>
-                                                 
-						</form>
-						<div>
-							{/* Put error here */}
-						</div>
-					</div>
-                                        
-                                        <div>Log:</div>
-						<div className="scroll">
-							{this.props.simulationLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.simulationLog.map((item, index) => {
-								return <p key={this.props.simulationLog[this.props.simulationLog.length - index] + index}>{this.props.simulationLog[this.props.simulationLog.length - index]}</p>
-							})}
-						</div>
 				</Tab>
 			</Tabs>
 

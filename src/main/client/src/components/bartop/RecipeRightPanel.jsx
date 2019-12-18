@@ -62,6 +62,7 @@ export default class RecipeRightPanel extends Component {
 										variant="outlined"
 										fullWidth="100%"
 										name="name"
+										rows="1"
 										size="small"
 										value={this.state.name}
 										onChange={this.handleChange}
@@ -87,8 +88,7 @@ export default class RecipeRightPanel extends Component {
 								/>
 							</div>
 
-							<div className="block1"></div>
-							<div id="submit-title" className="MuiButton-root MuiButton-text">Cup Contents</div>
+							<div id="submit-title" className="MuiButton-root MuiButton-tex block1t">Cup Contents</div>
 							<div className="log-box">
 								{this.hadValidGlass() ? this.props.selectedSlot.data.actionStack.map((item, index) => {
 
@@ -105,7 +105,7 @@ export default class RecipeRightPanel extends Component {
 									} else {
 										return <div key={item + index}> {item === "shake" ? <p id="log-text">{item}</p> : <p id="log-text">{item.name + " " + (item.amount) + " ct"}</p>}</div>
 									}
-								}) : "None"}
+								}) : <p>None</p>}
 							</div>
 
 							<div className="text-center container-fluid d-flex justify-content-between" id="checkbox">
@@ -120,7 +120,7 @@ export default class RecipeRightPanel extends Component {
 							<div className="block"></div>
 							<div id="submit-title" className="MuiButton-root MuiButton-text">Helpful Tip</div>
 							<div className="log-box">
-								{this.props.messageLog.length == 0 ? "Helpful Tips Will Appear Here" : this.props.messageLog.map((item, index) => {
+								{this.props.messageLog.length == 0 ? <p>Helpful Tips Will Appear Here</p> : this.props.messageLog.map((item, index) => {
 									return <p id="log-text" key={this.props.messageLog[this.props.messageLog.length - index] + index}>{this.props.messageLog[this.props.messageLog.length - index]}</p>
 								})}
 							</div>
