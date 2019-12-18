@@ -729,8 +729,12 @@ export default class SimulationContainer extends Component {
                     return (<p key={item.name + index}>{item.name} {item.amount} ct</p>);
                   } else {
                     // if item is array ("shake" + shaken items)
-    
-                    return (<p>array</p>);
+                    return item[1].map((ingredient, index) => { 
+										
+			console.log(ingredient.name)
+			return <p id="log-text">{ingredient.name + " " + (ingredient.amount / 100) + " oz"}</p>
+										
+                    });
                     
                   }
   
