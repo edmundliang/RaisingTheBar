@@ -146,8 +146,13 @@ export default class CreatorContainer extends Component {
     xhr.send(formData);
   }
   redirect(eventKey, event) {
-    this.props.history.push("/creator/" + eventKey);
-    window.location.reload(true);
+    if (eventKey === "newRecipe") {
+      this.props.history.push("/bartop/recipe/add");
+      window.location.reload(true);
+    } else {
+      this.props.history.push("/creator/" + eventKey);
+      window.location.reload(true);
+    }
     // console.log(eventKey)
   }
   render() {
@@ -158,6 +163,7 @@ export default class CreatorContainer extends Component {
           <Tab eventKey="create" title="Create Simulation" />
           <Tab eventKey="edit" title="Edit Simulation" />
           <Tab eventKey="results" title="View Simulation Results" />
+          <Tab eventKey="newRecipe" title="Create A New Recipe" />
         </Tabs>
 
         <Router>
