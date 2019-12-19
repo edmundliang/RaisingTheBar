@@ -462,6 +462,7 @@ export default class SimulationContainer extends Component {
         console.log("match = true")
         totalRecipesCorrect = totalRecipesCorrect + 1;
       }
+<<<<<<< HEAD
     }
 
     console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
@@ -480,6 +481,26 @@ export default class SimulationContainer extends Component {
     // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
     //GOTTA IMPLEMENT THIS
 
+=======
+      
+     /* console.log("your grade is " + (totalRecipesCorrect * pointsForEachRecipe))
+      var formData = new FormData();
+      formData.append("id", this.props.simulation.id);
+      formData.append("grade",(totalRecipesCorrect * pointsForEachRecipe));
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/simulation/complete');
+      xhr.onload = function () {
+      };
+      this.setState({finished: true});
+      xhr.send(formData);*/
+      this.setState({grade: (totalRecipesCorrect * pointsForEachRecipe)});
+      
+
+ 
+      // MAKE SURE TO CLEAR QUICKBAR AND EVERYTHING AFTER SIMULATION IS SUBMITTED STILL TO BE IMPLEMENTED
+      //GOTTA IMPLEMENT THIS
+    
+>>>>>>> 4d0df93f50c39f5c046c7acf391939e6d3ec5f00
   }
 
 
@@ -755,6 +776,7 @@ export default class SimulationContainer extends Component {
     this.setState({ simulationLog: simulationLog });
   }
   getRecIngredients() {
+<<<<<<< HEAD
     console.log("hello");
     var ings = [];
     if (this.state.isPractice && this.state.recipeQueue.length > 0 && this.state.completedRecipes.length != this.state.recipeQueue.length) {
@@ -773,6 +795,27 @@ export default class SimulationContainer extends Component {
           else {
 
             ings.push(<p> {element.name + "-" + element.amount / 100}</p>);
+=======
+      console.log("hello");
+      var ings = [];
+      if (this.state.isPractice && this.state.recipeQueue.length > 0 && this.state.completedRecipes.length != this.state.recipeQueue.length) {
+          var index = this.state.completedRecipes.length;
+          var item = this.state.recipeQueue[index];
+          var item2 = JSON.parse(item.json).actionStack;
+          ings.push(<p> {JSON.parse(item.json).glass.name} </p>);
+          for (var element of item2 ) {
+              if (element instanceof Array) {//shaken
+                  ings.push(<hr/>);
+                  for (var each of element[1]) {
+                      ings.push( <p> {each.name +  "-"  + each.amount / 100 + " (shaken)"} </p>  );
+                  }
+                  ings.push(<hr/>);
+              }
+              else {
+                  
+                      ings.push(<p> {element.name +  "-"  + element.amount / 100}</p>);
+              }
+>>>>>>> 4d0df93f50c39f5c046c7acf391939e6d3ec5f00
           }
         }
         return <span className="text"> {ings} </span>;
