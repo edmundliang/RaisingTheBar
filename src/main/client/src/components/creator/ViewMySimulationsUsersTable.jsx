@@ -1,57 +1,19 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 
-export default class VuewMySimulationsUsersTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      simulationResults: []
-    }
-
-    if (props.selected != null) {
-      // var xhr = new XMLHttpRequest();
-      // xhr.open('POST', '/simulation/grade');
-      // var formData = new FormData()
-      // formData.append("id", props.selected.id);
-      // var globalThis = this
-      // xhr.onload = function () {
-      //   if (this.status === 200) {
-      //     var simulationResults = this.state.simulationResults;
-      //     var gottenResults = JSON.parse(this.responseText).grades;
-      //     for (var x of gottenResults) {
-      //       var xhr = new XMLHttpRequest();
-      //       xhr.open('POST', '/user/get');
-      //       var secondFormData = new FormData()
-      //       secondFormData.append("id", gottenResults.);
-      //       var globalThis = this
-      //       xhr.onload = function () {
-      //         if (this.status === 200) {
-
-      //         }
-      //       };
-      //       xhr.send(formData);
-      //     }
-      //     globalThis.setState({ recipes: newList })
-      //   } else {
-      //     console.log("Got error response code " + this.status + " when trying to delete");
-      //   }
-      // };
-      // xhr.send(formData);
-    }
-  }
-
+export default class ViewMySimulationsUsersTable extends Component {
   render() {
-    var parent = this;
     let columns = [
       { title: 'User Name', field: 'email' },
       { title: 'Score', field: 'score' },
+      { title: 'Date', field: 'date' }
     ];
     return (
       <div className="ml-4 mr-4 mt-3 mb-0">
         <MaterialTable
           title="Who Complete the Simulation?"
           columns={columns}
-          data={this.state.simulationResults}
+          data={this.props.simulationResults}
           options={{
             headerStyle: {
               fontWeight: 'bold',

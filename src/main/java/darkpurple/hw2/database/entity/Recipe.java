@@ -20,6 +20,8 @@ public class Recipe {
 
     private String json;
 
+    private boolean hidden = false;
+
     public String getId() {
         return id;
     }
@@ -75,4 +77,13 @@ public class Recipe {
     public String getJson() {
         return json;
     }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
 }

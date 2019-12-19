@@ -38,8 +38,24 @@ public class SimulationController {
 
     }
 
+    @RequestMapping(value = "/simulation/grade/add", method = RequestMethod.POST)
+    public ResponseEntity addGrade(@RequestParam("simID") String simID, @RequestParam("grade") String grades) {
+        User user = userService.getLoggedUser();
+        if (user != null) {
+            SimulationGrade simGrade = new SimulationGrade();
+            simGrade.setSimulationId(simID);
+            simGrade.setUserId(user.getId());
+            simGrade.setDateCompleted(new Date());
+            simGrade.setJsonGrades(grades);
+            simulationService.submitSimulationGrade(simGrade);
+            return ResponseEntity.status(HttpStatus.OK).body(simGrade);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
     //TODO add proper security checking to this
-    @RequestMapping(value = "/simulation/grade", method = RequestMethod.POST)
+    @RequestMapping(value = "/simulation/grade/get", method = RequestMethod.POST)
     public ResponseEntity getSimulationGrade(@RequestParam("id") String simulationId) {
         List gradeList = simulationService.getSimGrades(simulationId);
         ObjectMapper mapper = new ObjectMapper();
@@ -51,20 +67,6 @@ public class SimulationController {
         } catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-    }
-
-    @RequestMapping(value = "/simulation/complete", method = RequestMethod.POST)
-    public SimulationGrade submitSimulationGrade(@RequestParam("id") String simulationId, @RequestParam("grade") String jsonGrade) {
-        SimulationGrade simGrade = new SimulationGrade();
-        simGrade.setDateCompleted(new Date());
-        User user = userService.getLoggedUser();
-        simGrade.setUserId(user.getId());
-        simGrade.setSimulationId(simulationId);
-        simGrade.setJsonGrades(jsonGrade);
-
-        simulationService.submitSimulationGrade(simGrade);
-
-        return simGrade;
     }
 
     @RequestMapping(value = "/simulation/add", method = RequestMethod.POST)
@@ -87,35 +89,6 @@ public class SimulationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-    
-    @RequestMapping(value = "/simulation/gradeSubmit", method = RequestMethod.POST)
-    public ResponseEntity addGrade(@RequestParam("simID") String simID, @RequestParam("grade") String grades) {
-        User user = userService.getLoggedUser();
-        if (user != null) {
-            SimulationGrade simGrade = new SimulationGrade();
-            simGrade.setSimulationId(simID);
-            simGrade.setUserId(user.getId());
-            simGrade.setDateCompleted(new Date());
-            simGrade.setJsonGrades(grades);
-            simulationService.submitSimulationGrade(simGrade);
-            return ResponseEntity.status(HttpStatus.OK).body(simGrade);
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
-    
-    @RequestMapping(value = "/simulation/getGrades", method = RequestMethod.POST)
-    public ResponseEntity getSimGrades(@RequestParam("simID") String simID) {
-        if (simulationService.getSimGrades(simID) != null ) {
-            return ResponseEntity.status(HttpStatus.OK).body(simulationService.getSimGrades(simID));
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
-    
-    
 
     @RequestMapping(value = "/simulation/edit", method = RequestMethod.POST)
     public ResponseEntity editSimulation(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("public") boolean isPublic, @RequestParam("practice") boolean isPractice, @RequestParam("recipes") String[] recipes, @RequestParam("json") String json) {

@@ -175,7 +175,7 @@ export default class CreatorContainer extends Component {
         <Tabs defaultActiveKey={(this.props.match.params.var1 == null || this.props.match.params.var1 == "") ? "create" : this.props.match.params.var1} transition={false} id="creator-tabs" onSelect={this.redirect} >
           <Tab eventKey="create" title="Create Simulation" />
           <Tab eventKey="edit" title="Edit Simulation" />
-          <Tab eventKey="results" title="View Simulation Results" />
+          <Tab eventKey="simulations" title="View Simulations" />
           <Tab eventKey="newRecipe" title="Create A New Recipe" />
         </Tabs>
 
@@ -184,7 +184,7 @@ export default class CreatorContainer extends Component {
             <Route exact path="/creator/" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
             <Route exact path="/creator/create" render={(props) => <CreateSimulation {...props} user={this.state.user} recipes={this.state.recipes} deleteRecipeCallback={this.deleteRecipeCallback} />} />
             <Route exact path="/creator/edit" render={(props) => <EditSimulationStepper {...props} recipes={this.state.recipes} simulations={this.state.simulations} />} />
-            <Route exact path="/creator/results" render={(props) => <ViewMySimulations {...props} user={this.state.user} simulations={this.state.simulations} deleteSimulationCallback={this.deleteSimulationCallback} />} />
+            <Route exact path="/creator/simulations" render={(props) => <ViewMySimulations {...props} user={this.state.user} simulations={this.state.simulations} deleteSimulationCallback={this.deleteSimulationCallback} />} />
           </Switch>
         </Router>
       </React.Fragment>

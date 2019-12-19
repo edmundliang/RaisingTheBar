@@ -62,7 +62,8 @@ public class RecipeController {
             Recipe rec = recipeService.findRecipeById(recipeId);
             if (rec != null) {
                 if (rec.getCreator().equals(user.getId())) {
-                    recipeService.deleteRecipe(recipeId);
+                    rec.setHidden(true);
+                    recipeService.saveRecipe(rec);
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -84,7 +85,7 @@ public class RecipeController {
             List<Recipe> recipeList = recipeService.getAllRecipes();
             List<Recipe> approvedList = new ArrayList();
             for (Recipe r : recipeList) {
-                if (r.isIsPublic() || r.getCreator().equals(user.getId())) {
+                if (!r.isHidden() && (r.isIsPublic() || r.getCreator().equals(user.getId()))) {
                     approvedList.add(r);
                 }
             }
