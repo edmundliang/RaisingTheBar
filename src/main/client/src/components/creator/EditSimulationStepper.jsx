@@ -86,7 +86,7 @@ export default class EditSimulationStepper extends Component {
                     )}
                     {this.state.activeStep === 1 && (
                       <div className="mt-4 text-center container-fluid d-flex justify-content-center">
-                        <CreateSimulation simulation={this.state.selectedSimulation} recipes={this.props.recipes} />
+                        <CreateSimulation history ={this.props.history} simulation={this.state.selectedSimulation} recipes={this.props.recipes} />
                       </div>
                     )}
                     <div onClick={this.handleBack}>

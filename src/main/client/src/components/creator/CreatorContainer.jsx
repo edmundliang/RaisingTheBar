@@ -120,7 +120,7 @@ export default class CreatorContainer extends Component {
     formData.append("id", id);
     var globalThis = this
     xhr.onload = function () {
-      if (this.status === 200) {
+      if (this.status == 200) {
         var newList = []
         let recList = globalThis.state.recipes;
         for (var x of recList) {
