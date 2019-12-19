@@ -33,8 +33,12 @@ public class SimulationController {
     private CustomUserDetailsService userService;
 
     @RequestMapping(value = "/simulation/get", method = RequestMethod.GET)
-    public Simulation getSimulation(@RequestParam("id") String simulationId) {
-        return simulationService.findSimulationById(simulationId);
+    public ResponseEntity getSimulation(@RequestParam("id") String simulationId) {
+        Simulation sim = simulationService.findSimulationById(simulationId);
+        if (sim != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(sim);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
     }
 

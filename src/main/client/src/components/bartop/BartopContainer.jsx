@@ -148,37 +148,38 @@ export default class SimulationContainer extends Component {
       var globalThis = this;
       if (this.props.match.params.var2 != null) {
         var xhrSim = new XMLHttpRequest();
-        xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2, true);
+        xhrSim.open('GET', '/simulation/get?id=' + this.props.match.params.var2);
         xhrSim.onload = function () {
-          let simulationJson = JSON.parse(this.responseText);
-          if (simulationJson.isPractice) {
-            globalThis.setPractice();
-          }
-          if (simulationJson.recipes != null) {
-            for (var i = 0; i < simulationJson.recipes.length; i++) {
-              var formData = new FormData();
-              formData.append("id", simulationJson.recipes[i]);
-              var xhr2 = new XMLHttpRequest();
-              xhr2.open('POST', '/recipe/get');
-              xhr2.onload = function () {
-                if (this.status === 200) {
-                  try {
-                    console.log(this.responseText)
-                    console.log(JSON.parse(this.responseText));
-                    globalThis.addRecipeToQueue(JSON.parse(this.responseText));
-
-                  } catch (e) {
-                    console.error(e);
-                  }
-                } else {
-                  console.log("Got status code " + this.status)
-                }
-              };
-              xhr2.send(formData);
+          if (this.status == 200) {
+            let simulationJson = JSON.parse(this.responseText);
+            if (simulationJson.isPractice) {
+              globalThis.setPractice();
             }
-          }
-          else {
-            console.log("Simulation does not contain any recipes");
+            if (simulationJson.recipes != null) {
+              for (var i = 0; i < simulationJson.recipes.length; i++) {
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open('GET', '/recipe/get?id=' + simulationJson.recipes[i]);
+                xhr2.onload = function () {
+                  if (this.status === 200) {
+                    try {
+                      console.log(this.responseText)
+                      console.log(JSON.parse(this.responseText));
+                      globalThis.addRecipeToQueue(JSON.parse(this.responseText));
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  } else {
+                    console.log("Got status code " + this.status)
+                  }
+                };
+                xhr2.send();
+              }
+            }
+            else {
+              console.log("Simulation does not contain any recipes");
+            }
+          }else {
+            globalThis.sendSimulationMessage("This isnt a valid simulation, recopy the link and try again.")
           }
         };
         xhrSim.send();
@@ -333,32 +334,22 @@ export default class SimulationContainer extends Component {
     var recipeQueueLength = recipeQueueList.length
     var pointsForEachRecipe = (100 / this.state.recipeQueue.length);
     var totalRecipesCorrect = 0;
-
-
-
     // loop through recipes in completed recipes and compare to see if it matches recipes in the queue
     for (var i = 0; i < recipesCompletedLength; i++) {
-
       var match = true;
-
       var recipeJsonParsed = JSON.parse(recipeQueueList[i].json);
-
-
       // check if glass is correct
       if (recipesCompletedList[i].glass.name === recipeJsonParsed.glass.name) {
-
         // check if both action stack length match
         if (recipesCompletedList[i].actionStack.length === recipeJsonParsed.actionStack.length) {
           console.log("action stack length is same")
           //if action stack lengths match start comparing the items in both action stacks
           for (var j = 0; j < recipesCompletedList[i].actionStack.length; j++) {
-
-            console.log(recipesCompletedList[i].actionStack[j])
-            console.log(JSON.parse(recipeQueueList[i].json).actionStack[j])
-
+            // console.log(recipesCompletedList[i].actionStack[j])
+            // console.log(JSON.parse(recipeQueueList[i].json).actionStack[j])
             // if one actionstack item is of type array and another is of type object
             if ((recipesCompletedList[i].actionStack[j] instanceof Array && recipeJsonParsed.actionStack[j] instanceof Array)) {
-              console.log("both shaken array")
+              // console.log("both shaken array")
               // if both actionstack items are arrays compare the shaken array ingredients
 
               // sort both arrays first
@@ -379,22 +370,21 @@ export default class SimulationContainer extends Component {
                 if (nameA > nameB)
                   return 1
                 return 0
-              })
-
+              });
               // merge duplicates MIGHT PLACE THIS CODE ELSEWHERE AS INGREDIENTS SHOULD BE MERGED ONCE ADDED
               // IMPLEMENTED ALREADY
 
 
               // check if array length is the same (same number of ingredients shaken)
               if (recipesCompletedList[i].actionStack[j][1].length !== recipeJsonParsed.actionStack[j][1].length) {
-                console.log("number of ingredients shaken not equal")
+                // console.log("number of ingredients shaken not equal")
 
                 match = false;
               } else {
                 // if same number of ingredients check for each ingredient and amount
                 for (var k = 0; k < recipesCompletedList[i].actionStack[j][1].length; k++) {
                   if ((recipesCompletedList[i].actionStack[j][1][k].name !== recipeJsonParsed.actionStack[j][1][k].name)) {
-                    console.log("ingredients not the same");
+                    // console.log("ingredients not the same");
                     match = false;
                   }
 
@@ -756,13 +746,13 @@ export default class SimulationContainer extends Component {
     this.setState({ simulationLog: simulationLog });
   }
   getRecIngredients() {
-    console.log("hello");
     var ings = [];
     if (this.state.isPractice && this.state.recipeQueue.length > 0 && this.state.completedRecipes.length != this.state.recipeQueue.length) {
       var index = this.state.completedRecipes.length;
       var item = this.state.recipeQueue[index];
       var item2 = JSON.parse(item.json).actionStack;
-      ings.push(<p> {JSON.parse(item.json).glass.name} </p>);
+      ings.push(<p> {"Glass:" + JSON.parse(item.json).glass.name} </p>);
+      ings.push(<p> {"Ingredients:"}</p>);
       for (var element of item2) {
         if (element instanceof Array) {//shaken
           ings.push(<hr />);
@@ -772,7 +762,6 @@ export default class SimulationContainer extends Component {
           ings.push(<hr />);
         }
         else {
-
           ings.push(<p> {element.name + "-" + element.amount / 100}</p>);
         }
 

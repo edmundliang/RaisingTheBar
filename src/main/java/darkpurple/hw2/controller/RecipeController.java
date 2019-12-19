@@ -29,7 +29,7 @@ public class RecipeController {
     @Autowired
     private CustomUserDetailsService userService;
 
-    @RequestMapping(value = "/recipe/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/recipe/get", method = RequestMethod.GET)
     public ResponseEntity getRecipe(@RequestParam("id") String recipeId) {
         Recipe rec = recipeService.findRecipeById(recipeId);
         if (rec != null) {
