@@ -11,7 +11,7 @@ export default class ViewMySimulationsUsersTable extends Component {
     return (
       <div className="ml-4 mr-4 mt-3 mb-0">
         <MaterialTable
-          title="Who Complete the Simulation?"
+          title="Results"
           columns={columns}
           data={this.props.simulationResults}
           options={{
