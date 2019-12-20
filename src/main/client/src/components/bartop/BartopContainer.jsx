@@ -114,10 +114,8 @@ export default class SimulationContainer extends Component {
           description: ""
         }
       } else if (this.props.match.params.var2 === "edit" && this.props.match.params.var3 != null) {
-        var data = new FormData();
-        data.append('id', this.props.match.params.var3);
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/recipe/get', true);
+        xhr.open('GET', '/recipe/get?id=' + this.props.match.params.var3);
         // let local_this = this;
         xhr.onload = function (e) {
           // do something to response
@@ -142,7 +140,7 @@ export default class SimulationContainer extends Component {
             }
           ];
         };
-        xhr.send(data);
+        xhr.send();
       }
     } else if (this.props.match.params.var1 === "simulation") {
       var globalThis = this;
@@ -162,8 +160,8 @@ export default class SimulationContainer extends Component {
                 xhr2.onload = function () {
                   if (this.status === 200) {
                     try {
-                      console.log(this.responseText)
-                      console.log(JSON.parse(this.responseText));
+                      // console.log(this.responseText)
+                      // console.log(JSON.parse(this.responseText));
                       globalThis.addRecipeToQueue(JSON.parse(this.responseText));
                     } catch (e) {
                       console.error(e);

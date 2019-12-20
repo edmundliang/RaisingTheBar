@@ -15,10 +15,8 @@ export default class CreateSimulation extends Component {
         if (props.simulation != null) {
             for (var x of props.simulation.recipes) {
                 // console.log(x)
-                var formData = new FormData();
-                formData.append("id", x);
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/recipe/get');
+                xhr.open('GET', '/recipe/get?id=' + x);
                 var globalThis = this;
                 xhr.onload = function () {
                     if (this.status === 200) {
@@ -35,7 +33,7 @@ export default class CreateSimulation extends Component {
                         console.log("Got status code " + this.status)
                     }
                 };
-                xhr.send(formData);
+                xhr.send();
             }
         }
         // this.state.recipes = [
